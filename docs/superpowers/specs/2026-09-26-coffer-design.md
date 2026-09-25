@@ -1,6 +1,6 @@
 # Coffer — Agentic Treasury Design
 
-**Status:** Review-ready design baseline  
+**Status:** Approved design baseline
 **Event:** ETHGlobal Tokyo 2026  
 **Target tracks:** Sui — DeFi & Payments; Curvegrid — Best AI Agent Project; World — World ID for Agents
 
