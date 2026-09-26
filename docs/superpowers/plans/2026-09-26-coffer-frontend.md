@@ -273,25 +273,25 @@ Commit: `feat(web): add Coffer navigation system`
 **Interfaces:**
 - Produces: `<Hero />` with truthful copy, two calls to action, four product facts, and four clearly labeled temporary integration marks.
 
-- [ ] **Step 1: Write the semantic hero test**
+- [x] **Step 1: Write the semantic hero test**
 
 Assert one level-one heading with the exact copy `Autonomous Treasury. Within Your Rules.`, description `AI operates within enforceable spending mandates. Humans control the exceptions.`, `/app/overview` primary action, `#how-it-works` secondary action, and facts `3 Treasury Buckets`, `4 Agent Outcomes`, `1× Action-bound Authorization`, `2 Access Paths`.
 
-- [ ] **Step 2: Verify red**
+- [x] **Step 2: Verify red**
 
 Run: `pnpm --filter @coffer/web test -- tests/hero.test.tsx`
 
 Expected: FAIL because `Hero` is missing.
 
-- [ ] **Step 3: Implement the full-bleed composition**
+- [x] **Step 3: Implement the full-bleed composition**
 
 Use `hero-fuji.webp` as a cover image beneath a left-to-right forest overlay. Keep the content readable at short desktop heights, convert metrics to 2×2 below 720px, and let normal document flow continue on narrow/short screens instead of clipping. Integration placeholders must be circles containing the text `Sui`, `World`, `Seal`, and `Walrus`, each with an accessible name and no counterfeit logo glyph.
 
-- [ ] **Step 4: Add motion rules**
+- [x] **Step 4: Add motion rules**
 
 Use opacity/translate entrance only, with maximum duration 700ms. Under `prefers-reduced-motion: reduce`, set all animation durations to `0.01ms`, disable smooth scrolling, and show final states immediately.
 
-- [ ] **Step 5: Verify and commit**
+- [x] **Step 5: Verify and commit**
 
 Run: `pnpm --filter @coffer/web test -- tests/hero.test.tsx && pnpm --filter @coffer/web lint`
 
