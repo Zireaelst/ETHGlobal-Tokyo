@@ -1,0 +1,21 @@
+{
+  "name": "@coffer/world-auth",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "test": "vitest run --exclude src/**/*.integration.test.ts",
+    "test:integration": "vitest run src/world-auth.integration.test.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@coffer/shared-types": "workspace:*",
+    "jose": "^6.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.0.0"
+  }
+}

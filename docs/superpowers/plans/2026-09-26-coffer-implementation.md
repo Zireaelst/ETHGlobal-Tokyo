@@ -541,17 +541,17 @@ git commit -m "feat: protect invoices with Seal and Walrus"
 - Produces: `canonicalActionDigest(payload): Uint8Array`, `beginFreshAuthorization(input): Promise<AuthorizationRequest>`, and `verifyOidcCallback(input): Promise<VerifiedAuthorization>`.
 - Consumes: World sandbox OIDC discovery metadata, client ID, redirect URI, authorization-code response, PKCE verifier, expected pairwise subject, and exact pending action.
 
-- [ ] **Step 1: Write failing binding and failure-path tests**
+- [x] **Step 1: Write failing binding and failure-path tests**
 
 Tests cover deterministic canonical digest, changed amount producing a different digest, successful authorization-code validation, cancellation, expired ID token, invalid issuer/audience/signature, stale `auth_time`, mismatched OIDC nonce/state, mismatched pending action, and reused action nonce.
 
-- [ ] **Step 2: Confirm tests fail**
+- [x] **Step 2: Confirm tests fail**
 
 Run: `pnpm --filter @coffer/world-auth test`
 
 Expected: FAIL because verifier functions are absent.
 
-- [ ] **Step 3: Implement canonical action binding and server-only validation**
+- [x] **Step 3: Implement canonical action binding and server-only validation**
 
 ```ts
 export function canonicalActionDigest(payload: ActionAuthorizationPayload): Uint8Array {
@@ -575,7 +575,7 @@ Run: `pnpm --filter @coffer/world-auth test:integration`
 
 Expected: one official sandbox identity completes fresh OIDC authentication and one cancelled/stale/invalid journey returns a typed rejection without creating a ticket request. Log only the issuer and a redacted pairwise subject; never log tokens.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add packages/world-auth
