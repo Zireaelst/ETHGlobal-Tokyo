@@ -438,25 +438,25 @@ Commit: `feat(web): add institutional workspace shell`
 - Produces: query-param drawer contract `/app/requests?request=<id>` so a request is deep-linkable without a route change.
 - Consumes: `PaymentRequestRecord` and fixture arrays from Task 6.
 
-- [ ] **Step 1: Write failing overview tests**
+- [x] **Step 1: Write failing overview tests**
 
 Assert bucket balances, mandate headroom, next obligation, a proactive shortfall warning, and recent agent actions render without any wallet context. Assert every financial datum carries or inherits a visible source badge.
 
-- [ ] **Step 2: Write failing request-detail tests**
+- [x] **Step 2: Write failing request-detail tests**
 
 For each outcome, assert the drawer shows vendor, amount, bucket, document reference, extraction confidence, named policy checks, stable reason code, and the correct terminal action. Blocked and rejected records must render `No transaction submitted`; verified records must show `Verified testnet run` and a SuiScan link.
 
-- [ ] **Step 3: Verify red**
+- [x] **Step 3: Verify red**
 
 Run: `pnpm --filter @coffer/web test -- tests/overview.test.tsx tests/request-detail.test.tsx`
 
 Expected: FAIL because the pages and components are missing.
 
-- [ ] **Step 4: Implement the overview and drawer**
+- [x] **Step 4: Implement the overview and drawer**
 
 Keep the dashboard operational rather than decorative: each summary links to a relevant route, the shortfall warning names the date and affected bucket, and the audit list uses deterministic timestamps from fixtures. Implement drawer focus trapping, Escape close, close-button label, and focus restoration.
 
-- [ ] **Step 5: Verify and commit**
+- [x] **Step 5: Verify and commit**
 
 Run: `pnpm --filter @coffer/web test -- tests/overview.test.tsx tests/request-detail.test.tsx && pnpm --filter @coffer/web typecheck`
 

@@ -1,0 +1,222 @@
+.page {
+  display: grid;
+  gap: clamp(1.25rem, 2.4vw, 2.4rem);
+}
+
+.pageHeader {
+  align-items: end;
+  border-bottom: 1px solid rgb(11 28 23 / 16%);
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 1.5rem;
+}
+
+.pageHeader p,
+.sectionHeading p {
+  color: #607068;
+  font-family: var(--font-pixel), monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.11em;
+  margin: 0 0 0.65rem;
+}
+
+.pageHeader h1 {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: clamp(2.55rem, 4.5vw, 4.6rem);
+  font-weight: 400;
+  letter-spacing: -0.05em;
+  line-height: 0.95;
+  margin: 0;
+}
+
+.pageHeader > div > span {
+  color: #53665d;
+  display: block;
+  font-size: 0.82rem;
+  margin-top: 0.8rem;
+}
+
+.pageHeader > span,
+.cardMeta > span[data-source],
+.activitySection li > span[data-source] {
+  border: 1px solid rgb(11 28 23 / 22%);
+  border-radius: 999px;
+  font-size: 0.63rem;
+  padding: 0.42rem 0.58rem;
+  white-space: nowrap;
+}
+
+.bucketGrid {
+  display: grid;
+  gap: 0.8rem;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.bucketGrid article,
+.signalGrid article,
+.activitySection {
+  border: 1px solid rgb(11 28 23 / 16%);
+}
+
+.bucketGrid article {
+  background: #efe7d5;
+  min-height: 13rem;
+  padding: 1.2rem;
+}
+
+.cardMeta {
+  align-items: center;
+  color: #607068;
+  display: flex;
+  font-family: var(--font-pixel), monospace;
+  font-size: 0.61rem;
+  justify-content: space-between;
+  letter-spacing: 0.08em;
+}
+
+.bucketGrid h2 {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 1.65rem;
+  font-weight: 400;
+  margin: 2.6rem 0 0.5rem;
+}
+
+.bucketGrid strong {
+  font-size: clamp(1.2rem, 2vw, 1.7rem);
+  font-variant-numeric: tabular-nums;
+}
+
+.bucketGrid article > p,
+.signalGrid article > p {
+  color: #607068;
+  font-size: 0.73rem;
+  line-height: 1.5;
+  margin: 0.6rem 0 0;
+}
+
+.signalGrid {
+  display: grid;
+  gap: 0.8rem;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.signalGrid article {
+  background: var(--paper);
+  min-height: 12rem;
+  padding: 1.25rem;
+}
+
+.signalGrid article > strong {
+  display: block;
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: clamp(1.55rem, 2.3vw, 2.25rem);
+  font-weight: 400;
+  line-height: 1.02;
+  margin-top: 2rem;
+  max-width: 22ch;
+}
+
+.signalGrid article > a,
+.sectionHeading > a {
+  color: var(--forest);
+  display: inline-flex;
+  font-size: 0.7rem;
+  gap: 1rem;
+  margin-top: 1rem;
+  text-underline-offset: 0.25rem;
+}
+
+.warningCard {
+  background: var(--forest) !important;
+  color: var(--cream);
+  grid-column: span 2;
+}
+
+.warningCard .cardMeta,
+.warningCard > p,
+.warningCard > a {
+  color: var(--muted-light) !important;
+}
+
+.activitySection {
+  background: var(--paper);
+}
+
+.sectionHeading {
+  align-items: end;
+  border-bottom: 1px solid rgb(11 28 23 / 14%);
+  display: flex;
+  justify-content: space-between;
+  padding: 1.25rem;
+}
+
+.sectionHeading h2 {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 2rem;
+  font-weight: 400;
+  margin: 0;
+}
+
+.activitySection ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.activitySection li {
+  align-items: center;
+  border-bottom: 1px solid rgb(11 28 23 / 10%);
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 4rem 1fr auto;
+  padding: 1rem 1.25rem;
+}
+
+.activitySection li:last-child {
+  border-bottom: 0;
+}
+
+.activitySection time {
+  font-family: var(--font-pixel), monospace;
+  font-size: 0.7rem;
+}
+
+.activitySection li > div {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.activitySection li strong {
+  font-size: 0.78rem;
+}
+
+.activitySection li div span {
+  color: #607068;
+  font-size: 0.65rem;
+}
+
+@media (max-width: 760px) {
+  .pageHeader {
+    align-items: start;
+    gap: 1rem;
+  }
+
+  .bucketGrid,
+  .signalGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .warningCard {
+    grid-column: auto;
+  }
+
+  .activitySection li {
+    align-items: start;
+    grid-template-columns: 3rem 1fr;
+  }
+
+  .activitySection li > span[data-source] {
+    grid-column: 2;
+    justify-self: start;
+  }
+}
