@@ -611,7 +611,7 @@ Expected: FAIL because builders are missing.
 
 Each function returns an unsigned transaction. Browser callers sign with zkLogin or a connected wallet; the worker signs only with its configured agent key. Configuration validates network, package ID, object IDs, and RPC URL on startup.
 
-- [ ] **Step 4: Publish and seed testnet deterministically**
+- [x] **Step 4: Publish and seed testnet deterministically**
 
 Run: `pnpm move:test && pnpm move:build && pnpm publish:testnet && pnpm seed:demo`
 

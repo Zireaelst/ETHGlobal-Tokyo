@@ -1,3 +1,25 @@
 {
-  "network": "testnet"
+  "network": "testnet",
+  "publisher": "0xa5e5fe2e7b3e9a47d4a692ec1d55b30e7330735f7477cf17329ab5bcaff0f92b",
+  "packageId": "0x2594654d840ec25bc7e015f29c2407aff6cd0ef151004e6d11bb3440c3025ac7",
+  "coinType": "0x2594654d840ec25bc7e015f29c2407aff6cd0ef151004e6d11bb3440c3025ac7::demo_usd::DEMO_USD",
+  "demoUsdTreasuryCapId": "0xcf966fc21dec112bb1ab7b4701c104ccda79c0e0db07a40535a101239ad4e4c6",
+  "publishDigest": "BesThLpCw5oHudWAxi2yuCaDWmowrGQazLKcmzGCDupF",
+  "deployer": "0xa5e5fe2e7b3e9a47d4a692ec1d55b30e7330735f7477cf17329ab5bcaff0f92b",
+  "treasuryId": "0x155cee8c8cf1a3c356b922ad26c5a5017a31b12597f96b6dd004f1fa9becd797",
+  "adminCapId": "0x36b316b82cbe725413789bbeb7970b185bfa91d11180380fc72440aeef549605",
+  "mandateId": "0x968a985ec1badb52838fc0a10d17dcda85b640ff617bed1d0ff5f6e08249f64f",
+  "agentCapId": "0x3edd7167ac45fe36e9ff0983cb1b26a84ceaf8051c0afec9193a32a302e530b1",
+  "vendorPolicyId": "0xacfcd795dd2e156187191f6bc0f2eaa5028576ada0d67d0bf291fe5e785364a9",
+  "vendorCapId": "0x594fe969358a772eb0cbc6c847d493d8608b0ba9b23be7a51fc42fb36d4fa863",
+  "worldVerifierCapId": "0x226e99e8335a6d81041bc9ab4d20b0bf1108d37bfe5fd5b3c226a2ed1d6f4ee4",
+  "standingOrderId": "0x9680f70b80f00c51fa2ea3e353578c21d96e7469c2007fbe0b5f115ab6e01fcd",
+  "transactionDigests": {
+    "treasury": "54ujBDVx9BwDT9GjHBZznhgDcfzNsDGATWgoiAhkbnHA",
+    "funding": "B9Wdi83hEdc7aAdQLQ2fcM3jeoxLm9RPRUsaa5etVxGs",
+    "mandate": "FoA6gL6FxxE2cuh7Af1uqD6CDyJ2iNKBBJTnq8D34m68",
+    "vendor": "DrhrRfiodDVkMUNeZaADKVAJQjpXZsHh4c9hJDAM9LpM",
+    "worldVerifier": "C16eZTJxHSBq2PUpMs44bo7giCFKaXpMEXhkF3jecCaK",
+    "standingOrder": "CWLvR4B4yB74cttWv1dKypJ7xM7HRLp8SE8Z1uqW7vsB"
+  }
 }
