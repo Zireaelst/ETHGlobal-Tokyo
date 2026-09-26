@@ -358,21 +358,21 @@ Commit: `feat(web): complete editorial product story`
 - Produces: `type PaymentRequestRecord` with `id`, `vendor`, `amountBaseUnits`, `currency`, `dueAt`, `sourceBucket`, `dataSource`, `outcome`, `reasonCode`, `document`, `checks`, and optional `transactionDigest`/`actionDigest`.
 - Produces: `DEMO_REQUESTS`, `DEMO_VENDORS`, `DEMO_DOCUMENTS`, `DEMO_POLICIES`, `DEMO_USERS`, `DEMO_STANDING_ORDERS`, and `DEMO_AUDIT_EVENTS` as readonly arrays.
 
-- [ ] **Step 1: Write failing invariant tests**
+- [x] **Step 1: Write failing invariant tests**
 
 Test there is at least one request for each outcome, only execute records may contain an execution digest, the verified auto and World records use the exact digests in `TESTNET_DEPLOYMENT`, hold/reject records contain stable reason codes and no digest, every document explicitly states encrypted/commercial metadata state, and every record has one valid `dataSource`.
 
-- [ ] **Step 2: Verify red**
+- [x] **Step 2: Verify red**
 
 Run: `pnpm --filter @coffer/web test -- tests/demo-fixtures.test.ts`
 
 Expected: FAIL because fixture exports are missing.
 
-- [ ] **Step 3: Implement minimal coherent fixtures**
+- [x] **Step 3: Implement minimal coherent fixtures**
 
 Use three buckets named `Operating`, `Reserve`, and `Vendor committed`. Include one verified 80 DEMO_USD autonomous payment, one verified 300 DEMO_USD World-authorized payment, one held request caused by projected reserve shortfall, and one rejected request caused by an unapproved counterparty. Keep secondary records rich enough to populate tables but do not provide mutation handlers.
 
-- [ ] **Step 4: Verify and commit**
+- [x] **Step 4: Verify and commit**
 
 Run: `pnpm --filter @coffer/web test -- tests/demo-fixtures.test.ts && pnpm --filter @coffer/web typecheck`
 

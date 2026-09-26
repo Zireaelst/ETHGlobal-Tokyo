@@ -19,17 +19,21 @@ function text(value: unknown, label: string): string {
 const root = record(rawDeployment, "root");
 const agentDemo = record(root.agentDemo, "agentDemo");
 const worldDemo = record(root.worldDemo, "worldDemo");
+const agentDocument = record(agentDemo.documentRef, "agentDemo.documentRef");
+const worldDocument = record(worldDemo.documentRef, "worldDemo.documentRef");
 
 export const TESTNET_DEPLOYMENT = Object.freeze({
   network: text(root.network, "network"),
   packageId: text(root.packageId, "packageId"),
   treasuryId: text(root.treasuryId, "treasuryId"),
   agentDemo: Object.freeze({
+    documentBlobId: text(agentDocument.blobId, "agentDemo.documentRef.blobId"),
     executionDigest: text(agentDemo.executionDigest, "agentDemo.executionDigest"),
     submitDigest: text(agentDemo.submitDigest, "agentDemo.submitDigest"),
   }),
   worldDemo: Object.freeze({
     actionDigest: text(worldDemo.actionDigest, "worldDemo.actionDigest"),
+    documentBlobId: text(worldDocument.blobId, "worldDemo.documentRef.blobId"),
     executionDigest: text(worldDemo.executionDigest, "worldDemo.executionDigest"),
     submitDigest: text(worldDemo.submitDigest, "worldDemo.submitDigest"),
   }),
