@@ -237,21 +237,21 @@ Commit: `assets(web): normalize Coffer artwork`
 - Produces: `<LandingHeader />` with anchors `#product`, `#how-it-works`, `#security`, and `/app/overview`.
 - Produces: a keyboard-safe `<MobileMenu />` controlled by `open`, `onOpenChange`, and viewport changes.
 
-- [ ] **Step 1: Write failing interaction tests**
+- [x] **Step 1: Write failing interaction tests**
 
 Test that desktop links use the approved destinations; the menu button exposes `aria-expanded`; Escape, overlay click, and link activation close the menu; and `Launch App` points to `/app/overview`.
 
-- [ ] **Step 2: Verify red**
+- [x] **Step 2: Verify red**
 
 Run: `pnpm --filter @coffer/web test -- tests/landing-header.test.tsx`
 
 Expected: FAIL because `LandingHeader` is missing.
 
-- [ ] **Step 3: Implement the header and shared tokens**
+- [x] **Step 3: Implement the header and shared tokens**
 
 Define the approved forest/cream variables verbatim in `globals.css`, add a restrained focus ring, use a real `<header>` and `<nav>`, render the supplied Coffer mark through `next/image`, and implement the mobile sheet at `720px`. Lock body scrolling only while the mobile sheet is open.
 
-- [ ] **Step 4: Verify and commit**
+- [x] **Step 4: Verify and commit**
 
 Run: `pnpm --filter @coffer/web test -- tests/landing-header.test.tsx && pnpm --filter @coffer/web typecheck`
 
