@@ -1,0 +1,37 @@
+{
+  "name": "coffer",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@10.12.1",
+  "scripts": {
+    "test": "pnpm -r test",
+    "typecheck": "pnpm -r typecheck && tsc -p scripts/tsconfig.json --noEmit",
+    "web:dev": "pnpm --filter @coffer/web dev",
+    "web:build": "pnpm --filter @coffer/web build",
+    "web:test": "pnpm --filter @coffer/web test",
+    "move:build": "cd move/coffer && sui move build",
+    "move:test": "cd move/coffer && sui move test",
+    "setup:testnet": "tsx scripts/setup-testnet-signer.ts",
+    "publish:testnet": "tsx scripts/publish-testnet.ts",
+    "seed:demo": "tsx scripts/seed-demo.ts",
+    "prepare:world-payment": "tsx scripts/prepare-world-payment.ts",
+    "prepare:agent-payment": "COFFER_DEMO_KEY=agentDemo COFFER_DEMO_AMOUNT_BASE_UNITS=80000000 tsx scripts/prepare-world-payment.ts",
+    "test:privacy:integration": "tsx scripts/run-seal-walrus-integration.ts",
+    "world:gateway": "tsx scripts/run-world-gateway.ts",
+    "agent:once": "tsx scripts/run-agent-once.ts"
+  },
+  "devDependencies": {
+    "@coffer/agent-worker": "workspace:*",
+    "@coffer/document-privacy": "workspace:*",
+    "@coffer/shared-types": "workspace:*",
+    "@coffer/sui-client": "workspace:*",
+    "@coffer/world-auth": "workspace:*",
+    "@mysten/seal": "^1.4.16",
+    "@mysten/sui": "^2.33.1",
+    "@mysten/walrus": "^1.2.31",
+    "@types/node": "^26.0.0",
+    "tsx": "^4.20.0",
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
+  }
+}

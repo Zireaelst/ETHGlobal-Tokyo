@@ -1,0 +1,83 @@
+{
+  "network": "testnet",
+  "publisher": "0xa5e5fe2e7b3e9a47d4a692ec1d55b30e7330735f7477cf17329ab5bcaff0f92b",
+  "packageId": "0xe44696c1051148c0743b4f2a982353068ce72160c849af540b6e02e327d536a5",
+  "coinType": "0xe44696c1051148c0743b4f2a982353068ce72160c849af540b6e02e327d536a5::demo_usd::DEMO_USD",
+  "demoUsdTreasuryCapId": "0x6f6f2521991e4266032ffd4b1f279e976a55e5f64588b22f38281a4dfac2e0bd",
+  "publishDigest": "HxKmjWRqwEu8RjaAc84hLJM53wCUhuphXxacBoACqzaN",
+  "deployer": "0xa5e5fe2e7b3e9a47d4a692ec1d55b30e7330735f7477cf17329ab5bcaff0f92b",
+  "treasuryId": "0xcc5e3867d9e7a1a24d9ad617dc97e2c18e872fa58339c192b080c3ac9eed9e18",
+  "adminCapId": "0xe4254976e9916ecb61fe7e5ee28177d5867f6fe6c8d51d21d0a305ba6a239a18",
+  "mandateId": "0xcb3682df2aa97be8cea382cf6aa6f8426c522e9a5dc1bce604e49f1f7a788034",
+  "agentCapId": "0xa1843f9d7e1307798d6d0db4c36b400f415ab0908232a04330311c674f201ce9",
+  "vendorPolicyId": "0xd20393bc550ce0d745f35eb71dd3ccbcab41438042d01819e4801e3bab0e2100",
+  "vendorCapId": "0x31c625d108160623fdb4386e1e05981a25fa3ab6ee26ee1a7d7fc26f696ce3ff",
+  "worldVerifierCapId": "0x27f2feabb933264beefd0f3c8bf1191fb7945ac92f41da5a39a6b162690205bb",
+  "standingOrderId": "0x68dc8c450db520d76e6f60483df78758b77baa35b52771c5418cc9c5ab0e07c2",
+  "transactionDigests": {
+    "treasury": "HqJ9NCao1NmV7RYQC9NjBLh9HKB8hZg7gjWUqrkVWVpC",
+    "funding": "H79jGYQAtrQ72kduMxd6isp9hvR5gtSeHj5qceaBA2Ez",
+    "mandate": "CkHv4YmXVEwCZmokptrzewFKYAQhPomgLPvieTcV46bZ",
+    "vendor": "CzQUPj2XRaqhRtNrqCWMJkEY6JKYvsLMtn8hodg7VGRJ",
+    "worldVerifier": "EZxcisBfuyajy6CmWtXfmHHxH6pipv81ER9kHhzpnLGh",
+    "standingOrder": "3CHq6Qu25k7mHb1Nr3bPGqxc8k3yXB9E5igbPCApnMEC"
+  },
+  "agentDemo": {
+    "action": {
+      "treasuryId": "0xcc5e3867d9e7a1a24d9ad617dc97e2c18e872fa58339c192b080c3ac9eed9e18",
+      "paymentRequestId": "0x579f2fe1db7160618f3d4b70a440ef7497cde1eb65117a7d7d31f0ab93465a40",
+      "vendor": "0xa5e5fe2e7b3e9a47d4a692ec1d55b30e7330735f7477cf17329ab5bcaff0f92b",
+      "amount": "80000000",
+      "expiresAtMs": 1791022646488,
+      "nonce": "33758f9e92e6d618325dfc48591e151ce296c6aaa6bf718a"
+    },
+    "documentRef": {
+      "blobId": "FErtUMLZB_DcvrlL8Hn1Jp6Jhh02Bw3JjXPmGDJxUk4",
+      "plaintextDigest": "e9fb7fe5169cb53b523a028305d6cf581c492a7d01130a4c49292fde67c64c24",
+      "sealPolicyId": "0xcc5e3867d9e7a1a24d9ad617dc97e2c18e872fa58339c192b080c3ac9eed9e18"
+    },
+    "submitDigest": "4qYaifNqK6LRFqfmiHmDyFVjVLZ2TPQdrYHNeiU2TdET",
+    "bindDigest": "7n25RpkNAAuPWbevvQCAHVdumBQEKhsmAmDKcuGowPH4",
+    "decision": "AUTO_EXECUTE",
+    "executionDigest": "4TqsMDLyMhpRb1pnodoSQyrYaoeCu4u6CzQqLJ83txZH"
+  },
+  "worldDemo": {
+    "action": {
+      "treasuryId": "0xcc5e3867d9e7a1a24d9ad617dc97e2c18e872fa58339c192b080c3ac9eed9e18",
+      "paymentRequestId": "0xe21bb54fcf2c475c030985fdd2a05cb9102bcd97eaf326992fa92c7a6f419285",
+      "vendor": "0xa5e5fe2e7b3e9a47d4a692ec1d55b30e7330735f7477cf17329ab5bcaff0f92b",
+      "amount": "300000000",
+      "expiresAtMs": 1791022698471,
+      "nonce": "f203d149c1b0c6e011be937679d2dfdb11dd3fd8b2a871a3"
+    },
+    "documentRef": {
+      "blobId": "T18RO4YHvzhGLIrAVgJ0I7pIX1KaEzZS-7HLTXk78jc",
+      "plaintextDigest": "ca5573161e90698b853d7cd42dfec7ea972833198ab67f14a37f3adcdfe35596",
+      "sealPolicyId": "0xcc5e3867d9e7a1a24d9ad617dc97e2c18e872fa58339c192b080c3ac9eed9e18"
+    },
+    "submitDigest": "9aLkMC7dQfiqt3DaWxY1EBKXu8q4Fn7kKBranjK4rr4r",
+    "bindDigest": "4rPy5GR5MSJ41aKvVszfSrXdf6kUs3JZjuPKQa18mfRQ",
+    "decision": "HUMAN_AUTH_REQUIRED",
+    "reasonCode": "HUMAN_APPROVAL_THRESHOLD_EXCEEDED",
+    "authorization": "WORLD_VERIFIED_AND_EXECUTED",
+    "actionDigest": "880005b744613bfd79645c2f681c6e29278d90aca0bfc0d0c9122ed9cd9fa01f",
+    "executionDigest": "8wPGFjnUvsh8QTwRMPwibpK9LDQUz6XTgupyPy5QyFx"
+  },
+  "pendingWorldDemo": {
+    "action": {
+      "treasuryId": "0xcc5e3867d9e7a1a24d9ad617dc97e2c18e872fa58339c192b080c3ac9eed9e18",
+      "paymentRequestId": "0x2784156af643400c8181dcb2ad0db23c4c03cabb62eea2c4a09378b158ec2bc9",
+      "vendor": "0xa5e5fe2e7b3e9a47d4a692ec1d55b30e7330735f7477cf17329ab5bcaff0f92b",
+      "amount": "420000000",
+      "expiresAtMs": 1791045140624,
+      "nonce": "4e70db881e6f633209d67fecc71a1136412a7f9f80e13fb1"
+    },
+    "documentRef": {
+      "blobId": "34F33yNpD_U5EHJ0gBGq8v2XTuE9JX7-3a1ssK4IDSs",
+      "plaintextDigest": "8d8ae65e999d2a6770cd0ee1813d6b54f1833ec2c329b7eded975203d3058258",
+      "sealPolicyId": "0xcc5e3867d9e7a1a24d9ad617dc97e2c18e872fa58339c192b080c3ac9eed9e18"
+    },
+    "submitDigest": "7kFGmWiSbRo3BwoCNkn963KTryALYYoXa6fq69e34R28",
+    "bindDigest": "55AyuJZmAvVuCbRfdbv6hin4mEgf8T6jUUDoBQdxiHSW"
+  }
+}

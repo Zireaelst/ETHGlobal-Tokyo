@@ -1,0 +1,42 @@
+.frame {
+  border: 1px solid rgb(11 28 23 / 16%);
+  overflow-x: auto;
+}
+
+.frame table {
+  border-collapse: collapse;
+  min-width: 680px;
+  width: 100%;
+}
+
+.frame caption {
+  background: #e9dfc9;
+  color: #607068;
+  font-family: var(--font-pixel), monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  padding: 0.85rem 1rem;
+  text-align: left;
+}
+
+.frame th,
+.frame td {
+  border-top: 1px solid rgb(11 28 23 / 12%);
+  padding: 1rem;
+  text-align: left;
+}
+
+.frame th {
+  color: #607068;
+  font-size: 0.61rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.frame td {
+  font-size: 0.75rem;
+}
+
+.frame td:first-child {
+  font-weight: 650;
+}

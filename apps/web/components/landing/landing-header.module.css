@@ -1,0 +1,227 @@
+.header {
+  left: 0;
+  padding: clamp(1rem, 2.4vw, 2rem);
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 20;
+}
+
+.headerInner {
+  align-items: center;
+  display: grid;
+  gap: clamp(1rem, 2vw, 1.75rem);
+  grid-template-columns: auto minmax(22rem, 42rem) auto;
+  justify-content: center;
+  margin: 0 auto;
+  max-width: 76rem;
+}
+
+.logo {
+  align-items: center;
+  background: var(--cream);
+  border: 1px solid rgb(243 234 214 / 42%);
+  border-radius: 50%;
+  box-shadow: 0 0.5rem 1.5rem rgb(0 0 0 / 18%);
+  display: flex;
+  height: 3.4rem;
+  justify-content: center;
+  overflow: hidden;
+  transition: transform 180ms ease;
+  width: 3.4rem;
+}
+
+.logo:hover {
+  transform: translateY(-2px);
+}
+
+.logo img {
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.desktopNavigation {
+  align-items: center;
+  background: rgb(247 241 229 / 94%);
+  border: 1px solid rgb(255 255 255 / 38%);
+  border-radius: 999px;
+  box-shadow: 0 0.5rem 1.5rem rgb(0 0 0 / 16%);
+  display: flex;
+  height: 3.4rem;
+  justify-content: space-around;
+  padding: 0 0.75rem;
+}
+
+.desktopNavigation a {
+  color: var(--text-dark);
+  font-size: 0.84rem;
+  font-weight: 500;
+  opacity: 0.66;
+  padding: 1rem 0.65rem;
+  position: relative;
+  text-decoration: none;
+  transition: opacity 180ms ease;
+}
+
+.desktopNavigation a:hover,
+.desktopNavigation .activeLink {
+  opacity: 1;
+}
+
+.desktopNavigation .activeLink::after {
+  background: var(--forest);
+  border-radius: 50%;
+  bottom: 0.55rem;
+  box-shadow: -0.3rem 0 var(--forest), 0.3rem 0 var(--forest);
+  content: "";
+  height: 0.16rem;
+  left: 50%;
+  position: absolute;
+  transform: translateX(-50%);
+  width: 0.16rem;
+}
+
+.launch,
+.mobileLaunch {
+  align-items: center;
+  background: var(--bg-deep);
+  border: 1px solid rgb(243 234 214 / 24%);
+  border-radius: 999px;
+  color: var(--cream);
+  display: inline-flex;
+  font-size: 0.84rem;
+  font-weight: 600;
+  gap: 0.6rem;
+  height: 3.4rem;
+  justify-content: center;
+  padding: 0 1.45rem;
+  text-decoration: none;
+  transition: background 180ms ease, transform 180ms ease;
+  white-space: nowrap;
+}
+
+.launch:hover,
+.mobileLaunch:hover {
+  background: var(--forest-2);
+  transform: translateY(-2px);
+}
+
+.menuButton {
+  align-items: center;
+  background: var(--bg-deep);
+  border: 1px solid rgb(243 234 214 / 28%);
+  border-radius: 50%;
+  cursor: pointer;
+  display: none;
+  height: 3rem;
+  justify-content: center;
+  position: relative;
+  width: 3rem;
+  z-index: 32;
+}
+
+.menuButton span {
+  background: var(--cream);
+  height: 1px;
+  left: 0.9rem;
+  position: absolute;
+  transition: transform 220ms ease, opacity 160ms ease;
+  width: 1.15rem;
+}
+
+.menuButton span:first-child {
+  transform: translateY(-0.34rem);
+}
+
+.menuButton span:last-child {
+  transform: translateY(0.34rem);
+}
+
+.menuButtonOpen {
+  background: var(--cream);
+}
+
+.menuButtonOpen span {
+  background: var(--text-dark);
+}
+
+.menuButtonOpen span:first-child {
+  transform: rotate(45deg);
+}
+
+.menuButtonOpen span:nth-child(2) {
+  opacity: 0;
+}
+
+.menuButtonOpen span:last-child {
+  transform: rotate(-45deg);
+}
+
+.mobileOverlay {
+  background: rgb(3 17 13 / 66%);
+  inset: 0;
+  padding: 5.7rem 1rem 1rem;
+  position: fixed;
+  z-index: 30;
+  backdrop-filter: blur(8px);
+}
+
+.mobileSheet {
+  background: var(--paper);
+  border: 1px solid rgb(255 255 255 / 45%);
+  border-radius: 1.75rem;
+  box-shadow: 0 1.25rem 4rem rgb(0 0 0 / 38%);
+  margin: 0 auto;
+  max-width: 30rem;
+  padding: 1rem;
+}
+
+.mobileNavigation {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.mobileNavigation > a:not(.mobileLaunch) {
+  border-radius: 1rem;
+  color: var(--text-dark);
+  font-family: var(--font-serif), serif;
+  font-size: 1.65rem;
+  padding: 0.82rem 0.9rem;
+  text-decoration: none;
+}
+
+.mobileNavigation > a:not(.mobileLaunch):hover {
+  background: var(--cream-soft);
+}
+
+.mobileLaunch {
+  margin-top: 0.75rem;
+  width: 100%;
+}
+
+@media (max-width: 720px) {
+  .header {
+    padding: 1rem;
+  }
+
+  .headerInner {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .desktopNavigation,
+  .launch {
+    display: none;
+  }
+
+  .logo {
+    height: 3rem;
+    width: 3rem;
+    z-index: 32;
+  }
+
+  .menuButton {
+    display: flex;
+  }
+}

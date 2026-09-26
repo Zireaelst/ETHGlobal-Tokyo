@@ -1,0 +1,27 @@
+services:
+  - type: web
+    runtime: node
+    name: coffer-tokyo-world-gateway
+    plan: free
+    region: singapore
+    buildCommand: npx --yes pnpm@10.12.1 install --frozen-lockfile --prod=false
+    startCommand: ./node_modules/.bin/tsx scripts/run-world-gateway.ts
+    healthCheckPath: /health
+    autoDeployTrigger: commit
+    envVars:
+      - key: NODE_VERSION
+        value: 22.13.1
+      - key: SUI_RPC_URL
+        value: https://fullnode.testnet.sui.io:443
+      - key: COFFER_TESTNET_PRIVATE_KEY
+        sync: false
+      - key: WORLD_OIDC_ISSUER
+        value: https://sandbox.auth.world.org
+      - key: WORLD_OIDC_CLIENT_ID
+        sync: false
+      - key: WORLD_OIDC_CLIENT_SECRET
+        sync: false
+      - key: WORLD_OIDC_REDIRECT_URI
+        sync: false
+      - key: WORLD_OIDC_MAX_AGE_SECONDS
+        value: "120"
