@@ -11,10 +11,12 @@
     "setup:testnet": "tsx scripts/setup-testnet-signer.ts",
     "publish:testnet": "tsx scripts/publish-testnet.ts",
     "seed:demo": "tsx scripts/seed-demo.ts",
-    "test:privacy:integration": "tsx scripts/run-seal-walrus-integration.ts"
+    "test:privacy:integration": "tsx scripts/run-seal-walrus-integration.ts",
+    "world:gateway": "tsx scripts/run-world-gateway.ts"
   },
   "devDependencies": {
     "@coffer/sui-client": "workspace:*",
+    "@coffer/world-auth": "workspace:*",
     "@mysten/sui": "^2.33.1",
     "@types/node": "^26.0.0",
     "tsx": "^4.20.0",

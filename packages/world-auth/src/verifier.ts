@@ -214,14 +214,18 @@ export async function verifyOidcCallback(
       grant_type: "authorization_code",
       code: input.code,
       redirect_uri: input.redirectUri,
-      client_id: input.clientId,
-      client_secret: input.clientSecret,
       code_verifier: pending.pkceVerifier,
     });
+    const clientCredentials = Buffer.from(
+      `${encodeURIComponent(input.clientId)}:${encodeURIComponent(input.clientSecret)}`,
+    ).toString("base64");
     const tokenResponse = await readJson<{ id_token?: string }>(
       await fetcher(metadata.token_endpoint, {
         method: "POST",
-        headers: { "content-type": "application/x-www-form-urlencoded" },
+        headers: {
+          authorization: `Basic ${clientCredentials}`,
+          "content-type": "application/x-www-form-urlencoded",
+        },
         body: tokenBody,
       }),
       "OIDC token endpoint",

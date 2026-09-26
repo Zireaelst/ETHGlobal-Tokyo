@@ -66,8 +66,11 @@ async function idToken(
     .sign(signingKey);
 }
 
-function oidcFetch(getToken: () => Promise<string>): typeof fetch {
-  return (async (input: string | URL | Request) => {
+function oidcFetch(
+  getToken: () => Promise<string>,
+  onTokenRequest?: (init?: RequestInit) => void,
+): typeof fetch {
+  return (async (input: string | URL | Request, init?: RequestInit) => {
     const url = input.toString();
     if (url.endsWith("/.well-known/openid-configuration")) {
       return Response.json({
@@ -78,6 +81,7 @@ function oidcFetch(getToken: () => Promise<string>): typeof fetch {
       });
     }
     if (url === `${ISSUER}/token`) {
+      onTokenRequest?.(init);
       return Response.json({ id_token: await getToken(), token_type: "Bearer" });
     }
     if (url === `${ISSUER}/jwks`) {
@@ -120,6 +124,7 @@ describe("World action authorization", () => {
   it("validates a fresh signed callback and binds it to the action", async () => {
     const store = new InMemoryAuthorizationStore();
     const request = await begin(store);
+    let tokenRequest: RequestInit | undefined;
     const verified = await verifyOidcCallback({
       issuer: ISSUER,
       clientId: CLIENT_ID,
@@ -131,9 +136,21 @@ describe("World action authorization", () => {
       maxAgeSeconds: 60,
       nowMs: NOW_MS,
       store,
-      fetch: oidcFetch(() => idToken(request.oidcNonce)),
+      fetch: oidcFetch(
+        () => idToken(request.oidcNonce),
+        (init) => {
+          tokenRequest = init;
+        },
+      ),
     });
 
+    const headers = new Headers(tokenRequest?.headers);
+    const tokenBody = new URLSearchParams(String(tokenRequest?.body));
+    expect(headers.get("authorization")).toBe(
+      `Basic ${Buffer.from(`${CLIENT_ID}:server-only-secret`).toString("base64")}`,
+    );
+    expect(tokenBody.get("client_id")).toBeNull();
+    expect(tokenBody.get("client_secret")).toBeNull();
     expect(verified).toMatchObject({
       issuer: ISSUER,
       subject: "pairwise-world-subject",

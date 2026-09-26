@@ -11,6 +11,9 @@ importers:
       '@coffer/sui-client':
         specifier: workspace:*
         version: link:packages/sui-client
+      '@coffer/world-auth':
+        specifier: workspace:*
+        version: link:packages/world-auth
       '@mysten/sui':
         specifier: ^2.33.1
         version: 2.33.1(typescript@5.9.3)

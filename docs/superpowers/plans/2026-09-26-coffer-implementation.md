@@ -569,7 +569,7 @@ export function canonicalActionDigest(payload: ActionAuthorizationPayload): Uint
 
 `beginFreshAuthorization` creates PKCE, OIDC `state`, OIDC `nonce`, and a short `max_age`, then stores them with the exact action payload. `verifyOidcCallback` runs only in server code, exchanges the code, validates the ID token with discovery/JWKS, checks `iss`, `sub`, audience, expiration, nonce, state, and `auth_time`, recomputes the expected action digest, and atomically marks the action nonce used before authorizing ticket minting.
 
-- [ ] **Step 4: Exercise official event development environment**
+- [x] **Step 4: Exercise official event development environment**
 
 Run: `pnpm --filter @coffer/world-auth test:integration`
 
