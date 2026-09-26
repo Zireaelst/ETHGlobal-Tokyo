@@ -6,7 +6,7 @@
 
 **Architecture:** Add one Next.js App Router application at `apps/web` with an editorial public surface at `/` and an operational workspace under `/app/*`. The frontend consumes immutable deployment evidence and live Sui reads through focused adapters, uses the official current Sui dApp Kit plus Enoki for Google zkLogin and standard wallets, and delegates World secrets and protected execution to the existing Render gateway. Browser-facing actions are explicitly separated into demo replay, fresh authorization, and connected-wallet contexts.
 
-**Tech Stack:** Next.js 16.3.6, React 19.3.0, TypeScript 5.7, CSS Modules/global CSS, `@mysten/sui` 2.33.1, `@mysten/dapp-kit-react` 2.1.35, `@mysten/enoki` 1.2.28, Geist 1.7.2, Vitest 5, Testing Library, Playwright 1.63, Sharp 0.35.
+**Tech Stack:** Next.js 16.3.6, React 19.3.0, TypeScript 5.7, CSS Modules/global CSS, `@mysten/sui` 2.33.1, `@mysten/dapp-kit-react` 2.1.35, `@mysten/enoki` 1.2.28, Geist 1.7.2, Vitest 3.2.7, Testing Library, Playwright 1.63, Sharp 0.35.
 
 ## Global Constraints
 
@@ -104,7 +104,7 @@ The existing backend files remain responsible for protected execution:
 - Produces: an `@coffer/web` workspace with `dev`, `build`, `lint`, `typecheck`, and `test` scripts.
 - Produces: root scripts `web:dev`, `web:build`, and `web:test`.
 
-- [ ] **Step 1: Create the package and failing smoke test**
+- [x] **Step 1: Create the package and failing smoke test**
 
 Pin runtime dependencies exactly and testing dependencies with compatible major versions:
 
@@ -134,17 +134,17 @@ Pin runtime dependencies exactly and testing dependencies with compatible major 
 
 Create `tests/smoke.test.tsx` asserting `HomePage` renders `Autonomous Treasury. Within Your Rules.` and a link to `/app/overview`. Export `HomePage` as the default from `app/page.tsx` only after observing the failure.
 
-- [ ] **Step 2: Verify the test is red**
+- [x] **Step 2: Verify the test is red**
 
 Run: `pnpm install && pnpm --filter @coffer/web test -- tests/smoke.test.tsx`
 
 Expected: FAIL because `../app/page` does not exist.
 
-- [ ] **Step 3: Add the minimum App Router shell**
+- [x] **Step 3: Add the minimum App Router shell**
 
 Use `next/font/google` for `Inter` and `Instrument_Serif`, `geist/font/pixel` for `GeistPixelCircle`, and expose them as `--font-sans`, `--font-serif`, and `--font-pixel` variables on `<body>`. The initial page contains one `<main>`, the approved headline, and a real `/app/overview` link. Add ESLint flat config with `eslint-config-next` because Next 16 no longer performs lint during `next build`.
 
-- [ ] **Step 4: Wire root scripts and CI**
+- [x] **Step 4: Wire root scripts and CI**
 
 Add these root scripts:
 
@@ -158,7 +158,7 @@ Add these root scripts:
 
 Add `pnpm web:build` after the existing test step in `.github/workflows/ci.yml`.
 
-- [ ] **Step 5: Verify and commit**
+- [x] **Step 5: Verify and commit**
 
 Run: `pnpm --filter @coffer/web test && pnpm --filter @coffer/web typecheck && pnpm --filter @coffer/web lint && pnpm web:build`
 
