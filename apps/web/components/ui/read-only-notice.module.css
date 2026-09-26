@@ -1,0 +1,37 @@
+.notice {
+  align-items: center;
+  background: #e9dfc9;
+  border: 1px solid rgb(11 28 23 / 16%);
+  display: flex;
+  gap: 0.9rem;
+  padding: 0.85rem 1rem;
+}
+
+.notice > span {
+  border: 1px solid rgb(11 28 23 / 22%);
+  border-radius: 999px;
+  flex: 0 0 auto;
+  font-size: 0.63rem;
+  padding: 0.42rem 0.58rem;
+}
+
+.notice div {
+  display: grid;
+  gap: 0.18rem;
+}
+
+.notice strong {
+  font-size: 0.74rem;
+}
+
+.notice div span {
+  color: #607068;
+  font-size: 0.66rem;
+}
+
+@media (max-width: 560px) {
+  .notice {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

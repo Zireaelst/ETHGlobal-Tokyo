@@ -485,21 +485,21 @@ Commit: `feat(web): add treasury decisions workspace`
 - Produces: stable renderable pages for every route in the approved navigation.
 - Consumes: Task 6 fixtures and Task 5 evidence helpers.
 
-- [ ] **Step 1: Write the failing route contract test**
+- [x] **Step 1: Write the failing route contract test**
 
 Import every page and assert its unique heading and expected content. Approvals must distinguish pending versus completed; mandates must show cap, approved vendors, expiry, policy version, and revocation status; standing orders must show next run and bucket; audit must show decision-to-receipt sequence; every secondary page must show `Demo workspace data` and `Read-only in this build`.
 
-- [ ] **Step 2: Verify red**
+- [x] **Step 2: Verify red**
 
 Run: `pnpm --filter @coffer/web test -- tests/workspace-routes.test.tsx`
 
 Expected: FAIL on the first missing page.
 
-- [ ] **Step 3: Implement focused pages**
+- [x] **Step 3: Implement focused pages**
 
 Share table primitives but vary page composition by job: approvals use a queue, mandates use policy sections, standing orders use a schedule, audit uses a timeline, vendors/documents/policies/users use tables, and settings uses definition lists. Do not render inactive edit/create buttons that imply unsupported behavior.
 
-- [ ] **Step 4: Verify and commit**
+- [x] **Step 4: Verify and commit**
 
 Run: `pnpm --filter @coffer/web test -- tests/workspace-routes.test.tsx && pnpm web:build`
 
