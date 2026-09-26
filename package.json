@@ -1,0 +1,16 @@
+{
+  "name": "coffer",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@10.12.1",
+  "scripts": {
+    "test": "pnpm -r test",
+    "typecheck": "pnpm -r typecheck",
+    "move:build": "cd move/coffer && sui move build",
+    "move:test": "cd move/coffer && sui move test"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
+  }
+}
