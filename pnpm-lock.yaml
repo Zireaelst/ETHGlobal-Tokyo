@@ -8,15 +8,24 @@ importers:
 
   .:
     devDependencies:
+      '@coffer/document-privacy':
+        specifier: workspace:*
+        version: link:packages/document-privacy
       '@coffer/sui-client':
         specifier: workspace:*
         version: link:packages/sui-client
       '@coffer/world-auth':
         specifier: workspace:*
         version: link:packages/world-auth
+      '@mysten/seal':
+        specifier: ^1.4.16
+        version: 1.4.16(@mysten/sui@2.33.1(typescript@5.9.3))
       '@mysten/sui':
         specifier: ^2.33.1
         version: 2.33.1(typescript@5.9.3)
+      '@mysten/walrus':
+        specifier: ^1.2.31
+        version: 1.2.31(@mysten/sui@2.33.1(typescript@5.9.3))
       '@types/node':
         specifier: ^26.0.0
         version: 26.6.3

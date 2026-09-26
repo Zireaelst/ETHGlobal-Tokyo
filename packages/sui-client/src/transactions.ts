@@ -96,6 +96,27 @@ export function buildSubmitRequest(input: SubmitRequestInput): Transaction {
   return transaction;
 }
 
+export function buildBindWorldAction(
+  input: PackageInput & {
+    vendorCapId: string;
+    vendorPolicyId: string;
+    requestId: string;
+    actionDigest: Uint8Array;
+  },
+): Transaction {
+  const transaction = new Transaction();
+  transaction.moveCall({
+    target: `${input.packageId}::payment_request::bind_world_action`,
+    arguments: [
+      transaction.object(input.vendorCapId),
+      transaction.object(input.vendorPolicyId),
+      transaction.object(input.requestId),
+      transaction.pure.vector("u8", Array.from(input.actionDigest)),
+    ],
+  });
+  return transaction;
+}
+
 export type ExecuteWithinMandateInput = CoinPackageInput & {
   agentCap: string;
   mandate: string;
@@ -167,6 +188,45 @@ export function buildExecuteWithAuthorization(
     typeArguments: [input.coinType],
     arguments: [
       transaction.object(input.ticketId),
+      transaction.object(input.treasuryId),
+      transaction.object(input.requestId),
+      transaction.object(SUI_CLOCK_ID),
+    ],
+  });
+  return transaction;
+}
+
+export function buildExecuteFreshWorldAuthorization(
+  input: CoinPackageInput & {
+    verifierCapId: string;
+    treasuryId: string;
+    requestId: string;
+    vendor: string;
+    actionDigest: Uint8Array;
+    maxAmount: bigint;
+    expiresAtMs: bigint;
+    nonce: Uint8Array;
+  },
+): Transaction {
+  const transaction = new Transaction();
+  const ticket = transaction.moveCall({
+    target: `${input.packageId}::authorization::mint_ticket`,
+    arguments: [
+      transaction.object(input.verifierCapId),
+      transaction.pure.id(input.treasuryId),
+      transaction.pure.id(input.requestId),
+      transaction.pure.address(input.vendor),
+      transaction.pure.vector("u8", Array.from(input.actionDigest)),
+      transaction.pure.u64(input.maxAmount),
+      transaction.pure.u64(input.expiresAtMs),
+      transaction.pure.vector("u8", Array.from(input.nonce)),
+    ],
+  });
+  transaction.moveCall({
+    target: `${input.packageId}::payment_request::execute_with_authorization`,
+    typeArguments: [input.coinType],
+    arguments: [
+      ticket,
       transaction.object(input.treasuryId),
       transaction.object(input.requestId),
       transaction.object(SUI_CLOCK_ID),

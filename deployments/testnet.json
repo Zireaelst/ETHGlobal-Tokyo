@@ -1,25 +1,42 @@
 {
   "network": "testnet",
   "publisher": "0xa5e5fe2e7b3e9a47d4a692ec1d55b30e7330735f7477cf17329ab5bcaff0f92b",
-  "packageId": "0x2594654d840ec25bc7e015f29c2407aff6cd0ef151004e6d11bb3440c3025ac7",
-  "coinType": "0x2594654d840ec25bc7e015f29c2407aff6cd0ef151004e6d11bb3440c3025ac7::demo_usd::DEMO_USD",
-  "demoUsdTreasuryCapId": "0xcf966fc21dec112bb1ab7b4701c104ccda79c0e0db07a40535a101239ad4e4c6",
-  "publishDigest": "BesThLpCw5oHudWAxi2yuCaDWmowrGQazLKcmzGCDupF",
+  "packageId": "0xad7af2729824197d6799d9febabfe8a1a566438a714b495a7dde318d70211b46",
+  "coinType": "0xad7af2729824197d6799d9febabfe8a1a566438a714b495a7dde318d70211b46::demo_usd::DEMO_USD",
+  "demoUsdTreasuryCapId": "0xee0f8d66ba0cb1ea67a47d338f0f0140362277419ab73b7bf7b3b511cdb97cd1",
+  "publishDigest": "5kpV4ZdV6Wh1FMwL6J3ih58J7LRUV6svRPG4EGyCSdGm",
   "deployer": "0xa5e5fe2e7b3e9a47d4a692ec1d55b30e7330735f7477cf17329ab5bcaff0f92b",
-  "treasuryId": "0x155cee8c8cf1a3c356b922ad26c5a5017a31b12597f96b6dd004f1fa9becd797",
-  "adminCapId": "0x36b316b82cbe725413789bbeb7970b185bfa91d11180380fc72440aeef549605",
-  "mandateId": "0x968a985ec1badb52838fc0a10d17dcda85b640ff617bed1d0ff5f6e08249f64f",
-  "agentCapId": "0x3edd7167ac45fe36e9ff0983cb1b26a84ceaf8051c0afec9193a32a302e530b1",
-  "vendorPolicyId": "0xacfcd795dd2e156187191f6bc0f2eaa5028576ada0d67d0bf291fe5e785364a9",
-  "vendorCapId": "0x594fe969358a772eb0cbc6c847d493d8608b0ba9b23be7a51fc42fb36d4fa863",
-  "worldVerifierCapId": "0x226e99e8335a6d81041bc9ab4d20b0bf1108d37bfe5fd5b3c226a2ed1d6f4ee4",
-  "standingOrderId": "0x9680f70b80f00c51fa2ea3e353578c21d96e7469c2007fbe0b5f115ab6e01fcd",
+  "treasuryId": "0xd8318575f990667870aaf623db0bd8ad1eb336773f585a07b40599c7aecfb4c6",
+  "adminCapId": "0xb2aad907e1fc0af58003b0167d655f33157fbc01bd7554c9f4a7b3dedcde19ab",
+  "mandateId": "0xb084ead51b9a5f63c67faebce802142df0eda55812d097f4ddd45f893db17445",
+  "agentCapId": "0xe1f3c4264f1de6a86e359bb640f454caf6053b62cf9a6f4f1ed19f591220f897",
+  "vendorPolicyId": "0x8f1b9d7909bdf0b9c888b18f4f279b65c513fb98947a6d6c010d74da2724e528",
+  "vendorCapId": "0xd00ade47b8236e5a9ac03a08f6d5dbde6da7646b5937dbd76e4be5b8dbe10040",
+  "worldVerifierCapId": "0xa00be31fac59079ec56699ccbf464bb7c05f4d8f6b991c2bded48f7b0079fcfa",
+  "standingOrderId": "0x17305f980de18bcafe20f69dfc76385ebc7282eb949ac22879abf2edcaaa49c5",
   "transactionDigests": {
-    "treasury": "54ujBDVx9BwDT9GjHBZznhgDcfzNsDGATWgoiAhkbnHA",
-    "funding": "B9Wdi83hEdc7aAdQLQ2fcM3jeoxLm9RPRUsaa5etVxGs",
-    "mandate": "FoA6gL6FxxE2cuh7Af1uqD6CDyJ2iNKBBJTnq8D34m68",
-    "vendor": "DrhrRfiodDVkMUNeZaADKVAJQjpXZsHh4c9hJDAM9LpM",
-    "worldVerifier": "C16eZTJxHSBq2PUpMs44bo7giCFKaXpMEXhkF3jecCaK",
-    "standingOrder": "CWLvR4B4yB74cttWv1dKypJ7xM7HRLp8SE8Z1uqW7vsB"
+    "treasury": "5aBTiJ1SVRvW9jkP7wLtxPkEk7wSG9DQxr72sMgpDSAq",
+    "funding": "GFsaeyRFJ471x9krqCWqGQFYRNepJb8SdoUBATrNsJUv",
+    "mandate": "5DZLKStcTxE6aGJD1faTbRZTu1aTEVfoCbW6z1cu5rHE",
+    "vendor": "61zgCLpeJPdTSyTx9PggzNwYJsTPZPkK8LZxJ8rYQ3oU",
+    "worldVerifier": "8uUyqkmKSv27XYYxiondE5KEPrYaNroNSDdtjwximLaA",
+    "standingOrder": "GPpfjZ3TuHAeRjYKdX5yaTKtqEjVpLzmrLUA3fhHpNTG"
+  },
+  "worldDemo": {
+    "action": {
+      "treasuryId": "0xd8318575f990667870aaf623db0bd8ad1eb336773f585a07b40599c7aecfb4c6",
+      "paymentRequestId": "0xe2c0bea61ff37b554c4b5921e15fbc5a397263126475b12c0d2eefcdfdbceec0",
+      "vendor": "0xa5e5fe2e7b3e9a47d4a692ec1d55b30e7330735f7477cf17329ab5bcaff0f92b",
+      "amount": "300000000",
+      "expiresAtMs": 1790413297254,
+      "nonce": "cacb2b8035675605e2a08b0319c5d20b9a09831a54ce787f"
+    },
+    "documentRef": {
+      "blobId": "kNf4fJragfXdBlw6VYPh_HbYxjkqIoiffY59QHiQvqU",
+      "plaintextDigest": "79e10755813783936a77d63cf040054342d211bfd21c982649119f6e926b300c",
+      "sealPolicyId": "0xd8318575f990667870aaf623db0bd8ad1eb336773f585a07b40599c7aecfb4c6"
+    },
+    "submitDigest": "84dtCfT6K5wsWvz8r9RS3uDrvpjpe1FZAnNrjGVJ7CBh",
+    "bindDigest": "9ktQuHdx5Uq9NXg8PGRR3cvDLw8eGnhkMXkWcwqrFYMJ"
   }
 }

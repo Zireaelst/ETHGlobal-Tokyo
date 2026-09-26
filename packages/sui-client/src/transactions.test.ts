@@ -1,7 +1,9 @@
 import { describe, expect, it } from "vitest";
 import { normalizeSuiAddress } from "@mysten/sui/utils";
 import {
+  buildBindWorldAction,
   buildCreateTreasury,
+  buildExecuteFreshWorldAuthorization,
   buildFundDemoTreasury,
   buildExecuteStandingOrder,
   buildExecuteWithAuthorization,
@@ -139,6 +141,41 @@ describe("Coffer Sui transaction builders", () => {
       "::payment_request::execute_with_authorization",
     );
     expect(serialized(transaction)).toContain("00000000000000000000000000000006");
+  });
+
+  it("mints and consumes a fresh World ticket atomically", () => {
+    const transaction = buildExecuteFreshWorldAuthorization({
+      packageId: PACKAGE_ID,
+      coinType: COIN_TYPE,
+      verifierCapId: ids.verifierCap,
+      treasuryId: ids.treasury,
+      requestId: ids.request,
+      vendor: "0xcafe",
+      actionDigest: new Uint8Array(32).fill(3),
+      maxAmount: 240n,
+      expiresAtMs: 2_000n,
+      nonce: new Uint8Array(32).fill(4),
+    });
+    expect(targets(transaction)).toEqual([
+      `${normalizeSuiAddress(PACKAGE_ID)}::authorization::mint_ticket`,
+      `${normalizeSuiAddress(PACKAGE_ID)}::payment_request::execute_with_authorization`,
+    ]);
+    expect(transaction.getData().commands.some((command) => command.$kind === "TransferObjects"))
+      .toBe(false);
+    expect(serialized(transaction)).toContain("00000000000000000000000000000006");
+  });
+
+  it("binds the canonical World digest after the request ID is known", () => {
+    const transaction = buildBindWorldAction({
+      packageId: PACKAGE_ID,
+      vendorCapId: "0x201",
+      vendorPolicyId: ids.vendorPolicy,
+      requestId: ids.request,
+      actionDigest: new Uint8Array(32).fill(9),
+    });
+    expect(targets(transaction)).toEqual([
+      `${normalizeSuiAddress(PACKAGE_ID)}::payment_request::bind_world_action`,
+    ]);
   });
 
   it("uses Clock for scheduled execution and never accepts secret material", () => {

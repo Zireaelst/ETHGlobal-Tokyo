@@ -14,6 +14,9 @@ const ERequestNotPending: u64 = 2;
 const ERequestNotDue: u64 = 3;
 const ERequestExpired: u64 = 4;
 const EPolicyVersionMismatch: u64 = 5;
+const EActionAlreadyBound: u64 = 6;
+const EInvalidActionDigestLength: u64 = 7;
+const ERequestVendorMismatch: u64 = 8;
 
 const PENDING: u8 = 0;
 const PAID: u8 = 5;
@@ -106,6 +109,26 @@ fun new_request<T>(
         action_digest,
         status: PENDING,
     }
+}
+
+public fun bind_world_action(
+    vendor_cap: &VendorCap,
+    vendor_policy: &VendorPolicy,
+    request: &mut PaymentRequest,
+    action_digest: vector<u8>,
+    ctx: &TxContext,
+) {
+    assert!(request.status == PENDING, ERequestNotPending);
+    let vendor = vendor_registry::assert_can_submit(
+        vendor_cap,
+        vendor_policy,
+        request.treasury_id,
+        ctx,
+    );
+    assert!(vendor == request.vendor, ERequestVendorMismatch);
+    assert!(request.action_digest.is_empty(), EActionAlreadyBound);
+    assert!(action_digest.length() == 32, EInvalidActionDigestLength);
+    request.action_digest = action_digest;
 }
 
 public fun execute_within_mandate<T>(
@@ -203,6 +226,7 @@ public fun requester(request: &PaymentRequest): address { request.requester }
 public fun invoice_digest(request: &PaymentRequest): &vector<u8> { &request.invoice_digest }
 public fun walrus_blob_id(request: &PaymentRequest): &String { &request.walrus_blob_id }
 public fun seal_policy_id(request: &PaymentRequest): ID { request.seal_policy_id }
+public fun action_digest(request: &PaymentRequest): &vector<u8> { &request.action_digest }
 
 #[test_only]
 public fun create_for_testing(

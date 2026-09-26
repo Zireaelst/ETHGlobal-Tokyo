@@ -1,8 +1,16 @@
 import { createServer } from "node:http";
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
+import { buildExecuteFreshWorldAuthorization } from "@coffer/sui-client";
 import {
   createWorldAuthorizationGateway,
   InMemoryAuthorizationStore,
 } from "@coffer/world-auth";
+import {
+  createTestnetClient,
+  executeAndWait,
+  loadDeploymentSigner,
+} from "./sui-runtime";
 
 process.loadEnvFile();
 
@@ -13,6 +21,11 @@ function requireEnv(name: string): string {
 }
 
 const port = Number(process.env.PORT ?? "3000");
+const deployment = JSON.parse(
+  readFileSync(resolve(process.cwd(), "deployments/testnet.json"), "utf8"),
+) as Record<string, string>;
+const suiClient = createTestnetClient();
+const suiSigner = loadDeploymentSigner();
 const gateway = createWorldAuthorizationGateway({
   config: {
     issuer: requireEnv("WORLD_OIDC_ISSUER"),
@@ -23,6 +36,22 @@ const gateway = createWorldAuthorizationGateway({
   },
   store: new InMemoryAuthorizationStore(),
   async onVerified(authorization, action) {
+    if (action.treasuryId !== deployment.treasuryId) {
+      throw new Error("World-authorized action belongs to another treasury");
+    }
+    const transaction = buildExecuteFreshWorldAuthorization({
+      packageId: deployment.packageId!,
+      coinType: deployment.coinType!,
+      verifierCapId: deployment.worldVerifierCapId!,
+      treasuryId: action.treasuryId,
+      requestId: action.paymentRequestId,
+      vendor: action.vendor,
+      actionDigest: Uint8Array.from(Buffer.from(authorization.actionDigest, "hex")),
+      maxAmount: BigInt(action.amount),
+      expiresAtMs: BigInt(action.expiresAtMs),
+      nonce: new TextEncoder().encode(action.nonce),
+    });
+    const execution = await executeAndWait(suiClient, suiSigner, transaction);
     const redactedSubject = `${authorization.subject.slice(0, 6)}…${authorization.subject.slice(-4)}`;
     console.log(
       JSON.stringify({
@@ -31,12 +60,15 @@ const gateway = createWorldAuthorizationGateway({
         subject: redactedSubject,
         actionDigest: authorization.actionDigest,
         paymentRequestId: action.paymentRequestId,
+        transactionDigest: execution.digest,
       }),
     );
     return {
-      authorization: "verified",
+      authorization: "verified_and_executed",
       actionDigest: authorization.actionDigest,
       actionNonce: authorization.actionNonce,
+      transactionDigest: execution.digest,
+      explorerUrl: `https://suiscan.xyz/testnet/tx/${execution.digest}`,
     };
   },
 });
@@ -70,4 +102,3 @@ const server = createServer(async (incoming, outgoing) => {
 server.listen(port, "127.0.0.1", () => {
   console.log(`Coffer World gateway listening on http://localhost:${port}`);
 });
-
