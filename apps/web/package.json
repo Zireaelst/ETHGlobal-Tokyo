@@ -11,6 +11,7 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@coffer/shared-types": "workspace:*",
     "@mysten/dapp-kit-react": "2.1.35",
     "@mysten/enoki": "1.2.28",
     "@mysten/sui": "2.33.1",

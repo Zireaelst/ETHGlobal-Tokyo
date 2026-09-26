@@ -92,6 +92,9 @@ export function RequestDetailDrawer({ request }: { request: PaymentRequestRecord
           <div className={styles.drawerSectionHeading}><span>EXECUTION</span></div>
           {request.transactionDigest ? (
             <>
+              {request.outcome === "human_authorization" ? (
+                <strong>Historical World authorization · already executed</strong>
+              ) : null}
               <code>{request.transactionDigest}</code>
               <ExternalLink
                 aria-label="Open transaction in SuiScan"

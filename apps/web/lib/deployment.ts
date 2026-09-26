@@ -19,8 +19,21 @@ function text(value: unknown, label: string): string {
 const root = record(rawDeployment, "root");
 const agentDemo = record(root.agentDemo, "agentDemo");
 const worldDemo = record(root.worldDemo, "worldDemo");
+const pendingWorldDemo = record(root.pendingWorldDemo, "pendingWorldDemo");
 const agentDocument = record(agentDemo.documentRef, "agentDemo.documentRef");
 const worldDocument = record(worldDemo.documentRef, "worldDemo.documentRef");
+const pendingWorldAction = record(pendingWorldDemo.action, "pendingWorldDemo.action");
+const pendingWorldDocument = record(
+  pendingWorldDemo.documentRef,
+  "pendingWorldDemo.documentRef",
+);
+
+function positiveInteger(value: unknown, label: string): number {
+  if (typeof value !== "number" || !Number.isInteger(value) || value <= 0) {
+    throw new Error(`Invalid testnet deployment: ${label} must be a positive integer`);
+  }
+  return value;
+}
 
 export const TESTNET_DEPLOYMENT = Object.freeze({
   network: text(root.network, "network"),
@@ -36,6 +49,28 @@ export const TESTNET_DEPLOYMENT = Object.freeze({
     documentBlobId: text(worldDocument.blobId, "worldDemo.documentRef.blobId"),
     executionDigest: text(worldDemo.executionDigest, "worldDemo.executionDigest"),
     submitDigest: text(worldDemo.submitDigest, "worldDemo.submitDigest"),
+  }),
+  pendingWorldDemo: Object.freeze({
+    action: Object.freeze({
+      treasuryId: text(pendingWorldAction.treasuryId, "pendingWorldDemo.action.treasuryId"),
+      paymentRequestId: text(
+        pendingWorldAction.paymentRequestId,
+        "pendingWorldDemo.action.paymentRequestId",
+      ),
+      vendor: text(pendingWorldAction.vendor, "pendingWorldDemo.action.vendor"),
+      amount: text(pendingWorldAction.amount, "pendingWorldDemo.action.amount"),
+      expiresAtMs: positiveInteger(
+        pendingWorldAction.expiresAtMs,
+        "pendingWorldDemo.action.expiresAtMs",
+      ),
+      nonce: text(pendingWorldAction.nonce, "pendingWorldDemo.action.nonce"),
+    }),
+    documentBlobId: text(
+      pendingWorldDocument.blobId,
+      "pendingWorldDemo.documentRef.blobId",
+    ),
+    submitDigest: text(pendingWorldDemo.submitDigest, "pendingWorldDemo.submitDigest"),
+    bindDigest: text(pendingWorldDemo.bindDigest, "pendingWorldDemo.bindDigest"),
   }),
 });
 

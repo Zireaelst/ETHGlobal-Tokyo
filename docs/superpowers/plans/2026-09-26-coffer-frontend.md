@@ -681,21 +681,21 @@ Commit: `feat(world): return protected actions to app`
 - Produces: callback query parser with statuses `authorized | cancelled | expired | replayed | rejected | failed` and strict digest validation.
 - Consumes: `NEXT_PUBLIC_WORLD_GATEWAY_URL=https://coffer-tokyo-world-gateway.onrender.com`.
 
-- [ ] **Step 1: Write failing client tests**
+- [x] **Step 1: Write failing client tests**
 
 Assert the client POSTs the exact canonical action to `/api/world/authorize`, rejects non-HTTPS gateways except localhost, rejects malformed gateway responses, and never accepts a client-provided success result.
 
-- [ ] **Step 2: Write failing component tests**
+- [x] **Step 2: Write failing component tests**
 
 Assert the protected request action first passes through `ActionGate`, then opens the returned World URL; approved callback parameters render success only with valid action and transaction digests; cancelled/expired/replayed/rejected/failed states render no success language and no balance change; malformed or missing digests downgrade an `authorized` query to an invalid result; and the verified historical World record is labelled as history rather than executable again.
 
-- [ ] **Step 3: Verify red**
+- [x] **Step 3: Verify red**
 
 Run: `pnpm --filter @coffer/web test -- tests/world-client.test.ts tests/world-authorization.test.tsx`
 
 Expected: FAIL because the client and components are missing.
 
-- [ ] **Step 4: Implement the fresh journey**
+- [x] **Step 4: Implement the fresh journey**
 
 Use `window.location.assign(authorizationUrl)` only after successful server response. On return, display the transaction digest, a SuiScan link, and `World event identity is mocked; server validation and action binding are real.` Clear callback query parameters only after the result has been rendered and acknowledged.
 
@@ -705,7 +705,7 @@ Run: `pnpm --filter @coffer/web test -- tests/world-client.test.ts tests/world-a
 
 Expected: PASS. After Render receives `WORLD_APP_RETURN_URI`, a fresh sandbox authorization returns to `/app/approvals` and a replay returns a non-success state without a new transaction.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 Commit: `feat(web): connect fresh World approvals`
 

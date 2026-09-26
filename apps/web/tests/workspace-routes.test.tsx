@@ -11,8 +11,8 @@ import UsersPage from "../app/app/users/page";
 import VendorsPage from "../app/app/vendors/page";
 
 describe("workspace routes", () => {
-  it("separates pending approvals from completed authorization evidence", () => {
-    render(<ApprovalsPage />);
+  it("separates pending approvals from completed authorization evidence", async () => {
+    render(await ApprovalsPage());
 
     expect(screen.getByRole("heading", { name: "Approval queue" })).toBeInTheDocument();
     expect(screen.getByRole("region", { name: "Pending approvals" })).toHaveTextContent(

@@ -1,0 +1,76 @@
+.authorizationAction {
+  display: grid;
+  gap: 0.55rem;
+  justify-items: start;
+}
+
+.authorizationAction p {
+  color: #8a382d;
+  font-size: 0.66rem;
+  margin: 0;
+}
+
+.result {
+  border: 1px solid rgb(11 28 23 / 18%);
+  display: grid;
+  gap: 0.8rem;
+  padding: 1.2rem;
+}
+
+.success {
+  background: #dbe8d7;
+}
+
+.nonSuccess {
+  background: #eadfca;
+}
+
+.result > div {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.result span {
+  color: #607068;
+  font-family: var(--font-pixel), monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+}
+
+.result h2 {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: clamp(1.5rem, 3vw, 2.4rem);
+  font-weight: 400;
+  margin: 0;
+}
+
+.result p,
+.result a,
+.result button {
+  font-size: 0.68rem;
+}
+
+.result p {
+  color: #53665d;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.result code {
+  overflow-wrap: anywhere;
+}
+
+.result a {
+  color: var(--forest);
+  text-underline-offset: 0.22rem;
+}
+
+.result button {
+  background: transparent;
+  border: 0;
+  color: var(--forest);
+  justify-self: start;
+  padding: 0;
+  text-decoration: underline;
+  text-underline-offset: 0.22rem;
+}

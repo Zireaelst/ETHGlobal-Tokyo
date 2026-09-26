@@ -78,6 +78,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@coffer/shared-types':
+        specifier: workspace:*
+        version: link:../../packages/shared-types
       '@mysten/dapp-kit-react':
         specifier: 2.1.35
         version: 2.1.35(@mysten/sui@2.33.1(typescript@5.7.3))(@types/react@19.2.14)(react@19.3.0)(typescript@5.7.3)
