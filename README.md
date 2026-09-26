@@ -41,8 +41,8 @@ The LLM interprets the document; it does not get to override financial policy. M
 - Deployment registry: [`deployments/testnet.json`](deployments/testnet.json)
 - Current hardened package: [SuiScan package](https://suiscan.xyz/testnet/object/0xe44696c1051148c0743b4f2a982353068ce72160c849af540b6e02e327d536a5)
 - Live Seal → Walrus → local AI → policy → autonomous payment: [SuiScan transaction](https://suiscan.xyz/testnet/tx/4TqsMDLyMhpRb1pnodoSQyrYaoeCu4u6CzQqLJ83txZH)
-- Earlier verified World sandbox callback and atomic payment: [SuiScan transaction](https://suiscan.xyz/testnet/tx/DxLrK3u1a3fXZRcLyVqRkrjsNp5pKxVyHy4EemQ9Nm9n)
-- A 300 DEMO_USD request on the current package is prepared and has been verified to produce `HUMAN_APPROVAL_THRESHOLD_EXCEEDED`; its final World callback will run after stable-host credentials are installed.
+- Live 300 DEMO_USD policy stop → fresh World authorization → atomic exception payment: [SuiScan transaction](https://suiscan.xyz/testnet/tx/8wPGFjnUvsh8QTwRMPwibpK9LDQUz6XTgupyPy5QyFx)
+- The World callback is action-bound and single-use: replaying the consumed callback returned `400 invalid_callback` without executing another payment.
 - The repository also includes a live Seal/Walrus integration test; it is opt-in because it writes a paid testnet blob.
 
 ## Local backend setup

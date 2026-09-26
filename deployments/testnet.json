@@ -58,6 +58,9 @@
     "submitDigest": "9aLkMC7dQfiqt3DaWxY1EBKXu8q4Fn7kKBranjK4rr4r",
     "bindDigest": "4rPy5GR5MSJ41aKvVszfSrXdf6kUs3JZjuPKQa18mfRQ",
     "decision": "HUMAN_AUTH_REQUIRED",
-    "reasonCode": "HUMAN_APPROVAL_THRESHOLD_EXCEEDED"
+    "reasonCode": "HUMAN_APPROVAL_THRESHOLD_EXCEEDED",
+    "authorization": "WORLD_VERIFIED_AND_EXECUTED",
+    "actionDigest": "880005b744613bfd79645c2f681c6e29278d90aca0bfc0d0c9122ed9cd9fa01f",
+    "executionDigest": "8wPGFjnUvsh8QTwRMPwibpK9LDQUz6XTgupyPy5QyFx"
   }
 }
