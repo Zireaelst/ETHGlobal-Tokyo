@@ -35,8 +35,14 @@ const sealServerConfigs = [
 
 async function main() {
   const demoKey = process.env.COFFER_DEMO_KEY ?? "worldDemo";
-  if (demoKey !== "worldDemo" && demoKey !== "agentDemo") {
-    throw new Error("COFFER_DEMO_KEY must be worldDemo or agentDemo");
+  if (
+    demoKey !== "worldDemo" &&
+    demoKey !== "agentDemo" &&
+    demoKey !== "pendingWorldDemo"
+  ) {
+    throw new Error(
+      "COFFER_DEMO_KEY must be worldDemo, agentDemo, or pendingWorldDemo",
+    );
   }
   const amountText = process.env.COFFER_DEMO_AMOUNT_BASE_UNITS ?? "300000000";
   if (!/^\d+$/.test(amountText)) {
@@ -109,7 +115,7 @@ async function main() {
   const invoice = new TextEncoder().encode(
     JSON.stringify({
       vendor: "Tokyo Cloud Ltd.",
-      invoiceNumber: `${demoKey === "worldDemo" ? "WORLD" : "AGENT"}-${now}`,
+      invoiceNumber: `${demoKey === "agentDemo" ? "AGENT" : "WORLD"}-${now}`,
       amount: Number(amount) / 1_000_000,
       currency: "DEMO_USD",
       dueAtMs: now - 1_000,

@@ -62,5 +62,22 @@
     "authorization": "WORLD_VERIFIED_AND_EXECUTED",
     "actionDigest": "880005b744613bfd79645c2f681c6e29278d90aca0bfc0d0c9122ed9cd9fa01f",
     "executionDigest": "8wPGFjnUvsh8QTwRMPwibpK9LDQUz6XTgupyPy5QyFx"
+  },
+  "pendingWorldDemo": {
+    "action": {
+      "treasuryId": "0xcc5e3867d9e7a1a24d9ad617dc97e2c18e872fa58339c192b080c3ac9eed9e18",
+      "paymentRequestId": "0x2784156af643400c8181dcb2ad0db23c4c03cabb62eea2c4a09378b158ec2bc9",
+      "vendor": "0xa5e5fe2e7b3e9a47d4a692ec1d55b30e7330735f7477cf17329ab5bcaff0f92b",
+      "amount": "420000000",
+      "expiresAtMs": 1791045140624,
+      "nonce": "4e70db881e6f633209d67fecc71a1136412a7f9f80e13fb1"
+    },
+    "documentRef": {
+      "blobId": "34F33yNpD_U5EHJ0gBGq8v2XTuE9JX7-3a1ssK4IDSs",
+      "plaintextDigest": "8d8ae65e999d2a6770cd0ee1813d6b54f1833ec2c329b7eded975203d3058258",
+      "sealPolicyId": "0xcc5e3867d9e7a1a24d9ad617dc97e2c18e872fa58339c192b080c3ac9eed9e18"
+    },
+    "submitDigest": "7kFGmWiSbRo3BwoCNkn963KTryALYYoXa6fq69e34R28",
+    "bindDigest": "55AyuJZmAvVuCbRfdbv6hin4mEgf8T6jUUDoBQdxiHSW"
   }
 }
