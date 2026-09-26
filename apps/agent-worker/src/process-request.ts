@@ -24,6 +24,7 @@ export type WorkerPaymentRequest = {
   expiresAtMs: number;
   policyVersion: number;
   documentRef: EncryptedDocumentRef;
+  actionDigest: Uint8Array;
 };
 
 export type PaymentPolicyContext = {
@@ -31,6 +32,7 @@ export type PaymentPolicyContext = {
   mandateActive: boolean;
   treasuryPolicyVersion: number;
   vendorApproved: boolean;
+  humanApprovalThreshold: bigint;
   perPaymentLimit: bigint;
   periodSpent: bigint;
   periodLimit: bigint;
@@ -152,6 +154,7 @@ export async function processPaymentRequest(
       treasuryPolicyVersion: context.treasuryPolicyVersion,
       vendorApproved: context.vendorApproved,
       amount: request.amount,
+      humanApprovalThreshold: context.humanApprovalThreshold,
       perPaymentLimit: context.perPaymentLimit,
       periodSpent: context.periodSpent,
       periodLimit: context.periodLimit,

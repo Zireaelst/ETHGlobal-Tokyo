@@ -34,6 +34,15 @@ const sealServerConfigs = [
 ];
 
 async function main() {
+  const demoKey = process.env.COFFER_DEMO_KEY ?? "worldDemo";
+  if (demoKey !== "worldDemo" && demoKey !== "agentDemo") {
+    throw new Error("COFFER_DEMO_KEY must be worldDemo or agentDemo");
+  }
+  const amountText = process.env.COFFER_DEMO_AMOUNT_BASE_UNITS ?? "300000000";
+  if (!/^\d+$/.test(amountText)) {
+    throw new Error("COFFER_DEMO_AMOUNT_BASE_UNITS must be an integer");
+  }
+  const amount = BigInt(amountText);
   const deploymentPath = resolve(process.cwd(), "deployments/testnet.json");
   const deployment = JSON.parse(readFileSync(deploymentPath, "utf8")) as Record<
     string,
@@ -96,12 +105,11 @@ async function main() {
 
   const now = Date.now();
   const expiresAtMs = now + 30 * 60_000;
-  const amount = 300_000_000n;
   const invoice = new TextEncoder().encode(
     JSON.stringify({
       vendor: "Tokyo Cloud Ltd.",
-      invoiceNumber: `WORLD-${now}`,
-      amount: 300,
+      invoiceNumber: `${demoKey === "worldDemo" ? "WORLD" : "AGENT"}-${now}`,
+      amount: Number(amount) / 1_000_000,
       currency: "DEMO_USD",
       dueAtMs: now - 1_000,
       purchaseOrder: "PO-WORLD-001",
@@ -157,7 +165,7 @@ async function main() {
 
   const nextDeployment = {
     ...deployment,
-    worldDemo: {
+    [demoKey]: {
       action,
       documentRef,
       submitDigest: submit.digest,

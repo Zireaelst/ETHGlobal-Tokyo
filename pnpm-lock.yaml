@@ -8,9 +8,15 @@ importers:
 
   .:
     devDependencies:
+      '@coffer/agent-worker':
+        specifier: workspace:*
+        version: link:apps/agent-worker
       '@coffer/document-privacy':
         specifier: workspace:*
         version: link:packages/document-privacy
+      '@coffer/shared-types':
+        specifier: workspace:*
+        version: link:packages/shared-types
       '@coffer/sui-client':
         specifier: workspace:*
         version: link:packages/sui-client
@@ -53,9 +59,15 @@ importers:
       '@coffer/sui-client':
         specifier: workspace:*
         version: link:../../packages/sui-client
+      '@coffer/world-auth':
+        specifier: workspace:*
+        version: link:../../packages/world-auth
       '@libsql/client':
         specifier: ^0.15.0
         version: 0.15.15
+      '@mysten/sui':
+        specifier: ^2.33.1
+        version: 2.33.1(typescript@5.9.3)
       zod:
         specifier: ^4.0.0
         version: 4.6.5

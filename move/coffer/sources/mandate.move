@@ -10,6 +10,7 @@ const EPerPaymentLimitExceeded: u64 = 5;
 const EPeriodLimitExceeded: u64 = 6;
 const EPolicyVersionMismatch: u64 = 7;
 const EInvalidMandate: u64 = 8;
+const EHumanApprovalRequired: u64 = 9;
 
 #[allow(unused_field)]
 public struct AgentMandate has key {
@@ -51,6 +52,8 @@ public fun create<T>(
     treasury::assert_admin(admin_cap, treasury);
     assert!(
         max_per_payment > 0 &&
+            approval_threshold > 0 &&
+            approval_threshold <= max_per_payment &&
             period_limit >= max_per_payment &&
             period_duration_ms > 0 &&
             valid_until_ms >= valid_from_ms &&
@@ -130,6 +133,9 @@ public(package) fun authorize_and_record(
     );
     assert!(mandate.policy_version == policy_version, EPolicyVersionMismatch);
     assert!(amount <= mandate.max_per_payment, EPerPaymentLimitExceeded);
+    // Enforce the boundary between autonomous execution and the separate,
+    // single-use human authorization path onchain.
+    assert!(amount <= mandate.approval_threshold, EHumanApprovalRequired);
 
     if (now_ms >= mandate.period_started_at_ms + mandate.period_duration_ms) {
         mandate.period_started_at_ms = now_ms;
@@ -192,6 +198,31 @@ public fun create_for_testing(
         0,
         10_000,
         max_per_payment,
+        0,
+        policy_version,
+        ctx,
+    )
+}
+
+#[test_only]
+public fun create_with_approval_threshold_for_testing(
+    treasury_id: ID,
+    agent: address,
+    max_per_payment: u64,
+    period_limit: u64,
+    approval_threshold: u64,
+    policy_version: u64,
+    ctx: &mut TxContext,
+): (AgentMandate, AgentCap) {
+    new(
+        treasury_id,
+        agent,
+        max_per_payment,
+        period_limit,
+        10_000,
+        0,
+        10_000,
+        approval_threshold,
         0,
         policy_version,
         ctx,

@@ -13,6 +13,7 @@ const baseInput: PaymentPolicyInput = {
   treasuryPolicyVersion: 3,
   vendorApproved: true,
   amount: 80n,
+  humanApprovalThreshold: 90n,
   perPaymentLimit: 100n,
   periodSpent: 200n,
   periodLimit: 500n,
@@ -31,8 +32,14 @@ describe("evaluatePayment", () => {
       ["VENDOR_NOT_ALLOWED"],
     ],
     [
+      "human approval threshold",
+      { ...baseInput, amount: 91n },
+      "HUMAN_AUTH_REQUIRED",
+      ["HUMAN_APPROVAL_THRESHOLD_EXCEEDED"],
+    ],
+    [
       "single limit",
-      { ...baseInput, amount: 101n },
+      { ...baseInput, amount: 101n, humanApprovalThreshold: 200n },
       "HUMAN_AUTH_REQUIRED",
       ["PER_PAYMENT_LIMIT_EXCEEDED"],
     ],

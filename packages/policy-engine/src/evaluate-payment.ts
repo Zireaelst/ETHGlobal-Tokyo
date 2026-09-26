@@ -16,6 +16,7 @@ export type PaymentPolicyInput = {
   treasuryPolicyVersion: number;
   vendorApproved: boolean;
   amount: bigint;
+  humanApprovalThreshold: bigint;
   perPaymentLimit: bigint;
   periodSpent: bigint;
   periodLimit: bigint;
@@ -59,6 +60,11 @@ export function evaluatePayment(input: PaymentPolicyInput): PolicyResult {
   }
   if (!input.vendorApproved) {
     return result(input, "HUMAN_AUTH_REQUIRED", ["VENDOR_NOT_ALLOWED"]);
+  }
+  if (input.amount > input.humanApprovalThreshold) {
+    return result(input, "HUMAN_AUTH_REQUIRED", [
+      "HUMAN_APPROVAL_THRESHOLD_EXCEEDED",
+    ]);
   }
   if (input.amount > input.perPaymentLimit) {
     return result(input, "HUMAN_AUTH_REQUIRED", [

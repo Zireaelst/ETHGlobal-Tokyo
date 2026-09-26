@@ -22,6 +22,7 @@ const request: WorkerPaymentRequest = {
     plaintextDigest: "ab".repeat(32),
     sealPolicyId: "treasury-1",
   },
+  actionDigest: new Uint8Array(),
 };
 
 const extraction: InvoiceExtraction = {
@@ -49,6 +50,7 @@ function dependencies(
         mandateActive: true,
         treasuryPolicyVersion: 1,
         vendorApproved: true,
+        humanApprovalThreshold: 250_000_000n,
         perPaymentLimit: 500_000_000n,
         periodSpent: 0n,
         periodLimit: 2_000_000_000n,

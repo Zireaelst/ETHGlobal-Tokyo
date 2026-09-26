@@ -26,7 +26,8 @@ export type InvoiceExtractorConfig = z.infer<typeof extractorConfigSchema>;
 
 function documentPrompt(document: Uint8Array) {
   return [
-    "Extract this invoice as strict JSON with vendorCandidate, invoiceNumber, amount, currency=DEMO_USD, dueAtMs, optional purchaseOrder, confidence, anomalies.",
+    "Extract this invoice using exactly the requested JSON schema: vendorCandidate, invoiceNumber, amount, currency=DEMO_USD, dueAtMs, optional purchaseOrder, confidence, anomalies.",
+    "anomalies must be an array of plain strings; use [] when there are no anomalies.",
     "Amounts use whole DEMO_USD units. Do not invent missing data; lower confidence and add an anomaly.",
     new TextDecoder().decode(document),
   ].join("\n\n");
@@ -63,7 +64,36 @@ class OllamaInvoiceExtractor implements InvoiceExtractor {
         body: JSON.stringify({
           model: this.model,
           temperature: 0,
-          response_format: { type: "json_object" },
+          response_format: {
+            type: "json_schema",
+            json_schema: {
+              name: "invoice_extraction",
+              strict: true,
+              schema: {
+                type: "object",
+                additionalProperties: false,
+                required: [
+                  "vendorCandidate",
+                  "invoiceNumber",
+                  "amount",
+                  "currency",
+                  "dueAtMs",
+                  "confidence",
+                  "anomalies",
+                ],
+                properties: {
+                  vendorCandidate: { type: "string" },
+                  invoiceNumber: { type: "string" },
+                  amount: { type: "number", exclusiveMinimum: 0 },
+                  currency: { type: "string", enum: ["DEMO_USD"] },
+                  dueAtMs: { type: "integer", minimum: 0 },
+                  purchaseOrder: { type: "string" },
+                  confidence: { type: "number", minimum: 0, maximum: 1 },
+                  anomalies: { type: "array", items: { type: "string" } },
+                },
+              },
+            },
+          },
           messages: [{ role: "user", content: documentPrompt(document) }],
         }),
       },

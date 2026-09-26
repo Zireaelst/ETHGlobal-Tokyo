@@ -15,7 +15,9 @@
     "@coffer/policy-engine": "workspace:*",
     "@coffer/shared-types": "workspace:*",
     "@coffer/sui-client": "workspace:*",
+    "@coffer/world-auth": "workspace:*",
     "@libsql/client": "^0.15.0",
+    "@mysten/sui": "^2.33.1",
     "zod": "^4.0.0"
   },
   "devDependencies": {

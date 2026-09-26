@@ -12,8 +12,6 @@ import {
   loadDeploymentSigner,
 } from "./sui-runtime";
 
-process.loadEnvFile();
-
 function requireEnv(name: string): string {
   const value = process.env[name]?.trim();
   if (!value) throw new Error(`${name} is required`);
@@ -21,6 +19,7 @@ function requireEnv(name: string): string {
 }
 
 const port = Number(process.env.PORT ?? "3000");
+const host = process.env.HOST ?? "0.0.0.0";
 const deployment = JSON.parse(
   readFileSync(resolve(process.cwd(), "deployments/testnet.json"), "utf8"),
 ) as Record<string, string>;
@@ -99,6 +98,18 @@ const server = createServer(async (incoming, outgoing) => {
   }
 });
 
-server.listen(port, "127.0.0.1", () => {
-  console.log(`Coffer World gateway listening on http://localhost:${port}`);
+server.listen(port, host, () => {
+  console.log(`Coffer World gateway listening on http://${host}:${port}`);
 });
+
+function shutdown() {
+  server.close((error) => {
+    if (error) {
+      console.error(error.message);
+      process.exitCode = 1;
+    }
+  });
+}
+
+process.on("SIGTERM", shutdown);
+process.on("SIGINT", shutdown);

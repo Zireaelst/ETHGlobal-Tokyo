@@ -2,7 +2,12 @@ import { bcs } from "@mysten/sui/bcs";
 import type { ClientWithCoreApi } from "@mysten/sui/client";
 import { normalizeSuiAddress } from "@mysten/sui/utils";
 import { describe, expect, it } from "vitest";
-import { readPaymentRequest, readTreasurySnapshot } from "./readers";
+import {
+  readAgentMandate,
+  readPaymentRequest,
+  readTreasurySnapshot,
+  readVendorPolicy,
+} from "./readers";
 
 const UID = bcs.struct("UID", { id: bcs.Address });
 const Balance = bcs.struct("Balance", { value: bcs.u64() });
@@ -99,5 +104,76 @@ describe("typed Sui readers", () => {
       sealPolicyId: normalizeSuiAddress("0x101"),
     });
     expect(request.amount).toBe(240n);
+  });
+
+  it("parses enforceable agent mandate limits", async () => {
+    const schema = bcs.struct("AgentMandate", {
+      id: UID,
+      treasury_id: bcs.Address,
+      agent: bcs.Address,
+      max_per_payment: bcs.u64(),
+      period_limit: bcs.u64(),
+      period_spent: bcs.u64(),
+      period_started_at_ms: bcs.u64(),
+      period_duration_ms: bcs.u64(),
+      valid_from_ms: bcs.u64(),
+      valid_until_ms: bcs.u64(),
+      approval_threshold: bcs.u64(),
+      max_rebalance: bcs.u64(),
+      policy_version: bcs.u64(),
+      revoked: bcs.bool(),
+    });
+    const content = schema.serialize({
+      id: { id: normalizeSuiAddress("0x103") },
+      treasury_id: normalizeSuiAddress("0x101"),
+      agent: normalizeSuiAddress("0xabc"),
+      max_per_payment: 500n,
+      period_limit: 2_000n,
+      period_spent: 80n,
+      period_started_at_ms: 1_000n,
+      period_duration_ms: 10_000n,
+      valid_from_ms: 1_000n,
+      valid_until_ms: 50_000n,
+      approval_threshold: 250n,
+      max_rebalance: 1_000n,
+      policy_version: 1n,
+      revoked: false,
+    }).toBytes();
+
+    await expect(readAgentMandate(fakeClient(content), "0x103")).resolves.toMatchObject({
+      maxPerPayment: 500n,
+      periodLimit: 2_000n,
+      periodSpent: 80n,
+      approvalThreshold: 250n,
+      revoked: false,
+    });
+  });
+
+  it("parses vendor execution policy", async () => {
+    const schema = bcs.struct("VendorPolicy", {
+      id: UID,
+      treasury_id: bcs.Address,
+      vendor: bcs.Address,
+      active: bcs.bool(),
+      max_payment: bcs.u64(),
+      allowed_bucket: bcs.u8(),
+      valid_until_ms: bcs.u64(),
+    });
+    const content = schema.serialize({
+      id: { id: normalizeSuiAddress("0x104") },
+      treasury_id: normalizeSuiAddress("0x101"),
+      vendor: normalizeSuiAddress("0xcafe"),
+      active: true,
+      max_payment: 500n,
+      allowed_bucket: 2,
+      valid_until_ms: 50_000n,
+    }).toBytes();
+
+    await expect(readVendorPolicy(fakeClient(content), "0x104")).resolves.toMatchObject({
+      active: true,
+      maxPayment: 500n,
+      allowedBucket: 2,
+      validUntilMs: 50_000n,
+    });
   });
 });
