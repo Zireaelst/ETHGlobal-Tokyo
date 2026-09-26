@@ -68,7 +68,7 @@
 - Produces: `BucketName`, `AgentDecision`, `InvoiceExtraction`, `PolicyResult`, `ActionAuthorizationPayload`, and `PaymentStatus` schemas/types.
 - Consumed by: all TypeScript packages, worker, and web app.
 
-- [ ] **Step 1: Create workspace manifests and install the test toolchain**
+- [x] **Step 1: Create workspace manifests and install the test toolchain**
 
 ```json
 // package.json
@@ -100,7 +100,7 @@ Run: `pnpm install`
 
 Expected: a lockfile is created and installation exits 0.
 
-- [ ] **Step 2: Write failing shared-schema tests**
+- [x] **Step 2: Write failing shared-schema tests**
 
 ```ts
 // packages/shared-types/src/index.test.ts
@@ -131,13 +131,13 @@ describe("shared schemas", () => {
 });
 ```
 
-- [ ] **Step 3: Run the test and verify the missing-module failure**
+- [x] **Step 3: Run the test and verify the missing-module failure**
 
 Run: `pnpm --filter @coffer/shared-types test`
 
 Expected: FAIL because `./index` and package scripts are not defined.
 
-- [ ] **Step 4: Implement the shared schemas**
+- [x] **Step 4: Implement the shared schemas**
 
 ```ts
 // packages/shared-types/src/index.ts
@@ -190,7 +190,7 @@ export type ActionAuthorizationPayload = z.infer<typeof actionAuthorizationPaylo
 
 Add a package manifest with `test: vitest run` and `typecheck: tsc --noEmit`.
 
-- [ ] **Step 5: Verify and commit**
+- [x] **Step 5: Verify and commit**
 
 Run: `pnpm --filter @coffer/shared-types test && pnpm --filter @coffer/shared-types typecheck`
 
@@ -213,19 +213,19 @@ git commit -m "chore: initialize Coffer workspace"
 - Produces: `DemoUSD`, `Treasury<DemoUSD>`, `TreasuryAdminCap`, bucket constants, `create`, `deposit`, `rebalance`, `pause`, and balance readers.
 - Consumed by: policy, payment, standing-order, publish, and seed tasks.
 
-- [ ] **Step 1: Generate the Move package and write failing custody tests**
+- [x] **Step 1: Generate the Move package and write failing custody tests**
 
 Run: `sui move new move/coffer`
 
 Write tests that create a treasury, deposit 1,000 units into operating, move 300 to vendor-committed, and assert balances `700/0/300`. Add expected-failure tests for reserve reallocation beyond admin authority and all reallocation while paused.
 
-- [ ] **Step 2: Run the failing tests**
+- [x] **Step 2: Run the failing tests**
 
 Run: `cd move/coffer && sui move test`
 
 Expected: FAIL because `demo_usd` and `treasury` APIs do not exist.
 
-- [ ] **Step 3: Implement the minimal treasury API**
+- [x] **Step 3: Implement the minimal treasury API**
 
 ```move
 public struct Treasury<phantom T> has key {
@@ -247,13 +247,13 @@ public struct TreasuryAdminCap has key, store {
 
 Implement `create<T>`, `deposit_operating<T>`, `admin_rebalance<T>`, `pause<T>`, `unpause<T>`, and immutable balance getters. All mutations verify `object::id(treasury) == cap.treasury_id`.
 
-- [ ] **Step 4: Run Move verification**
+- [x] **Step 4: Run Move verification**
 
 Run: `cd move/coffer && sui move test && sui move build`
 
 Expected: all treasury tests pass and the package builds.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add move/coffer
