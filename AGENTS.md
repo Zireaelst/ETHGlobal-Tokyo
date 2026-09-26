@@ -45,6 +45,7 @@ Latest frontend verification before handoff:
 - ESLint passed.
 - TypeScript passed.
 - Next.js production build passed; 15 routes generated.
+- Latest completed sprint: `60c4c84 test(web): harden responsive demo journeys` (pushed to `origin/codex/coffer-mvp`).
 
 ## Public testnet evidence
 
