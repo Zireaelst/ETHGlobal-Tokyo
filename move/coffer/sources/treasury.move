@@ -84,7 +84,7 @@ public fun unpause<T>(admin_cap: &TreasuryAdminCap, treasury: &mut Treasury<T>) 
     treasury.paused = false;
 }
 
-fun assert_admin<T>(admin_cap: &TreasuryAdminCap, treasury: &Treasury<T>) {
+public(package) fun assert_admin<T>(admin_cap: &TreasuryAdminCap, treasury: &Treasury<T>) {
     assert!(admin_cap.treasury_id == object::id(treasury), EAdminCapMismatch);
 }
 

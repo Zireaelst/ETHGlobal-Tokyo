@@ -331,17 +331,17 @@ git commit -m "feat(move): enforce agent payment mandates"
 - Produces: `WorldVerifierCap`, `AuthorizationTicket`, `mint_ticket`, `execute_with_authorization`.
 - Consumes: a 32-byte action digest computed from the canonical authorization payload.
 
-- [ ] **Step 1: Write failing authorization tests**
+- [x] **Step 1: Write failing authorization tests**
 
 Cover exact successful exception payment, wrong request ID, changed amount, changed vendor digest, expired ticket, reused ticket, and an unauthorized ticket minter.
 
-- [ ] **Step 2: Run the failing tests**
+- [x] **Step 2: Run the failing tests**
 
 Run: `cd move/coffer && sui move test authorization_tests`
 
 Expected: FAIL because authorization types are missing.
 
-- [ ] **Step 3: Implement single-use tickets**
+- [x] **Step 3: Implement single-use tickets**
 
 ```move
 public struct AuthorizationTicket has key {
@@ -357,13 +357,13 @@ public struct AuthorizationTicket has key {
 
 Consume the ticket by value during `execute_with_authorization`; verify every binding before payment and delete the ticket after successful execution. A failed transaction must preserve all state atomically.
 
-- [ ] **Step 4: Run all Move tests**
+- [x] **Step 4: Run all Move tests**
 
 Run: `pnpm move:test`
 
 Expected: treasury, policy, and authorization suites all pass.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add move/coffer
