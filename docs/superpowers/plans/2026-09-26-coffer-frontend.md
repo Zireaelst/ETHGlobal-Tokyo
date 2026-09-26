@@ -398,21 +398,21 @@ Commit: `feat(web): model treasury workspace data`
 - Produces: `<AppShell>{children}</AppShell>` and grouped navigation for all eleven approved routes.
 - Produces: `<DataSourceBadge source={DataSource} />` with exact visible labels.
 
-- [ ] **Step 1: Write failing navigation tests**
+- [x] **Step 1: Write failing navigation tests**
 
 Assert the shell exposes the six operational routes, five read-only institutional routes, testnet status, demo-workspace label, a treasury selector labelled `Tokyo Operations Treasury`, and a skip link to the main content. Assert `/app` redirects to `/app/overview`.
 
-- [ ] **Step 2: Verify red**
+- [x] **Step 2: Verify red**
 
 Run: `pnpm --filter @coffer/web test -- tests/app-shell.test.tsx`
 
 Expected: FAIL because the shell does not exist.
 
-- [ ] **Step 3: Implement shell and responsive navigation**
+- [x] **Step 3: Implement shell and responsive navigation**
 
 Use a narrow forest rail on desktop and an accessible modal drawer below 960px. The cream canvas must remain independently scrollable, active routes use `aria-current="page"`, and secondary routes display `Read-only` without disabling navigation.
 
-- [ ] **Step 4: Verify and commit**
+- [x] **Step 4: Verify and commit**
 
 Run: `pnpm --filter @coffer/web test -- tests/app-shell.test.tsx && pnpm --filter @coffer/web build`
 
