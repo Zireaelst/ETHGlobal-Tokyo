@@ -65,6 +65,24 @@ public(package) fun authorize_and_record(
     mandate.period_spent = mandate.period_spent + amount;
 }
 
+public(package) fun assert_agent_access(
+    cap: &AgentCap,
+    mandate: &AgentMandate,
+    treasury_id: ID,
+    now_ms: u64,
+    ctx: &TxContext,
+) {
+    assert!(cap.mandate_id == object::id(mandate), EAgentCapMismatch);
+    assert!(mandate.treasury_id == treasury_id, ETreasuryMismatch);
+    assert!(mandate.agent == tx_context::sender(ctx), EAgentMismatch);
+    assert!(
+        !mandate.revoked &&
+            now_ms >= mandate.valid_from_ms &&
+            now_ms <= mandate.valid_until_ms,
+        EMandateInactive,
+    );
+}
+
 public fun period_spent(mandate: &AgentMandate): u64 { mandate.period_spent }
 public fun policy_version(mandate: &AgentMandate): u64 { mandate.policy_version }
 public fun treasury_id(mandate: &AgentMandate): ID { mandate.treasury_id }

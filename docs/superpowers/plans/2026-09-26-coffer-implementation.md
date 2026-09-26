@@ -489,7 +489,7 @@ git commit -m "feat: add deterministic treasury policy engine"
 - Produces: `DocumentPrivacy.put`, `DocumentPrivacy.get`, and `EncryptedDocumentRef`.
 - Consumes: Sui client, Seal client, Walrus client, package ID, and policy object ID.
 
-- [ ] **Step 1: Define the adapter and failing fail-closed tests**
+- [x] **Step 1: Define the adapter and failing fail-closed tests**
 
 ```ts
 export type EncryptedDocumentRef = {
@@ -506,13 +506,13 @@ export interface DocumentPrivacy {
 
 Tests must assert ciphertext differs from plaintext, a valid policy round-trip succeeds, a wrong policy fails, a corrupted blob fails digest verification, and no method returns plaintext after a network/decryption error.
 
-- [ ] **Step 2: Install verified official packages and run red tests**
+- [x] **Step 2: Install verified official packages and run red tests**
 
 Run: `pnpm --filter @coffer/document-privacy add @mysten/sui @mysten/seal @mysten/walrus && pnpm --filter @coffer/document-privacy test`
 
 Expected: tests fail because the adapter is not implemented.
 
-- [ ] **Step 3: Implement the real adapter using the installed SDK's exported clients**
+- [x] **Step 3: Implement the real adapter using the installed SDK's exported clients**
 
 Keep all SDK-specific code in `seal-walrus.ts`. Encryption occurs before upload; `get` fetches ciphertext, requests Seal decryption under the configured onchain policy, then verifies the SHA-256 plaintext digest before returning bytes. Throw typed `PrivacyUnavailableError`, `AccessDeniedError`, or `IntegrityError`; never return partial data.
 
@@ -522,7 +522,7 @@ Run: `pnpm --filter @coffer/document-privacy test:integration`
 
 Expected: upload returns a non-empty Walrus blob ID, authorized decrypt reproduces the original bytes, and an unauthorized identity is rejected. If official devnet infrastructure is unavailable, stop this task and keep payment execution disabled; do not substitute a fake production claim.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add packages/document-privacy

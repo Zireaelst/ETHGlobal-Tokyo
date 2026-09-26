@@ -1,0 +1,22 @@
+{
+  "name": "@coffer/document-privacy",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "test": "vitest run --exclude src/**/*.integration.test.ts",
+    "test:integration": "vitest run src/seal-walrus.integration.test.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@mysten/seal": "^1.4.16",
+    "@mysten/sui": "^2.33.1",
+    "@mysten/walrus": "^1.2.31"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.3"
+  }
+}
