@@ -10,7 +10,8 @@
     "move:test": "cd move/coffer && sui move test",
     "setup:testnet": "tsx scripts/setup-testnet-signer.ts",
     "publish:testnet": "tsx scripts/publish-testnet.ts",
-    "seed:demo": "tsx scripts/seed-demo.ts"
+    "seed:demo": "tsx scripts/seed-demo.ts",
+    "test:privacy:integration": "tsx scripts/run-seal-walrus-integration.ts"
   },
   "devDependencies": {
     "@coffer/sui-client": "workspace:*",

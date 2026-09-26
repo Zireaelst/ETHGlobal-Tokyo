@@ -516,7 +516,7 @@ Expected: tests fail because the adapter is not implemented.
 
 Keep all SDK-specific code in `seal-walrus.ts`. Encryption occurs before upload; `get` fetches ciphertext, requests Seal decryption under the configured onchain policy, then verifies the SHA-256 plaintext digest before returning bytes. Throw typed `PrivacyUnavailableError`, `AccessDeniedError`, or `IntegrityError`; never return partial data.
 
-- [ ] **Step 4: Run a real devnet integration script**
+- [x] **Step 4: Run a real testnet integration script (beta SDKs)**
 
 Run: `pnpm --filter @coffer/document-privacy test:integration`
 

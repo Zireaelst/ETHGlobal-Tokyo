@@ -17,6 +17,20 @@ const requiredNames = [
   "COFFER_COIN_TYPE",
 ] as const;
 
+const sealServerConfigs = [
+  {
+    objectId:
+      "0xb012378c9f3799fb5b1a7083da74a4069e3c3f1c93de0b27212a5799ce1e1e98",
+    aggregatorUrl: "https://seal-aggregator-testnet.mystenlabs.com",
+    weight: 1,
+  },
+  {
+    objectId:
+      "0x73d05d62c18d9374e3ea529e8e0ed6161da1a141a94d3f76ae3fe4e99356db75",
+    weight: 1,
+  },
+];
+
 function requiredEnvironment(): Record<(typeof requiredNames)[number], string> {
   const missing = requiredNames.filter((name) => !process.env[name]);
   if (missing.length > 0) {
@@ -51,19 +65,7 @@ it(
     );
     const seal = new SealClient({
       suiClient: client,
-      serverConfigs: [
-        {
-          objectId:
-            "0xb012378c9f3799fb5b1a7083da74a4069e3c3f1c93de0b27212a5799ce1e1e98",
-          aggregatorUrl: "https://seal-aggregator-testnet.mystenlabs.com",
-          weight: 1,
-        },
-        {
-          objectId:
-            "0x73d05d62c18d9374e3ea529e8e0ed6161da1a141a94d3f76ae3fe4e99356db75",
-          weight: 1,
-        },
-      ],
+      serverConfigs: sealServerConfigs,
     });
     const sessionKey = await SessionKey.create({
       address: signer.toSuiAddress(),
@@ -111,7 +113,12 @@ it(
       packageId: env.COFFER_PACKAGE_ID,
       policyId: env.COFFER_TREASURY_ID,
       threshold: 2,
-      seal,
+      // Secret-key shares are cached by SealClient for a full policy ID. A
+      // separate identity must use a separate client instance in this test.
+      seal: new SealClient({
+        suiClient: client,
+        serverConfigs: sealServerConfigs,
+      }),
       walrus: client.walrus,
       signer,
       sessionKey: unauthorizedSession,
