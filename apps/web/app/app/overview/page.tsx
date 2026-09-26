@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { DataSourceBadge } from "../../../components/ui/data-source-badge";
+import { LiveStatus } from "../../../components/ui/live-status";
 import {
   DEMO_AUDIT_EVENTS,
   DEMO_REQUESTS,
@@ -29,7 +30,7 @@ export default function OverviewPage() {
           <h1>Treasury overview</h1>
           <span>Policy-bound capital, obligations, and agent activity.</span>
         </div>
-        <DataSourceBadge source="verified" />
+        <LiveStatus />
       </header>
 
       <section aria-label="Treasury buckets" className={styles.bucketGrid}>

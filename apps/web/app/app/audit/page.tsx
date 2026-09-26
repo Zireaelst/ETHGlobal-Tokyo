@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { DataSourceBadge } from "../../../components/ui/data-source-badge";
+import { LiveStatus } from "../../../components/ui/live-status";
 import { TESTNET_DEPLOYMENT, suiScanTransactionUrl } from "../../../lib/deployment";
 import styles from "../workspace.module.css";
 
@@ -16,7 +16,7 @@ export default function AuditPage() {
     <div className={styles.page}>
       <header className={styles.pageHeader}>
         <div><p>OPERATIONS / AUDIT</p><h1>Decision receipts</h1><span>Trace policy inputs to an independently verifiable execution.</span></div>
-        <DataSourceBadge source="verified" />
+        <LiveStatus />
       </header>
       <section className={styles.auditPanel}>
         <div className={styles.auditContext}><span>REQUEST</span><strong>REQ-2048 · Mirai Logistics</strong><small>Policy 3.2.1 · WITHIN_MANDATE</small></div>

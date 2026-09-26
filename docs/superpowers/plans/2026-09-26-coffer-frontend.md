@@ -584,25 +584,25 @@ Commit: `feat(web): add Sui and Google account entry`
 - Produces: `GET /api/treasury` returning `{ source: 'live', fetchedAt, treasury, transactions }` or `{ source: 'verified', reason: 'rpc_unavailable', treasury, transactions }` with HTTP 200.
 - `TreasurySnapshot` contains only data actually decoded from Sui objects/transactions plus deployment identifiers; demo fixture fields never enter the live result.
 
-- [ ] **Step 1: Write failing reader tests**
+- [x] **Step 1: Write failing reader tests**
 
 Pass a fake `ClientWithCoreApi` whose `core.getObject` and `core.getTransaction` return known objects. Assert the treasury ID, package ID, auto execution digest, and World execution digest are requested; assert parsed results are marked `live`; and assert an RPC exception yields a separately constructed `verified` fallback with reason `rpc_unavailable`.
 
-- [ ] **Step 2: Verify red**
+- [x] **Step 2: Verify red**
 
 Run: `pnpm --filter @coffer/web test -- tests/live-treasury.test.ts`
 
 Expected: FAIL because `readTreasurySnapshot` is missing.
 
-- [ ] **Step 3: Implement transport-agnostic reads**
+- [x] **Step 3: Implement transport-agnostic reads**
 
-Accept `ClientWithCoreApi`; call `client.core.getObject({ objectId, include: { content: true } })` and `client.core.getTransaction({ digest, include: { effects: true, events: true } })`. Treat absence of requested content or an unsuccessful transaction as an error, not live confirmation.
+Accept `ClientWithCoreApi`; call `client.core.getObject({ objectId, include: { content: true } })` and `client.core.getTransaction({ digest, include: { effects: true, events: true } })`. Require content for the Move treasury object; package objects have no struct content in the gRPC response and are verified through their package metadata. Treat missing treasury content or an unsuccessful transaction as an error, not live confirmation.
 
-- [ ] **Step 4: Implement the server route and UI state**
+- [x] **Step 4: Implement the server route and UI state**
 
 Instantiate `SuiGrpcClient` only in the route, return `cache-control: no-store`, set an 8-second abort timeout, and transform errors into the explicit verified fallback. The overview shows `Live testnet` only after a successful response and `Verified testnet run · RPC unavailable` otherwise.
 
-- [ ] **Step 5: Verify and commit**
+- [x] **Step 5: Verify and commit**
 
 Run: `pnpm --filter @coffer/web test -- tests/live-treasury.test.ts && pnpm --filter @coffer/web build`
 

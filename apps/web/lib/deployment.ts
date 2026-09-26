@@ -39,6 +39,8 @@ export const TESTNET_DEPLOYMENT = Object.freeze({
   }),
 });
 
+export type PublicDeployment = typeof TESTNET_DEPLOYMENT;
+
 export function suiScanTransactionUrl(digest: string): string {
   return `https://suiscan.xyz/testnet/tx/${encodeURIComponent(digest)}`;
 }
