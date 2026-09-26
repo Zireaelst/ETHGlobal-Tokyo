@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { RecentDemoEvidence } from "../../../components/demo/recent-demo-evidence";
 import { LiveStatus } from "../../../components/ui/live-status";
 import { TESTNET_DEPLOYMENT, suiScanTransactionUrl } from "../../../lib/deployment";
 import styles from "../workspace.module.css";
@@ -25,6 +26,7 @@ export default function AuditPage() {
         </ol>
         <Link className={styles.evidenceLink} href={suiScanTransactionUrl(TESTNET_DEPLOYMENT.agentDemo.executionDigest)} target="_blank">Verify execution on SuiScan <span aria-hidden="true">↗</span></Link>
       </section>
+      <RecentDemoEvidence />
     </div>
   );
 }

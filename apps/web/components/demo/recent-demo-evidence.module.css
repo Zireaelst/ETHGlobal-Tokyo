@@ -1,0 +1,11 @@
+.evidence { background: var(--paper); border: 1px solid rgb(11 28 23 / 16%); }
+.evidence header { border-bottom: 1px solid rgb(11 28 23 / 13%); display: grid; gap: 0.35rem; padding: 1.1rem 1.25rem; }
+.evidence header span { color: #607068; font-family: var(--font-pixel), monospace; font-size: 0.6rem; letter-spacing: 0.09em; }
+.evidence header strong { font-family: var(--font-serif), Georgia, serif; font-size: 1.55rem; font-weight: 400; }
+.evidence ol { list-style: none; margin: 0; padding: 0; }
+.evidence li { align-items: center; border-bottom: 1px solid rgb(11 28 23 / 10%); display: grid; gap: 1rem; grid-template-columns: 4rem 1fr auto; padding: 0.9rem 1.25rem; }
+.evidence li:last-child { border-bottom: 0; }
+.evidence time { font-family: var(--font-pixel), monospace; font-size: 0.65rem; }
+.evidence li div { display: grid; gap: 0.2rem; }
+.evidence li div strong { font-size: 0.75rem; }
+.evidence li div span, .evidence li > span, .evidence a { color: #607068; font-size: 0.65rem; }

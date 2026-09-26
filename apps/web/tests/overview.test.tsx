@@ -1,10 +1,11 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import OverviewPage from "../app/app/overview/page";
+import { DemoSessionProvider } from "../components/demo/demo-session-provider";
 
 describe("Treasury overview", () => {
   it("summarizes operational state without requiring a wallet", () => {
-    render(<OverviewPage />);
+    render(<DemoSessionProvider persist={false}><OverviewPage /></DemoSessionProvider>);
 
     expect(screen.getByRole("heading", { name: "Treasury overview" })).toBeInTheDocument();
     for (const bucket of ["Operating", "Reserve", "Vendor committed"]) {

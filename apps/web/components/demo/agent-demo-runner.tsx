@@ -86,7 +86,11 @@ export function AgentDemoRunner({ stepDelayMs = 480 }: { stepDelayMs?: number })
             : scenario === "human_authorization"
               ? TESTNET_DEPLOYMENT.worldDemo.executionDigest
               : undefined;
-        addRun(buildDemoRun({ mode, scenario, executionDigest }));
+        addRun(buildDemoRun({
+          mode,
+          scenario,
+          ...(executionDigest ? { executionDigest } : {}),
+        }));
         setLatestDigest(executionDigest ?? null);
         setMessage(
           executionDigest

@@ -1,7 +1,5 @@
-import { RequestDetailDrawer } from "../../../components/requests/request-detail-drawer";
-import { RequestTable } from "../../../components/requests/request-table";
+import { RequestWorkspace } from "../../../components/requests/request-workspace";
 import { DataSourceBadge } from "../../../components/ui/data-source-badge";
-import { DEMO_REQUESTS } from "../../../lib/demo/fixtures";
 import styles from "../workspace.module.css";
 
 type RequestsPageProps = {
@@ -10,7 +8,6 @@ type RequestsPageProps = {
 
 export default async function RequestsPage({ searchParams }: RequestsPageProps) {
   const selectedId = (await searchParams).request;
-  const selected = DEMO_REQUESTS.find((request) => request.id === selectedId);
 
   return (
     <div className={styles.page}>
@@ -22,8 +19,7 @@ export default async function RequestsPage({ searchParams }: RequestsPageProps) 
         </div>
         <DataSourceBadge source="verified" />
       </header>
-      <RequestTable requests={DEMO_REQUESTS} />
-      {selected ? <RequestDetailDrawer request={selected} /> : null}
+      <RequestWorkspace selectedId={selectedId} />
     </div>
   );
 }

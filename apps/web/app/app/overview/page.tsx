@@ -1,4 +1,8 @@
+"use client";
+
 import Link from "next/link";
+import { AgentDemoRunner } from "../../../components/demo/agent-demo-runner";
+import { useOptionalDemoSession } from "../../../components/demo/demo-session-provider";
 import { DataSourceBadge } from "../../../components/ui/data-source-badge";
 import { LiveStatus } from "../../../components/ui/live-status";
 import {
@@ -7,6 +11,11 @@ import {
   DEMO_STANDING_ORDERS,
   TREASURY_BUCKETS,
 } from "../../../lib/demo/fixtures";
+import {
+  applyRunsToBuckets,
+  runsToAuditEvents,
+  runsToRequests,
+} from "../../../lib/demo/session";
 import styles from "../workspace.module.css";
 
 function amount(baseUnits: string) {
@@ -16,6 +25,11 @@ function amount(baseUnits: string) {
 }
 
 export default function OverviewPage() {
+  const session = useOptionalDemoSession();
+  const runs = session?.runs ?? [];
+  const buckets = runs.length ? applyRunsToBuckets(runs) : TREASURY_BUCKETS;
+  const projectedRequests = [...runsToRequests(runs), ...DEMO_REQUESTS];
+  const auditEvents = [...runsToAuditEvents(runs), ...DEMO_AUDIT_EVENTS];
   const nextOrder = DEMO_STANDING_ORDERS[0];
 
   if (!nextOrder) {
@@ -33,8 +47,10 @@ export default function OverviewPage() {
         <LiveStatus />
       </header>
 
+      <AgentDemoRunner />
+
       <section aria-label="Treasury buckets" className={styles.bucketGrid}>
-        {TREASURY_BUCKETS.map((bucket, index) => (
+        {buckets.map((bucket, index) => (
           <article key={bucket.name}>
             <div className={styles.cardMeta}>
               <span>0{index + 1}</span>
@@ -88,8 +104,8 @@ export default function OverviewPage() {
           <Link href="/app/audit">Full audit trail <span aria-hidden="true">→</span></Link>
         </div>
         <ol>
-          {DEMO_AUDIT_EVENTS.map((event) => {
-            const request = DEMO_REQUESTS.find((item) => item.id === event.requestId);
+          {auditEvents.map((event) => {
+            const request = projectedRequests.find((item) => item.id === event.requestId);
             return (
               <li key={event.id}>
                 <time dateTime={event.occurredAt}>

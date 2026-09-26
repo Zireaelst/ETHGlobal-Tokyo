@@ -56,3 +56,7 @@ export function useDemoSession() {
   if (!value) throw new Error("useDemoSession must be used inside DemoSessionProvider");
   return value;
 }
+
+export function useOptionalDemoSession() {
+  return useContext(DemoSessionContext);
+}

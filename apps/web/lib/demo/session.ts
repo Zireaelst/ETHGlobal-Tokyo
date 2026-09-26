@@ -54,15 +54,14 @@ export function buildDemoRun(input: BuildDemoRunInput): DemoRun {
 export function runsToRequests(runs: readonly DemoRun[]): PaymentRequestRecord[] {
   return [...runs].reverse().map((run) => {
     const template = scenarioTemplate[run.scenario];
+    const { transactionDigest: _historicalDigest, ...templateWithoutDigest } = template;
     return {
-      ...template,
+      ...templateWithoutDigest,
       id: run.requestId,
       createdAt: run.completedAt,
       dueAt: run.completedAt,
       dataSource: run.mode === "live" ? "live" : "verified",
-      ...(run.executionDigest
-        ? { transactionDigest: run.executionDigest }
-        : { transactionDigest: undefined }),
+      ...(run.executionDigest ? { transactionDigest: run.executionDigest } : {}),
     };
   });
 }
