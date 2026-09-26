@@ -18,6 +18,10 @@ vi.mock("@mysten/dapp-kit-react/ui", () => ({
   ConnectButton: ({ children }: { children: React.ReactNode }) => <button type="button">{children}</button>,
 }));
 
+vi.mock("next/dynamic", () => ({
+  default: () => () => <button type="button">Connect Sui Wallet</button>,
+}));
+
 describe("ActionGate", () => {
   afterEach(() => {
     walletState.connected = false;

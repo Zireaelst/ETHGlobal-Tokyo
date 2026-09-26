@@ -41,6 +41,7 @@ Use small, meaningful commits and push them frequently. Never commit `.env`, pri
 Latest frontend verification before handoff:
 
 - 15 Vitest files, 57 tests passed.
+- 9 Playwright journeys passed: landing anchors, mobile menu focus, all four payment outcomes, wallet gate, World callback states, external SuiScan links, and no page-level horizontal overflow at 390×844, 768×1024, 1440×900, and 1920×1080.
 - ESLint passed.
 - TypeScript passed.
 - Next.js production build passed; 15 routes generated.
@@ -61,24 +62,21 @@ COFFER_DEMO_KEY=pendingWorldDemo COFFER_DEMO_AMOUNT_BASE_UNITS=420000000 pnpm ex
 
 ## Immediate continuation point
 
-The fresh World frontend work is implemented and locally verified but still needs its final external checkpoint:
+Local browser hardening and the Vercel deployment contract are complete. The remaining work is external-account verification:
 
-1. Commit/push the current Task 13 changes if they are not yet committed.
-2. Deploy the updated World gateway to Render.
-3. Deploy `apps/web` to Vercel.
-4. Set Vercel public variables from `apps/web/.env.example`.
-5. Set Render `WORLD_APP_RETURN_URI` to the exact Vercel origin and redeploy Render.
-6. Keep World portal callback unchanged: `https://coffer-tokyo-world-gateway.onrender.com/api/world/callback`.
-7. Add the Vercel origin to Enoki and Google allowed origins, then manually verify Google zkLogin.
-8. Run one fresh sandbox World authorization and verify return to `/app/approvals` with a SuiScan receipt.
+1. Deploy the updated World gateway to Render.
+2. Deploy `apps/web` to Vercel with root `apps/web`; `apps/web/vercel.json` contains the monorepo install/build contract.
+3. Set Vercel public variables from `apps/web/.env.example`.
+4. Set Render `WORLD_APP_RETURN_URI` to the exact Vercel origin and redeploy Render.
+5. Keep World portal callback unchanged: `https://coffer-tokyo-world-gateway.onrender.com/api/world/callback`.
+6. Add the Vercel origin to Enoki and Google allowed origins, then manually verify Google zkLogin.
+7. Run one fresh sandbox World authorization and verify return to `/app/approvals` with a SuiScan receipt.
 
 The Render gateway is `https://coffer-tokyo-world-gateway.onrender.com`.
 
 ## Remaining engineering
 
-- Finish Task 13 external Render/Vercel verification and mark the remaining checklist items.
-- Task 14: Playwright browser journeys, responsive/overflow/focus checks, Vercel config and deployment notes.
-- Perform a visual QA pass at 390×844, 768×1024, 1440×900, and 1920×1080.
+- Finish the external Render/Vercel/Enoki/Google verification for Task 13 and Task 14.
 - Submission documentation is intentionally last: README sponsor mapping, FEEDBACK/integration notes, setup steps, three-minute demo script, and truthful limitations.
 - If time remains, refine institutional secondary screens; do not jeopardize the core demo.
 

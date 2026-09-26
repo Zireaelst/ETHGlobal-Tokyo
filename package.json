@@ -9,6 +9,7 @@
     "web:dev": "pnpm --filter @coffer/web dev",
     "web:build": "pnpm --filter @coffer/web build",
     "web:test": "pnpm --filter @coffer/web test",
+    "web:e2e": "pnpm --filter @coffer/web test:e2e",
     "move:build": "cd move/coffer && sui move build",
     "move:test": "cd move/coffer && sui move test",
     "setup:testnet": "tsx scripts/setup-testnet-signer.ts",

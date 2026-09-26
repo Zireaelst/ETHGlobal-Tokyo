@@ -1,12 +1,17 @@
 "use client";
 
 import { useDAppKit, useWalletConnection, useWallets } from "@mysten/dapp-kit-react";
-import { ConnectButton } from "@mysten/dapp-kit-react/ui";
-import { isEnokiWallet, isGoogleWallet } from "@mysten/enoki";
+import { isGoogleWallet } from "@mysten/enoki";
+import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
 import { getPublicConfig } from "../../lib/env";
 import { dAppKit } from "../../lib/sui/dapp-kit";
 import styles from "./connection.module.css";
+
+const WalletConnectButton = dynamic(
+  () => import("./wallet-connect-button").then((module) => module.WalletConnectButton),
+  { ssr: false },
+);
 
 type ConnectionDialogProps = {
   actionLabel: string;
@@ -49,9 +54,7 @@ export function ConnectionDialog({ actionLabel, open, onClose }: ConnectionDialo
           <button aria-label="Continue with Google" disabled={!config.enoki || !googleWallet} onClick={connectGoogle} type="button">
             <span>Continue with Google</span><small>Enoki zkLogin · no seed phrase</small>
           </button>
-          <ConnectButton instance={dAppKit} modalOptions={{ filterFn: (wallet) => !isEnokiWallet(wallet) }}>
-            <span>Connect Sui Wallet</span>
-          </ConnectButton>
+          <WalletConnectButton />
         </div>
         {!config.enoki ? <small className={styles.configurationNote}>Google sign-in is unavailable until Enoki public configuration is added.</small> : null}
       </section>

@@ -20,3 +20,5 @@ jobs:
       - run: pnpm typecheck
       - run: pnpm test
       - run: pnpm web:build
+      - run: pnpm --filter @coffer/web exec playwright install --with-deps chromium
+      - run: pnpm web:e2e

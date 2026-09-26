@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
-    <html lang="en">
+    <html data-scroll-behavior="smooth" lang="en">
       <body
         className={`${inter.variable} ${instrumentSerif.variable} ${GeistPixelCircle.variable}`}
       >

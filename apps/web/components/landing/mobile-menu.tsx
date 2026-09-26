@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import styles from "./landing-header.module.css";
 
 export type LandingNavItem = {
@@ -16,10 +16,13 @@ type MobileMenuProps = {
 };
 
 export function MobileMenu({ items, open, onOpenChange }: MobileMenuProps) {
+  const dialogRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     if (!open) return;
 
     document.body.classList.add("menu-open");
+    dialogRef.current?.focus();
     const closeOnEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape") onOpenChange(false);
     };
@@ -49,7 +52,9 @@ export function MobileMenu({ items, open, onOpenChange }: MobileMenuProps) {
         aria-modal="true"
         className={styles.mobileSheet}
         onClick={(event) => event.stopPropagation()}
+        ref={dialogRef}
         role="dialog"
+        tabIndex={-1}
       >
         <nav aria-label="Mobile" className={styles.mobileNavigation}>
           {items.map((item) => (

@@ -728,17 +728,19 @@ Commit: `feat(web): connect fresh World approvals`
 - Produces: `pnpm --filter @coffer/web test:e2e` for critical browser journeys.
 - Produces: a Vercel deployment contract with `apps/web` as project root and no server secret in frontend configuration.
 
-- [ ] **Step 1: Write Playwright journeys before final styling fixes**
+- [x] **Step 1: Write Playwright journeys before final styling fixes**
 
 Cover: landing hero and editorial anchors; mobile menu open/close; `/app/overview` browsing without a wallet; request drawer for all four outcomes; connection gate; live-versus-verified source display; World success/cancel/reject query states; external SuiScan links; and no horizontal overflow at 390×844, 768×1024, 1440×900, and 1920×1080.
 
-- [ ] **Step 2: Verify at least one journey fails for the intended missing browser behavior**
+- [x] **Step 2: Verify at least one journey fails for the intended missing browser behavior**
 
 Run: `pnpm --filter @coffer/web test:e2e`
 
 Expected: at least one RED assertion from viewport, focus, or callback behavior that unit tests do not cover. Record the failing assertion in the implementation notes before changing production code.
 
-- [ ] **Step 3: Make only the CSS/interaction corrections required by the red journeys**
+Implementation note (2026-09-27): the first browser run exposed a test-server argument issue (`next dev` received `--port` as a directory). Corrected the Playwright harness command before evaluating product behavior. The intended red assertion is the mobile menu dialog focus test; the dialog is rendered after activation but is not programmatically focused.
+
+- [x] **Step 3: Make only the CSS/interaction corrections required by the red journeys**
 
 Keep visual corrections inside the owning component module. Do not introduce a page-wide `overflow-x: hidden` to mask layout defects; fix the overflowing element. Verify keyboard focus order and reduced-motion emulation.
 
@@ -756,7 +758,7 @@ NEXT_PUBLIC_GOOGLE_CLIENT_ID=<Google OAuth client id>
 
 After the first deployment, add the exact Vercel origin to Enoki and Google allowed origins, set Render `WORLD_APP_RETURN_URI` to that origin, and redeploy Render without changing World’s callback URI.
 
-- [ ] **Step 5: Run final verification**
+- [x] **Step 5: Run final verification**
 
 Run:
 
