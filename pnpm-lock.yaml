@@ -78,9 +78,15 @@ importers:
 
   apps/web:
     dependencies:
+      '@coffer/policy-engine':
+        specifier: workspace:*
+        version: link:../../packages/policy-engine
       '@coffer/shared-types':
         specifier: workspace:*
         version: link:../../packages/shared-types
+      '@coffer/sui-client':
+        specifier: workspace:*
+        version: link:../../packages/sui-client
       '@mysten/dapp-kit-react':
         specifier: 2.1.35
         version: 2.1.35(@mysten/sui@2.33.1(typescript@5.7.3))(@types/react@19.2.14)(react@19.3.0)(typescript@5.7.3)

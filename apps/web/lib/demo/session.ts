@@ -24,6 +24,9 @@ type BuildDemoRunInput = {
   executionDigest?: string;
   submitDigest?: string;
   requestId?: string;
+  amountBaseUnits?: string;
+  sourceBucket?: PaymentRequestRecord["sourceBucket"];
+  vendor?: string;
 };
 
 const scenarioTemplate: Record<DemoScenario, PaymentRequestRecord> = {
@@ -43,9 +46,9 @@ export function buildDemoRun(input: BuildDemoRunInput): DemoRun {
     mode: input.mode,
     scenario: input.scenario,
     completedAt,
-    amountBaseUnits: template.amountBaseUnits,
-    sourceBucket: template.sourceBucket,
-    vendor: template.vendor,
+    amountBaseUnits: input.amountBaseUnits ?? template.amountBaseUnits,
+    sourceBucket: input.sourceBucket ?? template.sourceBucket,
+    vendor: input.vendor ?? template.vendor,
     ...(input.executionDigest ? { executionDigest: input.executionDigest } : {}),
     ...(input.submitDigest ? { submitDigest: input.submitDigest } : {}),
   };

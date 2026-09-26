@@ -29,6 +29,8 @@ type LiveRunResponse = {
   requestId: string;
   submitDigest: string;
   executionDigest: string;
+  amountBaseUnits: string;
+  sourceBucket: "Operating" | "Reserve" | "Vendor committed";
 };
 
 function wait(duration: number) {
@@ -76,6 +78,8 @@ export function AgentDemoRunner({ stepDelayMs = 480 }: { stepDelayMs?: number })
           requestId: payload.requestId,
           submitDigest: payload.submitDigest,
           executionDigest: payload.executionDigest,
+          amountBaseUnits: payload.amountBaseUnits,
+          sourceBucket: payload.sourceBucket,
         }));
         setLatestDigest(payload.executionDigest);
         setMessage("Fresh request evaluated and executed on Sui testnet.");
