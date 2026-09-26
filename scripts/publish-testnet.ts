@@ -1,5 +1,5 @@
 import { execFileSync } from "node:child_process";
-import { readFileSync, writeFileSync } from "node:fs";
+import { writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
@@ -49,12 +49,7 @@ async function main() {
     "DEMO_USD treasury capability",
   );
 
-  const previous = JSON.parse(readFileSync(deploymentPath, "utf8")) as Record<
-    string,
-    unknown
-  >;
   const deployment = {
-    ...previous,
     network: "testnet",
     publisher: sender,
     packageId,

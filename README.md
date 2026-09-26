@@ -39,12 +39,25 @@ The LLM interprets the document; it does not get to override financial policy. M
 
 - Network: Sui testnet
 - Deployment registry: [`deployments/testnet.json`](deployments/testnet.json)
-- Verified World-authorized payment: [SuiScan transaction](https://suiscan.xyz/testnet/tx/DxLrK3u1a3fXZRcLyVqRkrjsNp5pKxVyHy4EemQ9Nm9n)
+- Current hardened package: [SuiScan package](https://suiscan.xyz/testnet/object/0xe44696c1051148c0743b4f2a982353068ce72160c849af540b6e02e327d536a5)
+- Live Seal → Walrus → local AI → policy → autonomous payment: [SuiScan transaction](https://suiscan.xyz/testnet/tx/4TqsMDLyMhpRb1pnodoSQyrYaoeCu4u6CzQqLJ83txZH)
+- Earlier verified World sandbox callback and atomic payment: [SuiScan transaction](https://suiscan.xyz/testnet/tx/DxLrK3u1a3fXZRcLyVqRkrjsNp5pKxVyHy4EemQ9Nm9n)
+- A 300 DEMO_USD request on the current package is prepared and has been verified to produce `HUMAN_APPROVAL_THRESHOLD_EXCEEDED`; its final World callback will run after stable-host credentials are installed.
 - The repository also includes a live Seal/Walrus integration test; it is opt-in because it writes a paid testnet blob.
 
 ## Local backend setup
 
 Requirements: Node 22, pnpm 10.12.1, the Sui CLI, a funded Sui testnet key, and either local Ollama or an Anthropic key. Copy `.env.example` to `.env`; never expose the Sui key or World client secret in browser code.
+
+For a free local extractor on macOS:
+
+```bash
+brew install ollama
+ollama serve
+ollama pull qwen2.5:0.5b
+```
+
+Set `OLLAMA_MODEL=qwen2.5:0.5b`. The live structured-output path has been exercised with this model.
 
 ```bash
 pnpm install

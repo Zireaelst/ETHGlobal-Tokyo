@@ -187,8 +187,10 @@ async function main() {
     "Standing order",
   );
 
+  const { worldDemo: _oldWorldDemo, agentDemo: _oldAgentDemo, ...cleanDeployment } =
+    deployment;
   const seeded = {
-    ...deployment,
+    ...cleanDeployment,
     deployer: address,
     treasuryId,
     adminCapId,

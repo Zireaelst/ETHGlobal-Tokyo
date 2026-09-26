@@ -104,7 +104,8 @@ async function main() {
   });
 
   const now = Date.now();
-  const expiresAtMs = now + 30 * 60_000;
+  const expiresAtMs =
+    now + Number(process.env.COFFER_DEMO_EXPIRY_MS ?? 7 * 24 * 60 * 60_000);
   const invoice = new TextEncoder().encode(
     JSON.stringify({
       vendor: "Tokyo Cloud Ltd.",
