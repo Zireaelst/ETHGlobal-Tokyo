@@ -24,6 +24,8 @@ const assets = [
     maxWidth: 2880,
   },
   { source: "cards.png", output: "sections/control-cards.webp", maxWidth: 2200 },
+  { source: "logo/seal logo .svg", output: "integrations/seal.webp", maxWidth: 256 },
+  { source: "logo/walruslogo.png", output: "integrations/walrus.webp", maxWidth: 256 },
   {
     source: "Treasury Architecture.png",
     output: "sections/mandate.webp",

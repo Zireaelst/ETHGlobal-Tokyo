@@ -6,8 +6,8 @@ import styles from "./hero.module.css";
 const integrations = [
   { label: "Sui", symbol: "S" },
   { label: "World", symbol: "W" },
-  { label: "Seal", symbol: "◇" },
-  { label: "Walrus", symbol: "≋" },
+  { label: "Seal", logo: "/assets/integrations/seal.webp", symbol: "◇" },
+  { label: "Walrus", logo: "/assets/integrations/walrus.webp", symbol: "≋" },
 ] as const;
 
 const facts = [
@@ -43,7 +43,11 @@ export function Hero() {
         <ul aria-label="Technology stack" className={styles.integrations}>
           {integrations.map((integration) => (
             <li key={integration.label}>
-              <IntegrationMark {...integration} />
+              {"logo" in integration ? (
+                <span aria-label={`${integration.label} integration`} className={styles.brandMark} title={`${integration.label} integration`}>
+                  <Image alt="" height={32} src={integration.logo} width={32} />
+                </span>
+              ) : <IntegrationMark {...integration} />}
             </li>
           ))}
           <li className={styles.policyLabel}>Policy-enforced on Sui</li>
