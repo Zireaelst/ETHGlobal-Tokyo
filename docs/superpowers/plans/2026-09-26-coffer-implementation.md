@@ -538,12 +538,12 @@ git commit -m "feat: protect invoices with Seal and Walrus"
 - Create: `packages/world-auth/src/verifier.test.ts`
 
 **Interfaces:**
-- Produces: `canonicalActionDigest(payload): Uint8Array` and `verifyWorldAuthorization(input): Promise<VerifiedAuthorization>`.
-- Consumes: event environment base URL, app/action identifiers, server credential, proof response, and expected action payload.
+- Produces: `canonicalActionDigest(payload): Uint8Array`, `beginFreshAuthorization(input): Promise<AuthorizationRequest>`, and `verifyOidcCallback(input): Promise<VerifiedAuthorization>`.
+- Consumes: World sandbox OIDC discovery metadata, client ID, redirect URI, authorization-code response, PKCE verifier, expected pairwise subject, and exact pending action.
 
 - [ ] **Step 1: Write failing binding and failure-path tests**
 
-Tests cover deterministic canonical digest, changed amount producing a different digest, successful server validation, cancellation, expiration, invalid proof, mismatched action, and reused nonce.
+Tests cover deterministic canonical digest, changed amount producing a different digest, successful authorization-code validation, cancellation, expired ID token, invalid issuer/audience/signature, stale `auth_time`, mismatched OIDC nonce/state, mismatched pending action, and reused action nonce.
 
 - [ ] **Step 2: Confirm tests fail**
 
@@ -567,13 +567,13 @@ export function canonicalActionDigest(payload: ActionAuthorizationPayload): Uint
 }
 ```
 
-The verifier must run only in server/worker code, compare the returned action to the expected action, enforce local expiration, and atomically mark the nonce used before authorizing ticket minting.
+`beginFreshAuthorization` creates PKCE, OIDC `state`, OIDC `nonce`, and a short `max_age`, then stores them with the exact action payload. `verifyOidcCallback` runs only in server code, exchanges the code, validates the ID token with discovery/JWKS, checks `iss`, `sub`, audience, expiration, nonce, state, and `auth_time`, recomputes the expected action digest, and atomically marks the action nonce used before authorizing ticket minting.
 
 - [ ] **Step 4: Exercise official event development environment**
 
 Run: `pnpm --filter @coffer/world-auth test:integration`
 
-Expected: one official mocked identity succeeds and one cancelled/expired/invalid journey returns a typed rejection without creating a ticket request.
+Expected: one official sandbox identity completes fresh OIDC authentication and one cancelled/stale/invalid journey returns a typed rejection without creating a ticket request. Log only the issuer and a redacted pairwise subject; never log tokens.
 
 - [ ] **Step 5: Commit**
 
@@ -828,6 +828,7 @@ git commit -m "docs: finalize Coffer demo and sponsor evidence"
 - No hosted RPC is mandatory. Start with the official Sui testnet endpoint.
 - A free Alchemy or QuickNode endpoint may replace the RPC URL only after its current Sui support, limits, and event reliability are confirmed; no application code should depend on provider-specific APIs.
 - MCP servers may accelerate repository inspection or documentation lookup, but they are development tools and must not appear as product integrations or prize claims.
+- The authenticated Sui documentation MCP is `https://sui.mcp.kapa.ai`; the authenticated World sandbox MCP is `https://sandbox.auth.world.org/mcp`. They assist development but are not runtime product dependencies.
 - No OpenAI API key is required. The invoice-extractor interface can use a configured provider selected during implementation; tests and the demo fallback use deterministic fixtures without pretending those fixtures are a live AI integration.
 
 For the first implementation, the worker uses `@libsql/client` with `file:./coffer-worker.db` for durable local job and nonce state. The same interface accepts a hosted libSQL URL later without changing orchestration code.

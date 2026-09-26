@@ -78,9 +78,9 @@ World protects material financial actions:
 - Approving a payment outside the normal mandate.
 - Creating or changing a standing order.
 
-The complete flow is request, user completion, secure backend validation, action-bound authorization, and protected onchain execution. Cancellation, expiration, invalid validation, and denial must prevent execution.
+The complete flow is request, user completion, secure backend validation of an OIDC authorization-code response, action-bound authorization, and protected onchain execution. Cancellation, expiration, invalid validation, and denial must prevent execution.
 
-The event environment uses mocked identities. Coffer must not describe an event proof as real-world identity, corporate authority, KYC, or legal representation.
+The event environment uses mocked identities. Coffer must not describe an event identity or authentication result as real-world identity, corporate authority, KYC, or legal representation.
 
 ## 5. User experience
 
@@ -319,9 +319,13 @@ The agent sums scheduled obligations over a defined horizon and compares them wi
 
 ## 10. World authorization boundary
 
-The World proof is validated by a secure backend, not trusted from the client. The authorization payload includes treasury ID, request ID, vendor, amount, expiration, and nonce.
+World Human Continuity is integrated through OpenID Connect. The application stores the OIDC issuer together with the pairwise subject (`iss`, `sub`) to bind a private, service-specific human relationship to the local operator account. A protected payment requests fresh authentication rather than treating an old login session as sufficient.
 
-For the hackathon build, a configured backend authority mints the onchain authorization ticket after successful official event-environment validation. This backend is an explicit trust boundary. Production improvements such as threshold signing, HSM custody, organizational role attestations, or direct onchain proof validation are future work, not demo claims.
+The backend starts an authorization-code flow with PKCE and stores `state`, `nonce`, the exact pending action, and its expiration server-side. The callback validates the ID token signature against discovered JWKS and checks issuer, audience, expiration, nonce, state, and authentication freshness (`auth_time` against the requested `max_age`). The browser callback alone is never trusted.
+
+The pending authorization payload includes treasury ID, request ID, vendor, amount, expiration, and a unique action nonce. After successful fresh authentication, the backend recomputes the canonical action digest and mints the matching onchain ticket through `WorldVerifierCap`. The pairwise subject authorizes only the local account relationship; it does not prove a legal company role.
+
+For the hackathon build, the configured backend authority mints the onchain authorization ticket after successful official sandbox validation. This backend is an explicit trust boundary. Production improvements such as threshold signing, HSM custody, organizational role attestations, or direct onchain verification are future work, not demo claims.
 
 ## 11. Seal and Walrus privacy boundary
 
@@ -393,7 +397,7 @@ The visual frontend system will be implemented only after receiving separate bra
 - Invoice extraction failure or low confidence: `HOLD`; no payment.
 - Seal decryption failure: retry safely, then `HOLD`; no plaintext fallback.
 - Missing Walrus blob: `HOLD`.
-- World client response without backend validation: rejected.
+- World callback without server-side OIDC validation: rejected.
 - Cancelled or expired World authorization: no payment.
 - Expired or replayed authorization ticket: Move rejects execution.
 - Revoked or expired mandate: Move rejects execution.
