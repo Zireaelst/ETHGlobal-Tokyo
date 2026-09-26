@@ -25,18 +25,19 @@
   "worldDemo": {
     "action": {
       "treasuryId": "0xd8318575f990667870aaf623db0bd8ad1eb336773f585a07b40599c7aecfb4c6",
-      "paymentRequestId": "0xe2c0bea61ff37b554c4b5921e15fbc5a397263126475b12c0d2eefcdfdbceec0",
+      "paymentRequestId": "0xf792ef3530dc6f2de45a2797b25289cfaec68477ca8e1b705ae74586351c3062",
       "vendor": "0xa5e5fe2e7b3e9a47d4a692ec1d55b30e7330735f7477cf17329ab5bcaff0f92b",
       "amount": "300000000",
-      "expiresAtMs": 1790413297254,
-      "nonce": "cacb2b8035675605e2a08b0319c5d20b9a09831a54ce787f"
+      "expiresAtMs": 1790417123068,
+      "nonce": "6943a2cb3ca78ecabe9fbbf64a1fb81ae09c4e0f0009f659"
     },
     "documentRef": {
-      "blobId": "kNf4fJragfXdBlw6VYPh_HbYxjkqIoiffY59QHiQvqU",
-      "plaintextDigest": "79e10755813783936a77d63cf040054342d211bfd21c982649119f6e926b300c",
+      "blobId": "Zy2WmF4o4Ko1gJw0fcDb8cLFmvu790U-vjhvgzKP3rA",
+      "plaintextDigest": "16058b1f37dad772876e19334d9eeb9bbae5ce225df9457f8d768dc71ae194bb",
       "sealPolicyId": "0xd8318575f990667870aaf623db0bd8ad1eb336773f585a07b40599c7aecfb4c6"
     },
-    "submitDigest": "84dtCfT6K5wsWvz8r9RS3uDrvpjpe1FZAnNrjGVJ7CBh",
-    "bindDigest": "9ktQuHdx5Uq9NXg8PGRR3cvDLw8eGnhkMXkWcwqrFYMJ"
+    "submitDigest": "5M9oLpNZrCLiJiAEuchEL3wski9bT4MXd1MbZkCoPfMv",
+    "bindDigest": "7v5XqyVA5XvsV9CFSaJZRh1x5zrcqpBBkYcQAPnMJrqK",
+    "executionDigest": "DxLrK3u1a3fXZRcLyVqRkrjsNp5pKxVyHy4EemQ9Nm9n"
   }
 }
