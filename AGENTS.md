@@ -17,8 +17,8 @@ Do not add a sponsor merely to qualify. Do not describe access control as privac
 ## Repository state
 
 - Primary visible checkout: `/Users/toyguntez/Visual Studio /ETHGlobal-Tokyo`
-- Implementation branch: `codex/coffer-mvp`
-- Remote: `origin/codex/coffer-mvp`
+- Implementation branch: `main`
+- Remote: `origin/main`
 - Detailed frontend plan: `docs/superpowers/plans/2026-09-26-coffer-frontend.md`
 - Frontend design spec: `docs/superpowers/specs/2026-09-26-coffer-frontend-design.md`
 - Branding source: untracked user-owned `branding-spec.md` and `assets/` in the primary checkout. Preserve them.
@@ -35,17 +35,18 @@ Use small, meaningful commits and push them frequently. Never commit `.env`, pri
 - Next.js landing page and full institutional workspace with all navigation routes.
 - Four agent outcomes: auto execute, human authorization, hold, reject.
 - Official gRPC Sui dApp Kit, standard wallet entry, optional Google/Enoki zkLogin.
+- Direct browser-safe Enoki/Google configuration reads for Vercel, plus a Coffer-owned centered account chooser. Google zkLogin is the primary path when registered; detected standard Sui wallets are direct alternatives.
 - Live `/api/treasury` provenance with explicit verified fallback when RPC is unavailable.
 - Fresh World approval UI and a separate pending onchain World action.
 
 Latest frontend verification before handoff:
 
-- 15 Vitest files, 57 tests passed.
-- 9 Playwright journeys passed: landing anchors, mobile menu focus, all four payment outcomes, wallet gate, World callback states, external SuiScan links, and no page-level horizontal overflow at 390×844, 768×1024, 1440×900, and 1920×1080.
+- 15 web Vitest files, 60 tests passed; full workspace test suite passed.
+- 9 Playwright journeys passed: landing anchors, mobile menu focus, all four payment outcomes, centered owned wallet gate, World callback states, external SuiScan links, and no page-level horizontal overflow at 390×844, 768×1024, 1440×900, and 1920×1080.
 - ESLint passed.
 - TypeScript passed.
 - Next.js production build passed; 15 routes generated.
-- Latest completed sprint: `60c4c84 test(web): harden responsive demo journeys` (pushed to `origin/codex/coffer-mvp`).
+- Latest completed sprint: connection configuration and owned chooser (`8d8cd20`, `c8b6ef3`, pushed to `origin/main`).
 
 ## Public testnet evidence
 
@@ -63,14 +64,14 @@ COFFER_DEMO_KEY=pendingWorldDemo COFFER_DEMO_AMOUNT_BASE_UNITS=420000000 pnpm ex
 
 ## Immediate continuation point
 
-Local browser hardening and the Vercel deployment contract are complete. The remaining work is external-account verification:
+Local browser hardening, Vercel public configuration, and the owned connection chooser are complete. The remaining work is external-account verification:
 
 1. Deploy the updated World gateway to Render.
 2. Deploy `apps/web` to Vercel with root `apps/web`; `apps/web/vercel.json` contains the monorepo install/build contract.
-3. Set Vercel public variables from `apps/web/.env.example`.
+3. Set Vercel production public variables from `apps/web/.env.example`, then deploy the latest `main` commit. The exact direct `NEXT_PUBLIC_*` reads are required so Next includes the values in the browser build.
 4. Set Render `WORLD_APP_RETURN_URI` to the exact Vercel origin and redeploy Render.
 5. Keep World portal callback unchanged: `https://coffer-tokyo-world-gateway.onrender.com/api/world/callback`.
-6. Add the Vercel origin to Enoki and Google allowed origins, then manually verify Google zkLogin.
+6. Add the Vercel origin to Enoki and Google allowed origins, then manually verify Google zkLogin. Expect the centered Coffer chooser, not a provider-owned "Connect Sui Wallet" modal.
 7. Run one fresh sandbox World authorization and verify return to `/app/approvals` with a SuiScan receipt.
 
 The Render gateway is `https://coffer-tokyo-world-gateway.onrender.com`.
