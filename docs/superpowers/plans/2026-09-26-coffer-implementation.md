@@ -381,17 +381,17 @@ git commit -m "feat(move): add World-bound payment authorization"
 - Produces: `StandingOrder`, `create_order`, `execute_due_order`, `pause_order`, `cancel_order`.
 - Consumes: active mandate, vendor policy, treasury, and Sui `Clock`.
 
-- [ ] **Step 1: Write failing time and replay tests**
+- [x] **Step 1: Write failing time and replay tests**
 
 Cover early execution, exact due-time execution, repeated execution at the same due time, mandate revocation, insufficient bucket balance, maximum execution count, and cancellation.
 
-- [ ] **Step 2: Verify red tests**
+- [x] **Step 2: Verify red tests**
 
 Run: `cd move/coffer && sui move test standing_order_tests`
 
 Expected: FAIL because the module is absent.
 
-- [ ] **Step 3: Implement deterministic scheduling state**
+- [x] **Step 3: Implement deterministic scheduling state**
 
 ```move
 public struct StandingOrder has key {
@@ -411,13 +411,13 @@ public struct StandingOrder has key {
 
 Advance `next_execution_at_ms` only in the same successful transaction that transfers funds.
 
-- [ ] **Step 4: Verify the complete Move package**
+- [x] **Step 4: Verify the complete Move package**
 
 Run: `pnpm move:test && pnpm move:build`
 
 Expected: all suites pass and package builds.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add move/coffer

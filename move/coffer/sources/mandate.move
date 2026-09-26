@@ -1,5 +1,7 @@
 module coffer::mandate;
 
+use coffer::treasury::{Self, Treasury, TreasuryAdminCap};
+
 const EAgentCapMismatch: u64 = 1;
 const ETreasuryMismatch: u64 = 2;
 const EAgentMismatch: u64 = 3;
@@ -66,6 +68,16 @@ public(package) fun authorize_and_record(
 public fun period_spent(mandate: &AgentMandate): u64 { mandate.period_spent }
 public fun policy_version(mandate: &AgentMandate): u64 { mandate.policy_version }
 public fun treasury_id(mandate: &AgentMandate): ID { mandate.treasury_id }
+
+public fun revoke<T>(
+    admin_cap: &TreasuryAdminCap,
+    treasury: &Treasury<T>,
+    mandate: &mut AgentMandate,
+) {
+    treasury::assert_admin(admin_cap, treasury);
+    assert!(mandate.treasury_id == treasury::id(treasury), ETreasuryMismatch);
+    mandate.revoked = true;
+}
 
 #[test_only]
 public fun create_for_testing(
