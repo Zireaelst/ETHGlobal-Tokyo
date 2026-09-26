@@ -57,15 +57,16 @@ export function buildDemoRun(input: BuildDemoRunInput): DemoRun {
 export function runsToRequests(runs: readonly DemoRun[]): PaymentRequestRecord[] {
   return [...runs].reverse().map((run) => {
     const template = scenarioTemplate[run.scenario];
-    const { transactionDigest: _historicalDigest, ...templateWithoutDigest } = template;
-    return {
-      ...templateWithoutDigest,
+    const projected: PaymentRequestRecord = {
+      ...template,
       id: run.requestId,
       createdAt: run.completedAt,
       dueAt: run.completedAt,
       dataSource: run.mode === "live" ? "live" : "verified",
-      ...(run.executionDigest ? { transactionDigest: run.executionDigest } : {}),
     };
+    if (run.executionDigest) projected.transactionDigest = run.executionDigest;
+    else delete projected.transactionDigest;
+    return projected;
   });
 }
 

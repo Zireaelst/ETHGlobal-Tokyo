@@ -26,21 +26,27 @@ export function DemoSessionProvider({
   persist = true,
 }: Readonly<{ children: ReactNode; persist?: boolean }>) {
   const [runs, setRuns] = useState<DemoRun[]>([]);
+  const [hydrated, setHydrated] = useState(!persist);
 
   useEffect(() => {
     if (!persist) return;
-    try {
-      const stored = window.localStorage.getItem(STORAGE_KEY);
-      if (stored) setRuns(JSON.parse(stored) as DemoRun[]);
-    } catch {
-      window.localStorage.removeItem(STORAGE_KEY);
-    }
+    const hydration = window.setTimeout(() => {
+      try {
+        const stored = window.localStorage.getItem(STORAGE_KEY);
+        if (stored) setRuns(JSON.parse(stored) as DemoRun[]);
+      } catch {
+        window.localStorage.removeItem(STORAGE_KEY);
+      } finally {
+        setHydrated(true);
+      }
+    }, 0);
+    return () => window.clearTimeout(hydration);
   }, [persist]);
 
   useEffect(() => {
-    if (!persist) return;
+    if (!persist || !hydrated) return;
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(runs));
-  }, [persist, runs]);
+  }, [hydrated, persist, runs]);
 
   const addRun = useCallback((run: DemoRun) => {
     setRuns((current) => [...current, run]);
