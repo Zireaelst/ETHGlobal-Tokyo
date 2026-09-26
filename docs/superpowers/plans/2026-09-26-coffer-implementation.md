@@ -274,17 +274,17 @@ git commit -m "feat(move): add bucketed treasury custody"
 - Produces: `AgentCap`, `AgentMandate`, `VendorPolicy`, `PaymentRequest`, `DecisionReceipt`, `execute_within_mandate`.
 - Consumes: treasury balances and Sui `Clock`.
 
-- [ ] **Step 1: Write failing policy tests**
+- [x] **Step 1: Write failing policy tests**
 
 Create tests for: an 80-unit approved-vendor payment succeeds under a 100-unit single limit; 101 units aborts; an unknown vendor aborts; a second execution of the same request aborts; a period total above the mandate aborts; an obsolete policy version aborts.
 
-- [ ] **Step 2: Confirm the tests fail before implementation**
+- [x] **Step 2: Confirm the tests fail before implementation**
 
 Run: `cd move/coffer && sui move test payment_policy_tests`
 
 Expected: FAIL with missing modules/functions.
 
-- [ ] **Step 3: Implement policy objects and a single atomic payment entry point**
+- [x] **Step 3: Implement policy objects and a single atomic payment entry point**
 
 ```move
 public struct AgentMandate has key {
@@ -307,13 +307,13 @@ public struct AgentMandate has key {
 
 `execute_within_mandate<T>` must check treasury pause state, sender/AgentCap binding, clock range, vendor status, request state, exact policy version, single limit, period limit, due time, expiration, and bucket balance before taking a coin and transferring it. It then increments period spend, marks the request paid, and emits a receipt event in the same transaction.
 
-- [ ] **Step 4: Prove each guard with targeted tests**
+- [x] **Step 4: Prove each guard with targeted tests**
 
 Run: `cd move/coffer && sui move test payment_policy_tests`
 
 Expected: success plus all expected-abort cases pass.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add move/coffer

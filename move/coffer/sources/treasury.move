@@ -119,6 +119,7 @@ public fun operating_bucket(): u8 { OPERATING }
 public fun reserve_bucket(): u8 { RESERVE }
 public fun vendor_committed_bucket(): u8 { VENDOR_COMMITTED }
 
+public fun id<T>(treasury: &Treasury<T>): ID { object::id(treasury) }
 public fun operating_balance<T>(treasury: &Treasury<T>): u64 { treasury.operating.value() }
 public fun reserve_balance<T>(treasury: &Treasury<T>): u64 { treasury.reserve.value() }
 public fun vendor_committed_balance<T>(treasury: &Treasury<T>): u64 {
@@ -128,6 +129,19 @@ public fun is_paused<T>(treasury: &Treasury<T>): bool { treasury.paused }
 public fun policy_version<T>(treasury: &Treasury<T>): u64 { treasury.policy_version }
 public fun total_paid<T>(treasury: &Treasury<T>): u64 { treasury.total_paid }
 public fun organization<T>(treasury: &Treasury<T>): &String { &treasury.organization }
+
+public(package) fun withdraw_for_payment<T>(
+    treasury: &mut Treasury<T>,
+    bucket: u8,
+    amount: u64,
+): Balance<T> {
+    assert!(!treasury.paused, ETreasuryPaused);
+    take_from_bucket(treasury, bucket, amount)
+}
+
+public(package) fun record_payment<T>(treasury: &mut Treasury<T>, amount: u64) {
+    treasury.total_paid = treasury.total_paid + amount;
+}
 
 #[test_only]
 public fun create_for_testing<T>(ctx: &mut TxContext): (Treasury<T>, TreasuryAdminCap) {
