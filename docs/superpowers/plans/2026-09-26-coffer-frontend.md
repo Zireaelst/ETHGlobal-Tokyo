@@ -528,21 +528,21 @@ Commit: `feat(web): populate Coffer operations workspace`
 - Produces: client-only `<SuiProvider />`, `<ConnectionControl />`, and `<ActionGate actionLabel onConnectedAction>`.
 - Registers Google Enoki wallets only when both Enoki public API key and Google client ID are present.
 
-- [ ] **Step 1: Write failing configuration tests**
+- [x] **Step 1: Write failing configuration tests**
 
 Assert testnet and the official testnet gRPC URL are defaults, one missing Enoki variable disables only Google login, two valid variables enable it, and no returned configuration contains a key named `secret`, `privateKey`, or `signer`.
 
-- [ ] **Step 2: Write failing action-gate tests**
+- [x] **Step 2: Write failing action-gate tests**
 
 Assert browsing content renders without an account; triggering a protected action while disconnected opens choices `Continue with Google` and `Connect Sui Wallet`; when Enoki is unconfigured, the Google choice explains setup is unavailable while standard wallet remains usable; a connected account runs the supplied action exactly once.
 
-- [ ] **Step 3: Verify red**
+- [x] **Step 3: Verify red**
 
 Run: `pnpm --filter @coffer/web test -- tests/env.test.ts tests/action-gate.test.tsx`
 
 Expected: FAIL because config and connection components are missing.
 
-- [ ] **Step 4: Register the official clients in a client-only module**
+- [x] **Step 4: Register the official clients in a client-only module**
 
 Create `SuiGrpcClient({ network: 'testnet', baseUrl: grpcUrl })`, pass it through `createDAppKit`, and call `registerEnokiWallets` with the public API key, the same client, the current-network getter, and Google client ID. Use dynamic client import/provider boundaries required by the official Next.js guide so wallet discovery never runs during server rendering.
 

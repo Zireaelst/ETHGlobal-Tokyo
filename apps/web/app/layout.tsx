@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Instrument_Serif } from "next/font/google";
 import { GeistPixelCircle } from "geist/font/pixel";
 import type { ReactNode } from "react";
+import { SuiProvider } from "../components/connection/sui-provider";
 import "./globals.css";
 
 const inter = Inter({
@@ -27,7 +28,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
       <body
         className={`${inter.variable} ${instrumentSerif.variable} ${GeistPixelCircle.variable}`}
       >
-        {children}
+        <SuiProvider>{children}</SuiProvider>
       </body>
     </html>
   );

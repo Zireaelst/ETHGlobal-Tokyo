@@ -1,6 +1,15 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import styles from "./app-shell.module.css";
+
+const ConnectionControl = dynamic(
+  () => import("../connection/connection-control").then((module) => module.ConnectionControl),
+  {
+    ssr: false,
+    loading: () => <span>Account access loading</span>,
+  },
+);
 
 type TopBarProps = {
   menuOpen: boolean;
@@ -27,10 +36,7 @@ export function TopBar({ menuOpen, onMenuToggle }: TopBarProps) {
         <span><i /> Sui Testnet</span>
         <span>Demo workspace</span>
       </div>
-      <div aria-label="Account status" className={styles.accountStatus}>
-        <span>ACCOUNT ACCESS</span>
-        <strong>Not connected</strong>
-      </div>
+      <div aria-label="Account status" className={styles.accountStatus}><ConnectionControl /></div>
     </header>
   );
 }
