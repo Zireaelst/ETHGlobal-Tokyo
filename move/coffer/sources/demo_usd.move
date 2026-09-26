@@ -1,6 +1,7 @@
 module coffer::demo_usd;
 
-use sui::coin;
+use coffer::treasury::{Self, Treasury};
+use sui::coin::{Self, TreasuryCap};
 
 public struct DEMO_USD has drop {}
 
@@ -17,4 +18,16 @@ fun init(witness: DEMO_USD, ctx: &mut TxContext) {
     );
     transfer::public_freeze_object(metadata);
     transfer::public_transfer(treasury_cap, tx_context::sender(ctx));
+}
+
+/// Testnet demo funding only. `DEMO_USD` has no external value and this
+/// function deliberately requires the unique currency treasury capability.
+public fun mint_and_deposit(
+    cap: &mut TreasuryCap<DEMO_USD>,
+    target: &mut Treasury<DEMO_USD>,
+    amount: u64,
+    ctx: &mut TxContext,
+) {
+    let funds = coin::mint(cap, amount, ctx);
+    treasury::deposit_operating(target, funds);
 }

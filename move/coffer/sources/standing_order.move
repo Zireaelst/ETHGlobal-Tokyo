@@ -71,6 +71,35 @@ public fun create<T>(
     }
 }
 
+public fun create_shared<T>(
+    admin_cap: &TreasuryAdminCap,
+    treasury: &Treasury<T>,
+    vendor: address,
+    amount: u64,
+    bucket: u8,
+    interval_ms: u64,
+    next_execution_at_ms: u64,
+    end_at_ms: u64,
+    max_executions: u64,
+    policy_version: u64,
+    ctx: &mut TxContext,
+) {
+    let order = create(
+        admin_cap,
+        treasury,
+        vendor,
+        amount,
+        bucket,
+        interval_ms,
+        next_execution_at_ms,
+        end_at_ms,
+        max_executions,
+        policy_version,
+        ctx,
+    );
+    transfer::share_object(order);
+}
+
 public fun execute_due_order<T>(
     agent_cap: &AgentCap,
     agent_mandate: &mut AgentMandate,

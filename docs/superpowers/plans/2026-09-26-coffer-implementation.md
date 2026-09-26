@@ -597,17 +597,17 @@ git commit -m "feat: validate action-bound World authorizations"
 - Produces: `readTreasurySnapshot`, `buildCreateTreasury`, `buildSubmitRequest`, `buildExecuteWithinMandate`, `buildMintAuthorizationTicket`, `buildExecuteWithAuthorization`, and `buildExecuteStandingOrder`.
 - Consumes: package/object IDs and the Move interfaces from Tasks 2–5.
 
-- [ ] **Step 1: Write transaction-shape tests with a fake client**
+- [x] **Step 1: Write transaction-shape tests with a fake client**
 
 Assert each builder targets the exact published module/function, uses the Sui Clock where required, passes policy version and request ID, and never embeds a private key.
 
-- [ ] **Step 2: Run red tests**
+- [x] **Step 2: Run red tests**
 
 Run: `pnpm --filter @coffer/sui-client test`
 
 Expected: FAIL because builders are missing.
 
-- [ ] **Step 3: Implement builders using `Transaction` from `@mysten/sui/transactions`**
+- [x] **Step 3: Implement builders using `Transaction` from `@mysten/sui/transactions`**
 
 Each function returns an unsigned transaction. Browser callers sign with zkLogin or a connected wallet; the worker signs only with its configured agent key. Configuration validates network, package ID, object IDs, and RPC URL on startup.
 
@@ -617,7 +617,7 @@ Run: `pnpm move:test && pnpm move:build && pnpm publish:testnet && pnpm seed:dem
 
 Expected: commands print package, treasury, cap, mandate, vendor, and standing-order object IDs and save only public IDs to `deployments/testnet.json`.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add packages/sui-client scripts deployments/testnet.json package.json

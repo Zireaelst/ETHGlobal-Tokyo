@@ -5,11 +5,17 @@
   "packageManager": "pnpm@10.12.1",
   "scripts": {
     "test": "pnpm -r test",
-    "typecheck": "pnpm -r typecheck",
+    "typecheck": "pnpm -r typecheck && tsc -p scripts/tsconfig.json --noEmit",
     "move:build": "cd move/coffer && sui move build",
-    "move:test": "cd move/coffer && sui move test"
+    "move:test": "cd move/coffer && sui move test",
+    "publish:testnet": "tsx scripts/publish-testnet.ts",
+    "seed:demo": "tsx scripts/seed-demo.ts"
   },
   "devDependencies": {
+    "@coffer/sui-client": "workspace:*",
+    "@mysten/sui": "^2.33.1",
+    "@types/node": "^26.0.0",
+    "tsx": "^4.20.0",
     "typescript": "^5.7.0",
     "vitest": "^3.0.0"
   }

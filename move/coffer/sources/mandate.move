@@ -9,6 +9,7 @@ const EMandateInactive: u64 = 4;
 const EPerPaymentLimitExceeded: u64 = 5;
 const EPeriodLimitExceeded: u64 = 6;
 const EPolicyVersionMismatch: u64 = 7;
+const EInvalidMandate: u64 = 8;
 
 #[allow(unused_field)]
 public struct AgentMandate has key {
@@ -31,6 +32,82 @@ public struct AgentMandate has key {
 public struct AgentCap has key, store {
     id: UID,
     mandate_id: ID,
+}
+
+public fun create<T>(
+    admin_cap: &TreasuryAdminCap,
+    treasury: &Treasury<T>,
+    agent: address,
+    max_per_payment: u64,
+    period_limit: u64,
+    period_duration_ms: u64,
+    valid_from_ms: u64,
+    valid_until_ms: u64,
+    approval_threshold: u64,
+    max_rebalance: u64,
+    policy_version: u64,
+    ctx: &mut TxContext,
+): AgentCap {
+    treasury::assert_admin(admin_cap, treasury);
+    assert!(
+        max_per_payment > 0 &&
+            period_limit >= max_per_payment &&
+            period_duration_ms > 0 &&
+            valid_until_ms >= valid_from_ms &&
+            policy_version == treasury::policy_version(treasury),
+        EInvalidMandate,
+    );
+    let (mandate, cap) = new(
+        treasury::id(treasury),
+        agent,
+        max_per_payment,
+        period_limit,
+        period_duration_ms,
+        valid_from_ms,
+        valid_until_ms,
+        approval_threshold,
+        max_rebalance,
+        policy_version,
+        ctx,
+    );
+    transfer::share_object(mandate);
+    cap
+}
+
+fun new(
+    treasury_id: ID,
+    agent: address,
+    max_per_payment: u64,
+    period_limit: u64,
+    period_duration_ms: u64,
+    valid_from_ms: u64,
+    valid_until_ms: u64,
+    approval_threshold: u64,
+    max_rebalance: u64,
+    policy_version: u64,
+    ctx: &mut TxContext,
+): (AgentMandate, AgentCap) {
+    let mandate = AgentMandate {
+        id: object::new(ctx),
+        treasury_id,
+        agent,
+        max_per_payment,
+        period_limit,
+        period_spent: 0,
+        period_started_at_ms: valid_from_ms,
+        period_duration_ms,
+        valid_from_ms,
+        valid_until_ms,
+        approval_threshold,
+        max_rebalance,
+        policy_version,
+        revoked: false,
+    };
+    let agent_cap = AgentCap {
+        id: object::new(ctx),
+        mandate_id: object::id(&mandate),
+    };
+    (mandate, agent_cap)
 }
 
 public(package) fun authorize_and_record(
@@ -106,27 +183,19 @@ public fun create_for_testing(
     policy_version: u64,
     ctx: &mut TxContext,
 ): (AgentMandate, AgentCap) {
-    let mandate = AgentMandate {
-        id: object::new(ctx),
+    new(
         treasury_id,
         agent,
         max_per_payment,
         period_limit,
-        period_spent: 0,
-        period_started_at_ms: 0,
-        period_duration_ms: 10_000,
-        valid_from_ms: 0,
-        valid_until_ms: 10_000,
-        approval_threshold: max_per_payment,
-        max_rebalance: 0,
+        10_000,
+        0,
+        10_000,
+        max_per_payment,
+        0,
         policy_version,
-        revoked: false,
-    };
-    let agent_cap = AgentCap {
-        id: object::new(ctx),
-        mandate_id: object::id(&mandate),
-    };
-    (mandate, agent_cap)
+        ctx,
+    )
 }
 
 #[test_only]

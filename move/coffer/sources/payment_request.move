@@ -1,10 +1,11 @@
 module coffer::payment_request;
 
+use std::string::String;
 use coffer::authorization::{Self, AuthorizationTicket};
 use coffer::mandate::{Self, AgentCap, AgentMandate};
 use coffer::receipt;
 use coffer::treasury::{Self, Treasury};
-use coffer::vendor_registry::{Self, VendorPolicy};
+use coffer::vendor_registry::{Self, VendorCap, VendorPolicy};
 use sui::clock::{Self, Clock};
 use sui::coin;
 
@@ -20,14 +21,91 @@ const PAID: u8 = 5;
 public struct PaymentRequest has key {
     id: UID,
     treasury_id: ID,
+    requester: address,
     vendor: address,
     amount: u64,
     bucket: u8,
     due_at_ms: u64,
     expires_at_ms: u64,
     policy_version: u64,
+    invoice_digest: vector<u8>,
+    walrus_blob_id: String,
+    seal_policy_id: ID,
     action_digest: vector<u8>,
     status: u8,
+}
+
+public fun submit<T>(
+    vendor_cap: &VendorCap,
+    vendor_policy: &VendorPolicy,
+    treasury: &Treasury<T>,
+    amount: u64,
+    bucket: u8,
+    due_at_ms: u64,
+    expires_at_ms: u64,
+    policy_version: u64,
+    invoice_digest: vector<u8>,
+    walrus_blob_id: String,
+    seal_policy_id: ID,
+    action_digest: vector<u8>,
+    ctx: &mut TxContext,
+) {
+    let request = new_request(
+        vendor_cap,
+        vendor_policy,
+        treasury,
+        amount,
+        bucket,
+        due_at_ms,
+        expires_at_ms,
+        policy_version,
+        invoice_digest,
+        walrus_blob_id,
+        seal_policy_id,
+        action_digest,
+        ctx,
+    );
+    transfer::share_object(request);
+}
+
+fun new_request<T>(
+    vendor_cap: &VendorCap,
+    vendor_policy: &VendorPolicy,
+    treasury: &Treasury<T>,
+    amount: u64,
+    bucket: u8,
+    due_at_ms: u64,
+    expires_at_ms: u64,
+    policy_version: u64,
+    invoice_digest: vector<u8>,
+    walrus_blob_id: String,
+    seal_policy_id: ID,
+    action_digest: vector<u8>,
+    ctx: &mut TxContext,
+): PaymentRequest {
+    let treasury_id = treasury::id(treasury);
+    let vendor = vendor_registry::assert_can_submit(
+        vendor_cap,
+        vendor_policy,
+        treasury_id,
+        ctx,
+    );
+    PaymentRequest {
+        id: object::new(ctx),
+        treasury_id,
+        requester: tx_context::sender(ctx),
+        vendor,
+        amount,
+        bucket,
+        due_at_ms,
+        expires_at_ms,
+        policy_version,
+        invoice_digest,
+        walrus_blob_id,
+        seal_policy_id,
+        action_digest,
+        status: PENDING,
+    }
 }
 
 public fun execute_within_mandate<T>(
@@ -121,6 +199,10 @@ public fun execute_with_authorization<T>(
 
 public fun id(request: &PaymentRequest): ID { object::id(request) }
 public fun is_paid(request: &PaymentRequest): bool { request.status == PAID }
+public fun requester(request: &PaymentRequest): address { request.requester }
+public fun invoice_digest(request: &PaymentRequest): &vector<u8> { &request.invoice_digest }
+public fun walrus_blob_id(request: &PaymentRequest): &String { &request.walrus_blob_id }
+public fun seal_policy_id(request: &PaymentRequest): ID { request.seal_policy_id }
 
 #[test_only]
 public fun create_for_testing(
@@ -136,12 +218,16 @@ public fun create_for_testing(
     PaymentRequest {
         id: object::new(ctx),
         treasury_id,
+        requester: vendor,
         vendor,
         amount,
         bucket,
         due_at_ms,
         expires_at_ms,
         policy_version,
+        invoice_digest: vector[],
+        walrus_blob_id: std::string::utf8(b""),
+        seal_policy_id: treasury_id,
         action_digest: vector[0],
         status: PENDING,
     }
@@ -162,15 +248,52 @@ public fun create_for_testing_with_digest(
     PaymentRequest {
         id: object::new(ctx),
         treasury_id,
+        requester: vendor,
         vendor,
         amount,
         bucket,
         due_at_ms,
         expires_at_ms,
         policy_version,
+        invoice_digest: vector[],
+        walrus_blob_id: std::string::utf8(b""),
+        seal_policy_id: treasury_id,
         action_digest,
         status: PENDING,
     }
+}
+
+#[test_only]
+public fun submit_for_testing<T>(
+    vendor_cap: &VendorCap,
+    vendor_policy: &VendorPolicy,
+    treasury: &Treasury<T>,
+    amount: u64,
+    bucket: u8,
+    due_at_ms: u64,
+    expires_at_ms: u64,
+    policy_version: u64,
+    invoice_digest: vector<u8>,
+    walrus_blob_id: String,
+    seal_policy_id: ID,
+    action_digest: vector<u8>,
+    ctx: &mut TxContext,
+): PaymentRequest {
+    new_request(
+        vendor_cap,
+        vendor_policy,
+        treasury,
+        amount,
+        bucket,
+        due_at_ms,
+        expires_at_ms,
+        policy_version,
+        invoice_digest,
+        walrus_blob_id,
+        seal_policy_id,
+        action_digest,
+        ctx,
+    )
 }
 
 #[test_only]
@@ -178,12 +301,16 @@ public fun destroy_for_testing(request: PaymentRequest) {
     let PaymentRequest {
         id,
         treasury_id: _,
+        requester: _,
         vendor: _,
         amount: _,
         bucket: _,
         due_at_ms: _,
         expires_at_ms: _,
         policy_version: _,
+        invoice_digest: _,
+        walrus_blob_id: _,
+        seal_policy_id: _,
         action_digest: _,
         status: _,
     } = request;
