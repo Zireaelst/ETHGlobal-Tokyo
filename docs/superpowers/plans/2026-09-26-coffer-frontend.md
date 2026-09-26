@@ -189,17 +189,17 @@ Commit: `chore(web): scaffold tested Next.js app`
 - Consumes: supplied PNG files under `/Users/toyguntez/Visual Studio /ETHGlobal-Tokyo/assets`.
 - Produces: stable public URLs matching the approved asset map and a repeatable `assets:prepare` script.
 
-- [ ] **Step 1: Write the asset contract test**
+- [x] **Step 1: Write the asset contract test**
 
 In `assets.test.ts`, iterate over the nine required relative paths, assert each file exists, starts with the RIFF/WebP signature, has width at least 900px for editorial art or 256px for brand art, and is smaller than its source PNG.
 
-- [ ] **Step 2: Verify the test is red**
+- [x] **Step 2: Verify the test is red**
 
 Run: `pnpm --filter @coffer/web test -- tests/assets.test.ts`
 
 Expected: FAIL on the first missing WebP output.
 
-- [ ] **Step 3: Add the deterministic Sharp conversion script**
+- [x] **Step 3: Add the deterministic Sharp conversion script**
 
 Use a literal source-to-destination array; do not glob or infer names. Resize hero and closing art to maximum width 2400, sections to 1800, brand art to 1200, preserve aspect ratios, and encode WebP at quality 86 with smart subsampling. Fail with the exact missing source path if any input is unavailable.
 
@@ -211,13 +211,13 @@ Add `sharp@0.35.4` and the script:
 }
 ```
 
-- [ ] **Step 4: Generate, inspect, and verify**
+- [x] **Step 4: Generate, inspect, and verify**
 
 Run: `pnpm --filter @coffer/web assets:prepare && pnpm --filter @coffer/web test -- tests/assets.test.ts`
 
 Expected: PASS for all nine files. Open the generated hero, mandate, privacy, authorization, audit, and closing images and confirm no crop, alpha, or color corruption before removing no source file.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 Commit: `assets(web): normalize Coffer artwork`
 
