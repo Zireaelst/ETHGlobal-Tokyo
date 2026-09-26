@@ -1,7 +1,7 @@
 import { createDAppKit } from "@mysten/dapp-kit-react";
 import { registerEnokiWallets } from "@mysten/enoki";
 import { SuiGrpcClient } from "@mysten/sui/grpc";
-import { getPublicConfig } from "../env";
+import { getEnokiRedirectUrl, getPublicConfig } from "../env";
 
 const config = getPublicConfig();
 const testnetClient = new SuiGrpcClient({
@@ -37,7 +37,10 @@ if (typeof window !== "undefined" && config.enoki && !browserGlobal.__cofferEnok
     clients: [testnetClient],
     getCurrentNetwork: () => dAppKit.stores.$currentNetwork.get(),
     providers: {
-      google: { clientId: config.enoki.googleClientId },
+      google: {
+        clientId: config.enoki.googleClientId,
+        redirectUrl: getEnokiRedirectUrl(window.location.origin),
+      },
     },
   });
   browserGlobal.__cofferEnokiRegistered = true;

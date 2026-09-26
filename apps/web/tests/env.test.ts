@@ -1,7 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
-import { getPublicConfig } from "../lib/env";
+import { getEnokiRedirectUrl, getPublicConfig } from "../lib/env";
 
 describe("public browser configuration", () => {
   it("uses direct public environment reads that Next can inline into the browser bundle", async () => {
@@ -25,6 +25,15 @@ describe("public browser configuration", () => {
       NEXT_PUBLIC_ENOKI_API_KEY: "public-key",
       NEXT_PUBLIC_GOOGLE_CLIENT_ID: "google-id",
     })).toMatchObject({ enoki: { apiKey: "public-key", googleClientId: "google-id" } });
+  });
+
+  it("uses one canonical Enoki redirect regardless of the page that opened sign-in", () => {
+    expect(getEnokiRedirectUrl("https://eth-global-tokyo-web.vercel.app")).toBe(
+      "https://eth-global-tokyo-web.vercel.app/app/overview",
+    );
+    expect(getEnokiRedirectUrl("https://eth-global-tokyo-web.vercel.app/")).toBe(
+      "https://eth-global-tokyo-web.vercel.app/app/overview",
+    );
   });
 
   it("never exposes signer or secret-shaped configuration", () => {

@@ -22,6 +22,10 @@ const browserPublicEnvironment: PublicEnvironment = {
   NEXT_PUBLIC_GOOGLE_CLIENT_ID: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
 };
 
+export function getEnokiRedirectUrl(origin: string): string {
+  return `${origin.replace(/\/$/, "")}/app/overview`;
+}
+
 export function getPublicConfig(
   environment: PublicEnvironment = browserPublicEnvironment,
 ): PublicConfig {
