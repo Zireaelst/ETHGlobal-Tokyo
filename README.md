@@ -1,16 +1,20 @@
 # Coffer
 
-**Coffer is a private, policy-enforced treasury wallet where an AI agent can pay routine invoices autonomously, while Sui mandates cap its authority and World requires a fresh human authorization for exceptional payments.**
+**Coffer is a policy-enforced autonomous treasury where an agent can pay routine invoices, while Sui mandates cap its authority and World requires fresh human authorization for protected exceptions.**
 
 Coffer is built for finance teams, DAOs, startups, and crypto-native operators who want automation without giving an agent unlimited custody. Invoice content is encrypted with Seal and stored as ciphertext on Walrus. The agent decrypts it only through an onchain Sui access policy, extracts the invoice fields, evaluates the live treasury mandate, and either executes, holds, rejects, or escalates the exact action to a human.
+
+- **Live app:** [eth-global-tokyo-web.vercel.app](https://eth-global-tokyo-web.vercel.app/)
+- **Network:** Sui testnet
+- **Demo modes:** reliable Guided Replay and optional fresh Live Testnet execution
+- **Submission copy:** [`docs/submission-copy.md`](docs/submission-copy.md)
 
 ## ETHGlobal Tokyo 2026 tracks
 
 - **Sui — DeFi & Payments:** programmable buckets, capability-based mandates, standing orders, atomic payments, revocation, policy versions, and receipts are implemented in Move.
-- **Curvegrid — Best AI Agent Project:** the agent reads an encrypted commercial document, turns it into a structured financial action, evaluates live onchain constraints, and changes execution—not merely a chatbot or risk dashboard.
 - **World — Best Use of World ID for Agents:** a fresh World sandbox OIDC authorization is requested only when the action exceeds delegated authority. The server validates PKCE, state, nonce, issuer, audience, signature, freshness, replay protection, and an exact action digest before payment.
 
-MultiBaas is intentionally not used: its documented focus is EVM, while Coffer's enforcement and settlement are native Sui. Intercepta is intentionally excluded because documented native Sui transaction/address screening was not available; describing an EVM address check as Sui payment screening would be misleading.
+We are not applying for Curvegrid: MultiBaas is not used and we will not claim a sponsor integration that does not exist. Intercepta is also excluded because documented native Sui transaction/address screening was unavailable; describing an EVM address check as Sui payment screening would be misleading.
 
 See [the exact sponsor mapping](docs/sponsor-mapping.md) and [privacy claims](docs/privacy-claims.md).
 
@@ -23,6 +27,29 @@ See [the exact sponsor mapping](docs/sponsor-mapping.md) and [privacy claims](do
 5. An exceptional payment produces a World authorization URL for the exact treasury, request, vendor, amount, expiry, and nonce. Successful server-side verification mints and consumes a single-use authorization ticket in the same Sui transaction.
 
 The LLM interprets the document; it does not get to override financial policy. Money moves only through Move entry functions.
+
+```text
+Encrypted invoice reference
+        ↓
+Seal-authorized document access ← Walrus ciphertext
+        ↓
+Structured invoice extraction
+        ↓
+Deterministic policy engine ← live Sui treasury + mandate + vendor state
+        ↓
+AUTO EXECUTE | WORLD AUTH | HOLD | REJECT
+        ↓
+Move enforcement + auditable receipt
+```
+
+## What makes the agent real
+
+The agent is not a chat interface. It receives a payment request, retrieves protected commercial context, extracts structured invoice facts, reads current treasury state, and selects an execution consequence. `AUTO_EXECUTE` submits a Sui transaction; `HUMAN_AUTH_REQUIRED` creates a fresh protected authorization; `HOLD` and `REJECT` stop signing and preserve the balance. The worker is idempotent, fails closed when document access or extraction fails, and records the decision inputs and resulting transaction evidence.
+
+The application exposes the same lifecycle in two modes:
+
+- **Guided Replay** demonstrates all four outcomes with clearly labelled historical testnet evidence.
+- **Live Testnet** creates a fresh approved request, evaluates current onchain policy, and produces new submission and payment transactions. It is deliberately restricted to the approved autonomous path.
 
 ## Backend map
 
@@ -79,9 +106,18 @@ pnpm agent:once 0xPAYMENT_REQUEST_OBJECT_ID
 
 The included [`render.yaml`](render.yaml) creates a free Render web service with a stable HTTPS callback and `/health` check. Follow [the Render and World deployment guide](docs/deployment-render.md). Free Render services sleep after inactivity, so warm `/health` shortly before the demo.
 
+The web application deploys from `apps/web` on Vercel. Browser-safe Enoki values use `NEXT_PUBLIC_` prefixes. The optional live agent runner uses the server-only variables below and must never receive public prefixes:
+
+```text
+COFFER_LIVE_DEMO_ENABLED=true
+COFFER_TESTNET_PRIVATE_KEY=<server-only suiprivkey>
+```
+
+Each Live Testnet run moves 80 DEMO_USD from the configured vendor-committed bucket, so use it intentionally.
+
 ## Demo
 
-Follow the [three-minute judge script](docs/demo-script.md). It is deliberately structured around one autonomous success, one visible policy stop, and one freshly human-authorized exception.
+Follow the [time-coded demo video script](docs/demo-script.md). It uses three short opening slides, one fresh autonomous success, one visible policy stop, and the World-protected exception path.
 
 ## Integration feedback
 
