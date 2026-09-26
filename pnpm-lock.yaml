@@ -15,6 +15,12 @@ importers:
         specifier: ^3.0.0
         version: 3.2.7
 
+  packages/policy-engine:
+    dependencies:
+      '@coffer/shared-types':
+        specifier: workspace:*
+        version: link:../shared-types
+
   packages/shared-types:
     dependencies:
       zod:

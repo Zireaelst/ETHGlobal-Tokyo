@@ -437,7 +437,7 @@ git commit -m "feat(move): add enforceable standing orders"
 - Produces: `evaluatePayment(input): PolicyResult` and `forecastShortfall(input): CashForecast`.
 - Consumes: parsed invoice and an exact onchain snapshot.
 
-- [ ] **Step 1: Write table-driven failing decision tests**
+- [x] **Step 1: Write table-driven failing decision tests**
 
 ```ts
 it.each([
@@ -451,17 +451,17 @@ it.each([
 });
 ```
 
-- [ ] **Step 2: Run and confirm failure**
+- [x] **Step 2: Run and confirm failure**
 
 Run: `pnpm --filter @coffer/policy-engine test`
 
 Expected: FAIL because `evaluatePayment` is missing.
 
-- [ ] **Step 3: Implement explicit ordered rules**
+- [x] **Step 3: Implement explicit ordered rules**
 
 Rules execute in this order: invalid extraction → inactive treasury/mandate → expired request → policy version mismatch → vendor rule → per-payment limit → period limit → bucket balance → due-time check → auto-execute. No LLM call occurs inside this package.
 
-- [ ] **Step 4: Add and pass cash forecast tests**
+- [x] **Step 4: Add and pass cash forecast tests**
 
 `forecastShortfall` accepts current bucket balance and dated obligations, sums obligations within the horizon, and returns `shortfall = max(0, obligations - balance)` plus the first shortage date.
 
@@ -469,7 +469,7 @@ Run: `pnpm --filter @coffer/policy-engine test`
 
 Expected: all decision and forecast tests pass.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add packages/policy-engine
