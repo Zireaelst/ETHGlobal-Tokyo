@@ -640,7 +640,7 @@ git commit -m "feat: add typed Sui transactions and testnet deployment"
 - Produces: `processPaymentRequest(requestId)` and `runDueStandingOrders(nowMs)`.
 - Consumes: privacy adapter, invoice extractor, policy engine, Sui client, and a persistent idempotency store.
 
-- [ ] **Step 1: Write failing orchestration tests**
+- [x] **Step 1: Write failing orchestration tests**
 
 Cover auto-execute, human-auth escalation, hold after decryption failure, hold after low-confidence extraction, rejection after inactive mandate, and duplicate delivery causing exactly one submitted transaction.
 
@@ -650,13 +650,13 @@ Install the worker's explicit runtime dependencies:
 pnpm --filter @coffer/agent-worker add @libsql/client zod
 ```
 
-- [ ] **Step 2: Run red tests**
+- [x] **Step 2: Run red tests**
 
 Run: `pnpm --filter @coffer/agent-worker test`
 
 Expected: FAIL because the worker is absent.
 
-- [ ] **Step 3: Implement the orchestration boundary**
+- [x] **Step 3: Implement the orchestration boundary**
 
 ```ts
 export async function processPaymentRequest(requestId: string, deps: WorkerDeps): Promise<PolicyResult> {
@@ -674,7 +674,7 @@ export async function processPaymentRequest(requestId: string, deps: WorkerDeps)
 
 The job store uses `@libsql/client` with `file:./coffer-worker.db` by default and a unique `job_key` column so `once()` is atomic across restarts. The invoice extractor implements three explicit modes: `ollama` and `anthropic` for live use, and `fixture` only when `NODE_ENV=test`. No OpenAI API key is required by the repository.
 
-- [ ] **Step 4: Implement scheduler and forecast tests**
+- [x] **Step 4: Implement scheduler and forecast tests**
 
 The scheduler reads due orders and submits unsigned/agent-signed transactions; it does not decide whether time is valid. The Move contract remains authoritative. The forecast job writes a structured shortfall result consumed by the web app.
 
@@ -682,7 +682,7 @@ Run: `pnpm --filter @coffer/agent-worker test`
 
 Expected: all orchestration, replay, schedule, and forecast tests pass.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add apps/agent-worker

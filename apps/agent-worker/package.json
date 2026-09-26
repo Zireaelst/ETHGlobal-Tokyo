@@ -1,0 +1,24 @@
+{
+  "name": "@coffer/agent-worker",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@coffer/document-privacy": "workspace:*",
+    "@coffer/policy-engine": "workspace:*",
+    "@coffer/shared-types": "workspace:*",
+    "@coffer/sui-client": "workspace:*",
+    "@libsql/client": "^0.15.0",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.0.0"
+  }
+}
