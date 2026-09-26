@@ -19,6 +19,7 @@ Set these in Render; never prefix them with `NEXT_PUBLIC_` and never paste them 
 - `WORLD_OIDC_CLIENT_ID` and `WORLD_OIDC_CLIENT_SECRET` — from the dedicated stable-host World app.
 - `WORLD_OIDC_REDIRECT_URI` — exact stable callback, for example `https://coffer-tokyo-world-gateway.onrender.com/api/world/callback`.
 - `WORLD_OIDC_MAX_AGE_SECONDS` — `120`.
+- `WORLD_APP_RETURN_URI` — fixed HTTPS origin of the Vercel frontend, for example `https://coffer.vercel.app`. Successful and unsuccessful callbacks return only to `/app/approvals` on this configured origin.
 
 The repository already supplies the public Sui testnet RPC and health path.
 

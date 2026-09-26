@@ -11,6 +11,10 @@ export class AuthorizationCancelledError extends Error {
   override readonly name = "AuthorizationCancelledError";
 }
 
+export class AuthorizationExpiredError extends Error {
+  override readonly name = "AuthorizationExpiredError";
+}
+
 export class AuthorizationReplayError extends Error {
   override readonly name = "AuthorizationReplayError";
 }
@@ -136,7 +140,7 @@ export async function beginFreshAuthorization(
     throw new AuthorizationValidationError("World authorization max_age is out of bounds");
   }
   if (input.action.expiresAtMs <= input.nowMs) {
-    throw new AuthorizationValidationError("The protected action has already expired");
+    throw new AuthorizationExpiredError("The protected action has already expired");
   }
   const fetcher = input.fetch ?? fetch;
   const metadata = await discover(input.issuer, fetcher);
@@ -194,13 +198,13 @@ export async function verifyOidcCallback(
     throw new AuthorizationValidationError("OIDC state is unknown or already consumed");
   }
   if (input.nowMs - pending.createdAtMs > 5 * 60_000) {
-    throw new AuthorizationValidationError("OIDC authorization request expired");
+    throw new AuthorizationExpiredError("OIDC authorization request expired");
   }
   if (pending.maxAgeSeconds !== input.maxAgeSeconds) {
     throw new AuthorizationValidationError("OIDC freshness policy changed during authorization");
   }
   if (input.expectedAction.expiresAtMs <= input.nowMs) {
-    throw new AuthorizationValidationError("The protected action expired before authorization");
+    throw new AuthorizationExpiredError("The protected action expired before authorization");
   }
   const expectedDigest = canonicalActionDigestHex(input.expectedAction);
   if (!equalDigest(pending.actionDigest, expectedDigest)) {
@@ -279,6 +283,7 @@ export async function verifyOidcCallback(
   } catch (error) {
     if (
       error instanceof AuthorizationValidationError ||
+      error instanceof AuthorizationExpiredError ||
       error instanceof AuthorizationReplayError
     ) {
       throw error;

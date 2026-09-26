@@ -4,6 +4,8 @@ import {
 } from "@coffer/shared-types";
 import {
   AuthorizationCancelledError,
+  AuthorizationExpiredError,
+  AuthorizationReplayError,
   AuthorizationValidationError,
   beginFreshAuthorization,
   verifyOidcCallback,
@@ -20,6 +22,7 @@ export type WorldGatewayConfig = {
   clientSecret: string;
   redirectUri: string;
   maxAgeSeconds: number;
+  appReturnUri?: string;
 };
 
 export type WorldGatewayOptions<TResult> = {
@@ -37,6 +40,7 @@ export type WorldGatewayOptions<TResult> = {
   verifyCallback?: (
     input: VerifyOidcCallbackInput,
   ) => Promise<VerifiedAuthorization>;
+  redirectResult?: (result: TResult) => Record<string, string>;
 };
 
 function json(value: unknown, status = 200): Response {
@@ -46,12 +50,83 @@ function json(value: unknown, status = 200): Response {
   });
 }
 
+type CallbackStatus =
+  | "authorized"
+  | "cancelled"
+  | "expired"
+  | "replayed"
+  | "rejected"
+  | "failed";
+
+function normalizeAppReturnUri(value: string | undefined): URL | null {
+  if (!value) return null;
+  let url: URL;
+  try {
+    url = new URL(value);
+  } catch {
+    throw new Error("World appReturnUri must be a valid absolute URL");
+  }
+  const secure = url.protocol === "https:";
+  const localDevelopment = url.protocol === "http:" && url.hostname === "localhost";
+  if ((!secure && !localDevelopment) || url.username || url.password) {
+    throw new Error("World appReturnUri must use HTTPS except on localhost");
+  }
+  return new URL(url.origin);
+}
+
+function safeRedirectFields(fields: Record<string, string>): Record<string, string> {
+  const safe: Record<string, string> = {};
+  for (const [key, value] of Object.entries(fields)) {
+    if (
+      /^[a-z][a-z0-9_]{0,63}$/.test(key) &&
+      key !== "world_status" &&
+      key !== "action_digest" &&
+      key !== "error_category" &&
+      value.length <= 512
+    ) {
+      safe[key] = value;
+    }
+  }
+  return safe;
+}
+
+function redirect(appReturnUri: URL, values: Record<string, string>): Response {
+  const destination = new URL("/app/approvals", appReturnUri);
+  for (const [key, value] of Object.entries(values)) {
+    destination.searchParams.set(key, value);
+  }
+  return new Response(null, {
+    status: 303,
+    headers: {
+      "cache-control": "no-store",
+      location: destination.toString(),
+    },
+  });
+}
+
 export function createWorldAuthorizationGateway<TResult>(
   options: WorldGatewayOptions<TResult>,
 ) {
   const beginAuthorization = options.beginAuthorization ?? beginFreshAuthorization;
   const verifyCallback = options.verifyCallback ?? verifyOidcCallback;
   const now = options.now ?? Date.now;
+  const appReturnUri = normalizeAppReturnUri(options.config.appReturnUri);
+
+  function callbackResponse(
+    request: Request,
+    status: CallbackStatus,
+    body: unknown,
+    httpStatus: number,
+    extra: Record<string, string> = {},
+  ): Response {
+    const acceptsJson = request.headers.get("accept")?.includes("application/json") ?? false;
+    if (!appReturnUri || acceptsJson) return json(body, httpStatus);
+    return redirect(appReturnUri, {
+      world_status: status,
+      ...(status === "authorized" ? {} : { error_category: status }),
+      ...extra,
+    });
+  }
 
   return {
     async handle(request: Request): Promise<Response> {
@@ -110,7 +185,9 @@ export function createWorldAuthorizationGateway<TResult>(
         const state = url.searchParams.get("state") ?? "";
         const pending = state ? await options.store.get(state) : null;
         if (!pending) {
-          return json(
+          return callbackResponse(
+            request,
+            "rejected",
             { status: "invalid_callback", reason: "unknown_or_missing_state" },
             400,
           );
@@ -134,19 +211,59 @@ export function createWorldAuthorizationGateway<TResult>(
             expectedAction: pending.action,
           });
           const result = await options.onVerified(authorization, pending.action);
-          return json({
-            status: "authorized",
-            actionDigest: authorization.actionDigest,
-            result,
-          });
+          return callbackResponse(
+            request,
+            "authorized",
+            {
+              status: "authorized",
+              actionDigest: authorization.actionDigest,
+              result,
+            },
+            200,
+            {
+              action_digest: authorization.actionDigest,
+              ...safeRedirectFields(options.redirectResult?.(result) ?? {}),
+            },
+          );
         } catch (error) {
           if (error instanceof AuthorizationCancelledError) {
-            return json({ status: "cancelled", reason: error.message }, 400);
+            return callbackResponse(
+              request,
+              "cancelled",
+              { status: "cancelled", reason: error.message },
+              400,
+            );
+          }
+          if (error instanceof AuthorizationExpiredError) {
+            return callbackResponse(
+              request,
+              "expired",
+              { status: "expired", reason: error.message },
+              400,
+            );
+          }
+          if (error instanceof AuthorizationReplayError) {
+            return callbackResponse(
+              request,
+              "replayed",
+              { status: "replayed", reason: error.message },
+              409,
+            );
           }
           if (error instanceof AuthorizationValidationError) {
-            return json({ status: "rejected", reason: error.message }, 400);
+            return callbackResponse(
+              request,
+              "rejected",
+              { status: "rejected", reason: error.message },
+              400,
+            );
           }
-          return json({ status: "failed", reason: "protected_action_failed" }, 500);
+          return callbackResponse(
+            request,
+            "failed",
+            { status: "failed", reason: "protected_action_failed" },
+            500,
+          );
         }
       }
 

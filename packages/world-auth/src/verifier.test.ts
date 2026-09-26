@@ -10,6 +10,7 @@ import { beforeAll, describe, expect, it } from "vitest";
 import { canonicalActionDigestHex } from "./canonical-action";
 import {
   AuthorizationCancelledError,
+  AuthorizationExpiredError,
   AuthorizationReplayError,
   AuthorizationValidationError,
   InMemoryAuthorizationStore,
@@ -176,6 +177,44 @@ describe("World action authorization", () => {
         fetch: oidcFetch(async () => "unused"),
       }),
     ).rejects.toBeInstanceOf(AuthorizationCancelledError);
+  });
+
+  it("categorizes an expired pending OIDC request", async () => {
+    const store = new InMemoryAuthorizationStore();
+    const request = await begin(store);
+
+    await expect(verifyOidcCallback({
+      issuer: ISSUER,
+      clientId: CLIENT_ID,
+      clientSecret: "secret",
+      redirectUri: REDIRECT_URI,
+      state: request.state,
+      code: "late-code",
+      expectedAction: { ...action, expiresAtMs: NOW_MS + 10 * 60_000 },
+      maxAgeSeconds: 60,
+      nowMs: NOW_MS + 5 * 60_000 + 1,
+      store,
+      fetch: oidcFetch(() => idToken(request.oidcNonce)),
+    })).rejects.toBeInstanceOf(AuthorizationExpiredError);
+  });
+
+  it("categorizes a protected action that expires before callback", async () => {
+    const store = new InMemoryAuthorizationStore();
+    const request = await begin(store);
+
+    await expect(verifyOidcCallback({
+      issuer: ISSUER,
+      clientId: CLIENT_ID,
+      clientSecret: "secret",
+      redirectUri: REDIRECT_URI,
+      state: request.state,
+      code: "late-code",
+      expectedAction: action,
+      maxAgeSeconds: 60,
+      nowMs: action.expiresAtMs,
+      store,
+      fetch: oidcFetch(() => idToken(request.oidcNonce)),
+    })).rejects.toBeInstanceOf(AuthorizationExpiredError);
   });
 
   it.each([

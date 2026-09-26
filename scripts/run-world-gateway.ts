@@ -18,6 +18,11 @@ function requireEnv(name: string): string {
   return value;
 }
 
+function optionalEnv(name: string): string | undefined {
+  const value = process.env[name]?.trim();
+  return value || undefined;
+}
+
 const port = Number(process.env.PORT ?? "3000");
 const host = process.env.HOST ?? "0.0.0.0";
 const deployment = JSON.parse(
@@ -25,13 +30,23 @@ const deployment = JSON.parse(
 ) as Record<string, string>;
 const suiClient = createTestnetClient();
 const suiSigner = loadDeploymentSigner();
-const gateway = createWorldAuthorizationGateway({
+const appReturnUri = optionalEnv("WORLD_APP_RETURN_URI");
+type WorldExecutionResult = {
+  authorization: string;
+  actionDigest: string;
+  actionNonce: string;
+  transactionDigest: string;
+  explorerUrl: string;
+};
+
+const gateway = createWorldAuthorizationGateway<WorldExecutionResult>({
   config: {
     issuer: requireEnv("WORLD_OIDC_ISSUER"),
     clientId: requireEnv("WORLD_OIDC_CLIENT_ID"),
     clientSecret: requireEnv("WORLD_OIDC_CLIENT_SECRET"),
     redirectUri: requireEnv("WORLD_OIDC_REDIRECT_URI"),
     maxAgeSeconds: Number(requireEnv("WORLD_OIDC_MAX_AGE_SECONDS")),
+    ...(appReturnUri ? { appReturnUri } : {}),
   },
   store: new InMemoryAuthorizationStore(),
   async onVerified(authorization, action) {
@@ -70,6 +85,7 @@ const gateway = createWorldAuthorizationGateway({
       explorerUrl: `https://suiscan.xyz/testnet/tx/${execution.digest}`,
     };
   },
+  redirectResult: (result) => ({ transaction_digest: result.transactionDigest }),
 });
 
 const server = createServer(async (incoming, outgoing) => {

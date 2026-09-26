@@ -630,21 +630,21 @@ Commit: `feat(web): surface live Sui treasury evidence`
 - Produces: stable callback categories `authorized | cancelled | expired | replayed | rejected | failed` without exposing raw verifier errors in the browser URL.
 - Produces: browser redirects to the fixed configured origin only; no request parameter controls the redirect origin.
 
-- [ ] **Step 1: Write failing redirect tests**
+- [x] **Step 1: Write failing redirect tests**
 
 Add tests for: verified callback redirects to `https://app.example/app/approvals?world_status=authorized&action_digest=abcd&transaction_digest=0xticket`; cancelled, expired, replayed, and rejected callbacks redirect with their matching stable status; `Accept: application/json` preserves the existing JSON body; an invalid `appReturnUri` is rejected at gateway construction; and `onVerified` is never called on cancellation/expiry/rejection/replay. Add `AuthorizationExpiredError` verifier tests for an expired pending OIDC request and an expired protected action. Preserve the existing `AuthorizationReplayError` assertion for a consumed nonce.
 
-- [ ] **Step 2: Verify red**
+- [x] **Step 2: Verify red**
 
 Run: `pnpm --filter @coffer/world-auth test -- src/gateway.test.ts`
 
 Expected: FAIL because redirect configuration is unsupported.
 
-- [ ] **Step 3: Implement fixed-origin redirect responses**
+- [x] **Step 3: Implement fixed-origin redirect responses**
 
 Add `AuthorizationExpiredError` beside the existing cancellation, validation, and replay errors; throw it for the three explicit expiry checks without changing their human-readable messages. Import and handle `AuthorizationReplayError` separately in the gateway instead of allowing it to become a generic 500. Validate `appReturnUri` as HTTPS except `http://localhost`, normalize it once when creating the gateway, and build the `/app/approvals` URL only from server-owned configuration. Allow only the status, action digest, safe result fields returned by `redirectResult`, and a stable error category in the query string. Continue to set `cache-control: no-store`.
 
-- [ ] **Step 4: Wire Render configuration**
+- [x] **Step 4: Wire Render configuration**
 
 Read `WORLD_APP_RETURN_URI` in `run-world-gateway.ts` and map the known `transactionDigest` to `transaction_digest`. Add this example:
 
@@ -654,7 +654,7 @@ WORLD_APP_RETURN_URI=https://coffer.vercel.app
 
 Keep `WORLD_OIDC_REDIRECT_URI=https://coffer-tokyo-world-gateway.onrender.com/api/world/callback` unchanged in the World portal.
 
-- [ ] **Step 5: Verify and commit**
+- [x] **Step 5: Verify and commit**
 
 Run: `pnpm --filter @coffer/world-auth test && pnpm typecheck`
 
