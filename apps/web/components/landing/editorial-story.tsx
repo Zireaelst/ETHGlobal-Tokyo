@@ -21,6 +21,20 @@ const protocols = [
 export function EditorialStory() {
   return (
     <div className={styles.story}>
+      <section className={styles.controlCards}>
+        <div>
+          <p className={styles.sectionNumber}>THE CONTROL MODEL</p>
+          <h2>Capital can move. The rules stay in place.</h2>
+        </div>
+        <Image
+          alt="Three Coffer treasury controls: policy enforcement, autonomous execution, and human oversight"
+          height={778}
+          sizes="(max-width: 760px) 100vw, 86vw"
+          src="/assets/sections/control-cards.webp"
+          width={2021}
+        />
+      </section>
+
       <section className={styles.mandate} id="how-it-works">
         <div className={styles.copy}>
           <p className={styles.sectionNumber}>01 / MANDATES</p>

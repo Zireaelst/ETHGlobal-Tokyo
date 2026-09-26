@@ -26,7 +26,7 @@ export function Hero() {
         fill
         priority
         sizes="100vw"
-        src="/assets/hero/hero-fuji.webp"
+        src="/assets/hero/hero-mountain.webp"
       />
       <div aria-hidden="true" className={styles.overlay} />
 

@@ -16,15 +16,15 @@
 .background {
   height: 100%;
   object-fit: cover;
-  object-position: center 52%;
+  object-position: center 58%;
   width: 100%;
   z-index: -3;
 }
 
 .overlay {
   background:
-    linear-gradient(90deg, rgb(3 17 13 / 98%) 0%, rgb(3 17 13 / 86%) 29%, rgb(3 17 13 / 24%) 64%, rgb(3 17 13 / 8%) 100%),
-    linear-gradient(0deg, rgb(3 17 13 / 98%) 0%, transparent 31%, rgb(3 17 13 / 15%) 100%);
+    linear-gradient(90deg, rgb(3 17 13 / 94%) 0%, rgb(3 17 13 / 77%) 34%, rgb(3 17 13 / 22%) 66%, transparent 100%),
+    linear-gradient(0deg, rgb(3 17 13 / 94%) 0%, transparent 34%, rgb(3 17 13 / 7%) 100%);
   z-index: -2;
 }
 

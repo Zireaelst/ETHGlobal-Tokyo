@@ -51,8 +51,39 @@
 .privacy,
 .authorization,
 .audit,
-.protocols {
+.protocols,
+.controlCards {
   border-top: 1px solid rgb(243 234 214 / 20%);
+}
+
+.controlCards {
+  display: grid;
+  gap: clamp(2rem, 4vw, 4rem);
+  padding: clamp(4rem, 8vw, 7rem) clamp(1.35rem, 7vw, 7.5rem);
+}
+
+.controlCards > div {
+  align-items: end;
+  display: flex;
+  gap: 2rem;
+  justify-content: space-between;
+}
+
+.controlCards h2 {
+  font-size: clamp(2.7rem, 4.8vw, 5.5rem);
+  max-width: 12ch;
+}
+
+.controlCards .sectionNumber {
+  margin: 0 0 0.4rem;
+}
+
+.controlCards > img {
+  border: 1px solid rgb(243 234 214 / 26%);
+  display: block;
+  height: auto;
+  max-width: 100%;
+  width: 100%;
 }
 
 .mandate {
@@ -350,6 +381,12 @@
 }
 
 @media (max-width: 900px) {
+  .controlCards > div {
+    align-items: start;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
   .mandate,
   .privacy,
   .authorization,

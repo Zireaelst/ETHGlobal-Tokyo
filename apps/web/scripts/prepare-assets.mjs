@@ -18,7 +18,12 @@ const assets = [
     output: "brand/app-icon-dark.webp",
     maxWidth: 1200,
   },
-  { source: "asset2.png", output: "hero/hero-fuji.webp", maxWidth: 2400 },
+  {
+    source: "01_mountain_torii_halftone_regenerated_8K.png",
+    output: "hero/hero-mountain.webp",
+    maxWidth: 2880,
+  },
+  { source: "cards.png", output: "sections/control-cards.webp", maxWidth: 2200 },
   {
     source: "Treasury Architecture.png",
     output: "sections/mandate.webp",
@@ -37,7 +42,7 @@ const assets = [
     maxWidth: 1800,
   },
   {
-    source: "cards-full.png",
+    source: "logobackground.png",
     output: "textures/closing-landscape.webp",
     maxWidth: 2400,
   },
