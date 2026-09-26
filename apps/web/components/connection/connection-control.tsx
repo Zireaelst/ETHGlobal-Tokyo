@@ -1,17 +1,11 @@
 "use client";
 
 import { useDAppKit, useWalletConnection, useWallets } from "@mysten/dapp-kit-react";
-import { isGoogleWallet } from "@mysten/enoki";
-import dynamic from "next/dynamic";
+import { isEnokiWallet, isGoogleWallet } from "@mysten/enoki";
 import { useEffect, useRef, useState } from "react";
 import { getPublicConfig } from "../../lib/env";
 import { dAppKit } from "../../lib/sui/dapp-kit";
 import styles from "./connection.module.css";
-
-const WalletConnectButton = dynamic(
-  () => import("./wallet-connect-button").then((module) => module.WalletConnectButton),
-  { ssr: false },
-);
 
 type ConnectionDialogProps = {
   actionLabel: string;
@@ -25,6 +19,8 @@ export function ConnectionDialog({ actionLabel, open, onClose }: ConnectionDialo
   const config = getPublicConfig();
   const closeButton = useRef<HTMLButtonElement>(null);
   const googleWallet = wallets.find((wallet) => isGoogleWallet(wallet));
+  const standardWallets = wallets.filter((wallet) => !isEnokiWallet(wallet));
+  const [connectionError, setConnectionError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!open) return;
@@ -38,10 +34,14 @@ export function ConnectionDialog({ actionLabel, open, onClose }: ConnectionDialo
 
   if (!open) return null;
 
-  async function connectGoogle() {
-    if (!googleWallet) return;
-    await kit.connectWallet({ wallet: googleWallet });
-    onClose();
+  async function connect(wallet: (typeof wallets)[number]) {
+    setConnectionError(null);
+    try {
+      await kit.connectWallet({ wallet });
+      onClose();
+    } catch {
+      setConnectionError("Connection could not be completed. Try again or choose another wallet.");
+    }
   }
 
   return (
@@ -51,12 +51,24 @@ export function ConnectionDialog({ actionLabel, open, onClose }: ConnectionDialo
         <header><div><span>ACCOUNT ACCESS</span><h2>Choose how to continue</h2></div><button aria-label="Close account connection" onClick={onClose} ref={closeButton} type="button">×</button></header>
         <p>Coffer remains browsable without an account. Connect only when an action needs a signer.</p>
         <div className={styles.connectionChoices}>
-          <button aria-label="Continue with Google" disabled={!config.enoki || !googleWallet} onClick={connectGoogle} type="button">
-            <span>Continue with Google</span><small>Enoki zkLogin · no seed phrase</small>
-          </button>
-          <WalletConnectButton />
+          {config.enoki && googleWallet ? (
+            <button aria-label="Continue with Google" className={styles.googleAction} onClick={() => void connect(googleWallet)} type="button">
+              <span>Continue with Google</span><small>Enoki zkLogin · no seed phrase</small>
+            </button>
+          ) : null}
+          {config.enoki && !googleWallet ? <small className={styles.configurationNote}>Preparing Google sign-in…</small> : null}
+          {standardWallets.length ? (
+            <div className={styles.walletList}>
+              {standardWallets.map((wallet) => (
+                <button aria-label={`Continue with ${wallet.name}`} className={styles.walletAction} key={wallet.name} onClick={() => void connect(wallet)} type="button">
+                  <span>Continue with {wallet.name}</span><small>Sui wallet extension</small>
+                </button>
+              ))}
+            </div>
+          ) : <small className={styles.configurationNote}>No Sui wallet detected. Install a wallet extension or use Google.</small>}
         </div>
-        {!config.enoki ? <small className={styles.configurationNote}>Google sign-in is unavailable until Enoki public configuration is added.</small> : null}
+        {!config.enoki ? <small className={styles.configurationNote}>Google sign-in needs public Enoki configuration.</small> : null}
+        {connectionError ? <small className={styles.connectionError} role="alert">{connectionError}</small> : null}
       </section>
     </div>
   );

@@ -38,9 +38,18 @@ test.describe("institutional workspace", () => {
   test("requires an account before a fresh World request and renders callback outcomes truthfully", async ({ page }) => {
     await page.goto("/app/approvals", { waitUntil: "domcontentloaded" });
     await page.getByRole("button", { name: "Authorize with World" }).click();
-    await expect(page.getByRole("dialog", { name: /Connect to authorize with world/i })).toBeVisible();
+    const connectionDialog = page.getByRole("dialog", { name: /Connect to authorize with world/i });
+    await expect(connectionDialog).toBeVisible();
     await expect(page.getByText("Coffer remains browsable without an account.")).toBeVisible();
-    await expect(page.getByRole("button", { name: "Connect Sui Wallet" })).toBeVisible();
+    await expect(page.getByText("No Sui wallet detected. Install a wallet extension or use Google.")).toBeVisible();
+    await expect(page.getByRole("button", { name: "Connect Sui Wallet" })).toHaveCount(0);
+
+    const dialogBox = await connectionDialog.boundingBox();
+    const viewport = page.viewportSize();
+    expect(dialogBox).not.toBeNull();
+    expect(viewport).not.toBeNull();
+    expect(Math.abs((dialogBox?.x ?? 0) + (dialogBox?.width ?? 0) / 2 - (viewport?.width ?? 0) / 2)).toBeLessThan(2);
+    expect(Math.abs((dialogBox?.y ?? 0) + (dialogBox?.height ?? 0) / 2 - (viewport?.height ?? 0) / 2)).toBeLessThan(2);
 
     await page.goto(`/app/approvals?world_status=authorized&action_digest=${worldDigest}&transaction_digest=${suiDigest}`);
     await expect(page.getByRole("heading", { name: "Authorization verified and executed" })).toBeVisible();
