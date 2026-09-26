@@ -100,7 +100,7 @@
   clip-path: inset(50%);
 }
 
-.integrations .brandMark img {
+.integrations li:not(.policyLabel) > span > span:first-child img {
   height: 1.3rem;
   object-fit: contain;
   width: 1.3rem;

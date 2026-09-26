@@ -4,10 +4,10 @@ import { IntegrationMark } from "./integration-mark";
 import styles from "./hero.module.css";
 
 const integrations = [
-  { label: "Sui", symbol: "S" },
-  { label: "World", symbol: "W" },
-  { label: "Seal", logo: "/assets/integrations/seal.webp", symbol: "◇" },
-  { label: "Walrus", logo: "/assets/integrations/walrus.webp", symbol: "≋" },
+  { label: "Sui", iconSrc: "/assets/integrations/sui-mark.webp", symbol: "S" },
+  { label: "World", iconSrc: "/assets/integrations/world-mark.webp", symbol: "W" },
+  { label: "Seal", iconSrc: "/assets/integrations/seal.webp", symbol: "◇" },
+  { label: "Walrus", iconSrc: "/assets/integrations/walrus.webp", symbol: "≋" },
 ] as const;
 
 const facts = [
@@ -43,11 +43,7 @@ export function Hero() {
         <ul aria-label="Technology stack" className={styles.integrations}>
           {integrations.map((integration) => (
             <li key={integration.label}>
-              {"logo" in integration ? (
-                <span aria-label={`${integration.label} integration`} className={styles.brandMark} title={`${integration.label} integration`}>
-                  <Image alt="" height={32} src={integration.logo} width={32} />
-                </span>
-              ) : <IntegrationMark {...integration} />}
+              <IntegrationMark {...integration} />
             </li>
           ))}
           <li className={styles.policyLabel}>Policy-enforced on Sui</li>

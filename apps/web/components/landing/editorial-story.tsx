@@ -12,10 +12,10 @@ const authorizationSteps = [
 ] as const;
 
 const protocols = [
-  ["Sui", "S", "Onchain treasury and Move enforcement"],
-  ["World", "W", "Fresh human authorization for exceptions"],
-  ["Seal", "◇", "Encrypted commercial context"],
-  ["Walrus", "≋", "Decentralized ciphertext storage"],
+  ["Sui", "S", "/assets/integrations/sui-mark.webp", "Onchain treasury and Move enforcement"],
+  ["World", "W", "/assets/integrations/world-mark.webp", "Fresh human authorization for exceptions"],
+  ["Seal", "◇", "/assets/integrations/seal.webp", "Encrypted commercial context"],
+  ["Walrus", "≋", "/assets/integrations/walrus.webp", "Decentralized ciphertext storage"],
 ] as const;
 
 export function EditorialStory() {
@@ -130,9 +130,18 @@ export function EditorialStory() {
           <h2>Built for a programmable treasury ecosystem.</h2>
         </div>
         <ul>
-          {protocols.map(([name, symbol, role]) => (
+          {protocols.map(([name, symbol, iconSrc, role]) => (
             <li key={name}>
-              <IntegrationMark label={name} symbol={symbol} />
+              <IntegrationMark iconSrc={iconSrc} label={name} symbol={symbol} />
+              {name === "World" ? (
+                <Image
+                  alt="World"
+                  className={styles.worldWordmark}
+                  height={50}
+                  src="/assets/integrations/world-wordmark.webp"
+                  width={148}
+                />
+              ) : null}
               <p>{role}</p>
             </li>
           ))}

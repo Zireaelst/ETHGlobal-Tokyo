@@ -321,6 +321,12 @@
   width: 2.4rem;
 }
 
+.protocols li > span > span:first-child img {
+  height: 1.35rem;
+  object-fit: contain;
+  width: 1.35rem;
+}
+
 .protocols li > span > span:last-child {
   font-weight: 600;
 }
@@ -330,6 +336,15 @@
   font-size: 0.79rem;
   line-height: 1.55;
   margin: 2.8rem 0 0;
+}
+
+.worldWordmark {
+  display: block;
+  height: 1rem;
+  margin: 1rem 0 -0.6rem;
+  object-fit: contain;
+  object-position: left center;
+  width: auto;
 }
 
 .closing {

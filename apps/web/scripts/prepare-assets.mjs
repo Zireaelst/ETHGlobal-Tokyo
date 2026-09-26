@@ -27,6 +27,24 @@ const assets = [
   { source: "logo/seal logo .svg", output: "integrations/seal.webp", maxWidth: 256 },
   { source: "logo/walruslogo.png", output: "integrations/walrus.webp", maxWidth: 256 },
   {
+    source: "logo/Sui/sui logo.png",
+    output: "integrations/sui-mark.webp",
+    maxWidth: 256,
+    trim: true,
+  },
+  {
+    source: "logo/Logomark/Logomark (Digital _ RGB)/Logomark-White/PNG/[World] Logomark-White-RGB.png",
+    output: "integrations/world-mark.webp",
+    maxWidth: 256,
+    trim: true,
+  },
+  {
+    source: "logo/Logo-Off White/PNG/worldfull.png",
+    output: "integrations/world-wordmark.webp",
+    maxWidth: 480,
+    trim: true,
+  },
+  {
     source: "Treasury Architecture.png",
     output: "sections/mandate.webp",
     maxWidth: 1800,
@@ -61,8 +79,13 @@ for (const asset of assets) {
   }
 
   await mkdir(path.dirname(outputPath), { recursive: true });
-  await sharp(sourcePath)
-    .rotate()
+  const image = sharp(sourcePath).rotate();
+
+  if (asset.trim) {
+    image.trim();
+  }
+
+  await image
     .resize({
       width: asset.maxWidth,
       fit: "inside",
