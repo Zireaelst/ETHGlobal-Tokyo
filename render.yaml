@@ -4,8 +4,8 @@ services:
     name: coffer-tokyo-world-gateway
     plan: free
     region: singapore
-    buildCommand: corepack enable && pnpm install --frozen-lockfile --prod=false
-    startCommand: pnpm world:gateway
+    buildCommand: npx --yes pnpm@10.12.1 install --frozen-lockfile --prod=false
+    startCommand: ./node_modules/.bin/tsx scripts/run-world-gateway.ts
     healthCheckPath: /health
     autoDeployTrigger: commit
     envVars:
