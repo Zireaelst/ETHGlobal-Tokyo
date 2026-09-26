@@ -317,25 +317,25 @@ Commit: `feat(web): build Coffer landing hero`
 - Produces: `suiScanTransactionUrl(digest: string): string` and `suiScanObjectUrl(id: string): string`.
 - Produces: `<EditorialStory />` with mandate, privacy, authorization, audit, protocol rail, and closing chapters.
 
-- [ ] **Step 1: Write failing copy and evidence tests**
+- [x] **Step 1: Write failing copy and evidence tests**
 
 Assert that each approved chapter heading is present, the privacy chapter contains `Amounts and recipient addresses remain public on Sui`, the World chapter contains `Event authorization uses mocked identities`, and the receipt chapter links the existing auto and World execution digests to `https://suiscan.xyz/testnet/tx/<digest>`.
 
-- [ ] **Step 2: Verify red**
+- [x] **Step 2: Verify red**
 
 Run: `pnpm --filter @coffer/web test -- tests/editorial-story.test.tsx`
 
 Expected: FAIL because deployment helpers and story components are missing.
 
-- [ ] **Step 3: Add typed immutable deployment evidence**
+- [x] **Step 3: Add typed immutable deployment evidence**
 
 Import `../../../deployments/testnet.json`, validate required string fields at module initialization, freeze the normalized value, and expose only public identifiers. Do not copy signer material or `.env` values into the web package.
 
-- [ ] **Step 4: Implement varied editorial chapters**
+- [x] **Step 4: Implement varied editorial chapters**
 
 Use the exact approved source mapping. Alternate split, wide-band, vertical process rail, and receipt-overlay compositions. Every `next/image` instance must include meaningful alt text unless purely decorative, in which case use empty alt text and `aria-hidden` on its wrapper.
 
-- [ ] **Step 5: Verify and commit**
+- [x] **Step 5: Verify and commit**
 
 Run: `pnpm --filter @coffer/web test -- tests/editorial-story.test.tsx && pnpm --filter @coffer/web build`
 

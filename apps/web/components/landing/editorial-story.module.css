@@ -1,0 +1,446 @@
+.story {
+  background: var(--bg-deep);
+}
+
+.story h2 {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: clamp(2.7rem, 5.3vw, 6.2rem);
+  font-weight: 400;
+  letter-spacing: -0.052em;
+  line-height: 0.94;
+  margin: 0;
+  text-wrap: balance;
+}
+
+.copy > p:not(.sectionNumber, .truthNote) {
+  color: var(--muted-light);
+  font-size: clamp(0.96rem, 1.2vw, 1.1rem);
+  line-height: 1.65;
+  margin: 1.5rem 0 0;
+  max-width: 37rem;
+}
+
+.copy > a {
+  border-bottom: 1px solid rgb(243 234 214 / 45%);
+  display: inline-flex;
+  font-size: 0.82rem;
+  gap: 1rem;
+  margin-top: 1.6rem;
+  padding-bottom: 0.3rem;
+  text-decoration: none;
+}
+
+.sectionNumber {
+  font-family: var(--font-pixel), monospace;
+  font-size: 0.74rem;
+  letter-spacing: 0.14em;
+  margin: 0 0 1.5rem;
+}
+
+.truthNote {
+  border-left: 1px solid var(--cream);
+  color: var(--cream);
+  font-size: 0.8rem;
+  line-height: 1.5;
+  margin: 1.4rem 0 0;
+  max-width: 31rem;
+  padding-left: 0.9rem;
+}
+
+.mandate,
+.privacy,
+.authorization,
+.audit,
+.protocols {
+  border-top: 1px solid rgb(243 234 214 / 20%);
+}
+
+.mandate {
+  align-items: stretch;
+  display: grid;
+  grid-template-columns: minmax(20rem, 0.72fr) minmax(32rem, 1.28fr);
+  min-height: 48rem;
+}
+
+.mandate .copy,
+.privacy .copy,
+.authorization .copy {
+  align-self: center;
+  padding: clamp(4rem, 8vw, 8rem);
+}
+
+.mandateVisual,
+.privacyVisual,
+.authorizationVisual {
+  min-height: 36rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.mandateVisual img,
+.privacyVisual img,
+.authorizationVisual img {
+  object-fit: cover;
+}
+
+.mandateVisual img {
+  object-position: center;
+}
+
+.privacy {
+  background: var(--cream);
+  color: var(--text-dark);
+  display: grid;
+  grid-template-columns: minmax(32rem, 1.18fr) minmax(22rem, 0.82fr);
+  min-height: 48rem;
+}
+
+.privacy .copy > p:not(.sectionNumber, .truthNote) {
+  color: var(--forest-soft);
+}
+
+.privacy .truthNote {
+  border-color: var(--forest);
+  color: var(--forest);
+}
+
+.authorization {
+  display: grid;
+  grid-template-columns: minmax(22rem, 0.8fr) minmax(31rem, 1.2fr);
+  min-height: 52rem;
+  position: relative;
+}
+
+.authorizationVisual {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.authorizationRail {
+  background: rgb(3 17 13 / 88%);
+  border: 1px solid rgb(243 234 214 / 24%);
+  bottom: 3rem;
+  display: grid;
+  gap: 0;
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: center;
+  list-style: none;
+  margin: 0;
+  padding: 0.4rem 1.4rem;
+  position: absolute;
+  width: min(88%, 46rem);
+  z-index: 2;
+}
+
+.authorizationRail li {
+  align-items: center;
+  border-bottom: 1px solid rgb(243 234 214 / 16%);
+  display: grid;
+  font-size: 0.8rem;
+  gap: 1rem;
+  grid-template-columns: 2rem 1fr;
+  padding: 0.8rem 0;
+}
+
+.authorizationRail li:last-child {
+  border-bottom: 0;
+}
+
+.authorizationRail li span:first-child {
+  color: var(--muted-light);
+  font-family: var(--font-pixel), monospace;
+}
+
+.audit {
+  align-items: center;
+  display: grid;
+  grid-template-columns: minmax(22rem, 0.85fr) minmax(26rem, 1.15fr);
+  min-height: 52rem;
+  overflow: hidden;
+  padding: clamp(4rem, 8vw, 8rem);
+  position: relative;
+}
+
+.audit > img {
+  object-fit: cover;
+  z-index: 0;
+}
+
+.auditShade {
+  background: linear-gradient(90deg, rgb(3 17 13 / 98%), rgb(3 17 13 / 76%) 48%, rgb(3 17 13 / 18%));
+  inset: 0;
+  position: absolute;
+  z-index: 1;
+}
+
+.audit .copy,
+.receiptEvidence {
+  position: relative;
+  z-index: 2;
+}
+
+.audit .copy {
+  max-width: 35rem;
+}
+
+.receiptEvidence {
+  align-self: end;
+  background: rgb(3 17 13 / 88%);
+  border: 1px solid rgb(243 234 214 / 38%);
+  justify-self: end;
+  padding: clamp(1.25rem, 2.5vw, 2.25rem);
+  width: min(100%, 33rem);
+  backdrop-filter: blur(12px);
+}
+
+.receiptHeader {
+  color: var(--muted-light);
+  display: flex;
+  font-family: var(--font-pixel), monospace;
+  font-size: 0.69rem;
+  justify-content: space-between;
+  letter-spacing: 0.1em;
+}
+
+.receiptEvidence dl {
+  margin: 1.4rem 0;
+}
+
+.receiptEvidence dl div {
+  border-top: 1px solid rgb(243 234 214 / 18%);
+  display: grid;
+  font-size: 0.8rem;
+  gap: 1rem;
+  grid-template-columns: 1fr auto;
+  padding: 0.8rem 0;
+}
+
+.receiptEvidence dt {
+  color: var(--muted-light);
+}
+
+.receiptEvidence dd {
+  font-family: var(--font-pixel), monospace;
+  margin: 0;
+}
+
+.receiptLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+}
+
+.receiptLinks a {
+  color: var(--cream);
+  font-size: 0.74rem;
+  text-decoration: underline;
+  text-underline-offset: 0.3rem;
+}
+
+.protocols {
+  padding: clamp(4rem, 8vw, 8rem);
+}
+
+.protocolHeading {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: minmax(12rem, 0.55fr) minmax(24rem, 1.45fr);
+}
+
+.protocolHeading h2 {
+  max-width: 12ch;
+}
+
+.protocols ul {
+  border-bottom: 1px solid rgb(243 234 214 / 20%);
+  border-top: 1px solid rgb(243 234 214 / 20%);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  list-style: none;
+  margin: clamp(3rem, 6vw, 6rem) 0 0;
+  padding: 0;
+}
+
+.protocols li {
+  border-left: 1px solid rgb(243 234 214 / 20%);
+  min-height: 12rem;
+  padding: 1.5rem;
+}
+
+.protocols li:first-child {
+  border-left: 0;
+}
+
+.protocols li > span {
+  align-items: center;
+  display: flex;
+  gap: 0.7rem;
+}
+
+.protocols li > span > span:first-child {
+  align-items: center;
+  border: 1px solid rgb(243 234 214 / 35%);
+  border-radius: 50%;
+  display: flex;
+  font-family: var(--font-pixel), monospace;
+  height: 2.4rem;
+  justify-content: center;
+  width: 2.4rem;
+}
+
+.protocols li > span > span:last-child {
+  font-weight: 600;
+}
+
+.protocols li p {
+  color: var(--muted-light);
+  font-size: 0.79rem;
+  line-height: 1.55;
+  margin: 2.8rem 0 0;
+}
+
+.closing {
+  align-items: center;
+  color: var(--text-dark);
+  display: flex;
+  justify-content: center;
+  min-height: 37rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.closing > img {
+  object-fit: cover;
+}
+
+.closing::after {
+  background: rgb(243 234 214 / 34%);
+  content: "";
+  inset: 0;
+  position: absolute;
+}
+
+.closingCopy {
+  position: relative;
+  text-align: center;
+  z-index: 2;
+}
+
+.closingCopy > p {
+  font-size: 0.72rem;
+  letter-spacing: 0.42em;
+}
+
+.closingCopy h2 {
+  font-size: clamp(3rem, 6vw, 6.5rem);
+  margin: 1rem auto 1.8rem;
+  max-width: 12ch;
+}
+
+.closingCopy a {
+  background: var(--bg-deep);
+  border-radius: 999px;
+  color: var(--cream);
+  display: inline-flex;
+  font-size: 0.83rem;
+  gap: 2rem;
+  padding: 1rem 1.5rem;
+  text-decoration: none;
+}
+
+@media (max-width: 900px) {
+  .mandate,
+  .privacy,
+  .authorization,
+  .audit {
+    grid-template-columns: 1fr;
+  }
+
+  .mandate .copy,
+  .privacy .copy,
+  .authorization .copy {
+    padding: 4rem 1.35rem;
+  }
+
+  .mandateVisual,
+  .privacyVisual,
+  .authorizationVisual {
+    grid-column: 1;
+    grid-row: auto;
+    min-height: min(72vw, 34rem);
+  }
+
+  .privacyVisual {
+    order: 2;
+  }
+
+  .authorizationRail {
+    bottom: 1rem;
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .audit {
+    gap: 3rem;
+    padding: 5rem 1.35rem;
+  }
+
+  .receiptEvidence {
+    justify-self: start;
+  }
+
+  .protocolHeading {
+    grid-template-columns: 1fr;
+  }
+
+  .protocols {
+    padding: 4rem 1.35rem;
+  }
+
+  .protocols ul {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .protocols li:nth-child(3) {
+    border-left: 0;
+    border-top: 1px solid rgb(243 234 214 / 20%);
+  }
+
+  .protocols li:nth-child(4) {
+    border-top: 1px solid rgb(243 234 214 / 20%);
+  }
+}
+
+@media (max-width: 540px) {
+  .story h2 {
+    font-size: clamp(2.6rem, 13vw, 4rem);
+  }
+
+  .authorizationVisual {
+    min-height: 34rem;
+  }
+
+  .authorizationRail {
+    width: calc(100% - 2rem);
+  }
+
+  .receiptEvidence dl div {
+    grid-template-columns: 1fr;
+    gap: 0.4rem;
+  }
+
+  .protocols ul {
+    grid-template-columns: 1fr;
+  }
+
+  .protocols li,
+  .protocols li:nth-child(2) {
+    border-left: 0;
+    border-top: 1px solid rgb(243 234 214 / 20%);
+  }
+
+  .protocols li:first-child {
+    border-top: 0;
+  }
+}
